@@ -6,9 +6,7 @@ const serverId = '152843288565514241'
 // import the discord.js module
 let Discord = require('discord.js');
 
-let fs = require('fs');
-
-let sceneOuverte = null;
+let sceneOuverte;
 
 // create an instance of a Discord Client, and call it bot
 let bot = new Discord.Client();
