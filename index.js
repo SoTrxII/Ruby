@@ -8,7 +8,7 @@ let Discord = require('discord.js');
 
 let fs = require('fs');
 
-let voiceConnection = null;
+let sceneOuverte = null;
 
 // create an instance of a Discord Client, and call it bot
 let bot = new Discord.Client();
