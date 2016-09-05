@@ -1,8 +1,12 @@
 {
+  "apps":[
+    {
 			"name": "bots",
 			"script": "index.js",
 			"node_args": "--use_strict --expose-gc",
 			"env": {
 				"NODE_ENV": "production"
 			}
+    }
+  ]
 }
