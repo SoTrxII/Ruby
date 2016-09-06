@@ -2,7 +2,7 @@
 A ping pong bot, whenever you send "ping", it replies "pong".
 */
 
-const serverId = '152843288565514241'
+let serverId = '152843288565514241'
 // import the discord.js module
 let Discord = require('discord.js');
 
@@ -12,7 +12,7 @@ let sceneOuverte;
 let bot = new Discord.Client();
 
 // the token of your bot - https://discordapp.com/developers/applications/me
-const Discordtoken = 'MjIyMzA1MDIzNTM3NzA5MDYw.Cq7dVg.IVj-MAmvx_9PbaYPuJJV3KIeJAo';
+let Discordtoken = 'MjIyMzA1MDIzNTM3NzA5MDYw.Cq7dVg.IVj-MAmvx_9PbaYPuJJV3KIeJAo';
 
 // the ready event is vital, it means that your bot will only start reacting to information
 // from Discord _after_ ready is emitted.
@@ -47,7 +47,7 @@ bot.on('message', message => {
     if(command === 'inception'){
       sceneOuverte.join().then(connection => {
         console.log('playing inception boom');
-           const dispatcher = connection.playFile('sounds/inception.mp3');
+           let dispatcher = connection.playFile('sounds/inception.mp3');
            dispatcher.setVolume(0.2)
            return
       });
