@@ -1,6 +1,4 @@
-/*
-A ping pong bot, whenever you send "ping", it replies "pong".
-*/
+'use strict';
 
 let serverId = '152843288565514241'
 // import the discord.js module
@@ -35,10 +33,9 @@ bot.on('ready', () => {
 
 // create an event listener for messages
 bot.on('message', message => {
-  // if the message is "ping",
   // Ignore own messages
 	if(message.author.id === bot.user.id)
-    return
+    		return
   let mentioned = message.mentions.users.exists('id',bot.user.id)
   console.log(mentioned?'Rin has been mentioned':'Rin hasn\'t been mentioned');
   if(message.content.startsWith('!')) {
@@ -47,13 +44,13 @@ bot.on('message', message => {
     if(command === 'inception'){
       sceneOuverte.join().then(connection => {
         console.log('playing inception boom');
-           let dispatcher = connection.playFile('sounds/inception.mp3');
-           dispatcher.setVolume(0.2)
-           return
+        let dispatcher = connection.playFile('sounds/inception.mp3');
+        dispatcher.setVolume(0.2)
+        return
       });
     }
     if(mentioned)
-          return bot.reply(message, 'B-baka!')
+        return bot.reply(message, 'B-baka!')
   }
 });
 
