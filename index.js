@@ -44,14 +44,16 @@ bot.on("message", message => {
         let command = message.content.substring(1).split(" ")[0];
         let parameters = message.content.substring(command.length + 2);
         if (command === "inception") {
-            sceneOuverte.join().then(connection => {
-                connection.playFile("sounds/inception.mp3");
-            });
+
+            sceneOuverte.join()
+                .then(connection => {
+                    connection.playFile("sounds/inception.mp3");
+                });
             return;
         }
-        if (mentioned) {
-            return message.reply("B-baka!");
-        }
+    }
+    if (mentioned) {
+        message.reply("B-baka!");
     }
 });
 

@@ -5,7 +5,7 @@
 	"description": "Discord bot for Pocot Discord Guild",
 	"dependencies": {
 		"chalk": "*",
-		"discord.js": "*"
+		"discord.js": "9.0.2"
 	},
 	"keywords": [
 		"discord",
