@@ -1,16 +1,14 @@
 'use strict';
-
 console.log("Booting ...");
-const serverId = "152843288565514241";
 
+const serverId = "152843288565514241";
+const Discordtoken = "MjIyMzA1MDIzNTM3NzA5MDYw.Cq7dVg.IVj-MAmvx_9PbaYPuJJV3KIeJAo";
 let Discord = require("discord.js");
 let spawn = require('electron-spawn');
 var Speaker = require('speaker');
 let guild;
 let sceneOuverte;
 let receiver;
-
-let Ruby = new Discord.Client();
 
 /**
 *
@@ -22,7 +20,7 @@ let Ruby = new Discord.Client();
  */
 function speechToText(channel){
 
-  var electron = spawn('./speech.js', {
+  var electron = spawn('src/standalone/speechWorker.js', {
     detached: false
   });
   electron.stderr.on('data', function (data) {
@@ -35,11 +33,8 @@ function speechToText(channel){
   });
 }
 
-// the token of your Ruby - https://discordapp.com/developers/applications/me
-const Discordtoken = "MjIyMzA1MDIzNTM3NzA5MDYw.Cq7dVg.IVj-MAmvx_9PbaYPuJJV3KIeJAo";
+let Ruby = new Discord.Client();
 
-// the ready event is vital, it means that your Ruby will only start reacting to information
-// from Discord _after_ ready is emitted.
 Ruby.on("ready", () => {
   guild = Ruby.guilds.find("id", serverId);
   let generalChannel = guild.channels.find("id", "152843288565514242");
