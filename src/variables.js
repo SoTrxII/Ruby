@@ -3,6 +3,11 @@ const Discordtoken = "MjIyMzA1MDIzNTM3NzA5MDYw.Cq7dVg.IVj-MAmvx_9PbaYPuJJV3KIeJA
 let Discord = require("discord.js");
 let spawn = require('electron-spawn');
 var Speaker = require('speaker');
+const ytdl = require('ytdl-core');
+var YouTube = require('youtube-node');
+var youTube = new YouTube();
+youTube.setKey('AIzaSyB1OOSpTREs85WUMvIgJvLTZKye4BVsoFU');
 let guild;
 let sceneOuverte;
 let receiver;
+let dispatcher;

@@ -24,17 +24,47 @@ Ruby.on("message", message => {
 });
 
 function onSpokenCommand (data){
-
+  console.log(data);
   if(data.indexOf('commande') !== -1 ){
     if(data.indexOf('sandwich') !== -1 ){
       guild.channels.first().sendMessage('http://www.brasil-infos.com/medias/images/sandwich.jpg');
-    }else if (data.indexOf('Inception') !== -1 ) {
+    }else if (data.indexOf('Inception') !== -1  && data.indexOf('YouTube audio') === -1) {
       console.log("Inception");
       console.log(  Ruby.voiceConnections);
       Ruby.voiceConnections.first().playFile("sounds/inception.mp3");
     }
+    else if (data.indexOf('YouTube audio') !== -1){
+
+
+      let searchTerm = data.split(' ').slice(3).join(' ');
+      //@TODO Victor thème as a command
+      if(searchTerm.indexOf("Victor thème") !== -1){
+        searchTerm = "John Cena thème kazoo"
+      }
+      console.log( 'search : ' + searchTerm);
+      youTube.search(searchTerm, 1, function(error, result) {
+        if (error) {
+          console.log(error);
+        }
+        else {
+          const streamOptions = { seek: 0, volume: 0.3 };
+          sceneOuverte.join()
+          .then(connection => {
+            const stream = ytdl('https://www.youtube.com/watch?v=' +  result.items[0].id.videoId, {filter : 'audioonly', quality : 'lowest'});
+            dispatcher = connection.playStream(stream, streamOptions);
+          })
+          .catch(console.log);
+          //console.log(JSON.stringify(result, null, 1));
+
+        }
+      });
+
+
+    }else if (data.indexOf('fin du flux') !== -1){
+      dispatcher.end();
+    }
   }else{
-      guild.channels.first().sendMessage(data);
+    guild.channels.first().sendMessage(data);
   }
 
 
