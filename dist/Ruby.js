@@ -18,18 +18,19 @@ let receiver;
  * @returns None
  * @see Has to be changed. TEST ONLY.
  */
-function speechToText(channel){
+function speechToText(callback){
 
   var electron = spawn('src/standalone/speechWorker.js', {
     detached: false
   });
   electron.stderr.on('data', function (data) {
   if(data.toString() === "end42"){
-    speechToText();
+    speechToText(onSpokenCommand);
   }
   });
   electron.stdout.on('data', function (data) {
-    guild.channels.first().sendMessage(data.toString());
+    console.log("calling callback");
+    callback(data.toString());
   });
 }
 
@@ -42,7 +43,7 @@ Ruby.on("ready", () => {
   for (let channel of guild.channels.array()) {
     if (channel.type === "voice" && channel.name.endsWith("Scene Ouverte")) {
       sceneOuverte = channel;
-      speechToText(channel);
+      speechToText(onSpokenCommand);
       channel.join()
       .then(connection => {
         connection.on('speaking', (user, speaking) =>{
@@ -85,6 +86,7 @@ Ruby.on("message", message => {
     let command = message.content.substring(1).split(" ")[0];
     let parameters = message.content.substring(command.length + 2);
     if (command === "inception") {
+      console.log("Inception");
       sceneOuverte.join().then(connection => {
         connection.playFile("sounds/inception.mp3");
       });
@@ -95,5 +97,24 @@ Ruby.on("message", message => {
     }
   }
 });
+
+function onSpokenCommand (data){
+
+  if(data.indexOf('commande') !== -1 ){
+    if(data.indexOf('sandwich') !== -1 ){
+      guild.channels.first().sendMessage('http://www.brasil-infos.com/medias/images/sandwich.jpg');
+    }else if (data.indexOf('Inception') !== -1 ) {
+      console.log("Inception");
+      console.log(  Ruby.voiceConnections);
+      Ruby.voiceConnections.first().playFile("sounds/inception.mp3");
+    }
+  }else{
+      guild.channels.first().sendMessage(data);
+  }
+
+
+
+
+}
 
 Ruby.login(Discordtoken);

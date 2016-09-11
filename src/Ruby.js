@@ -7,7 +7,7 @@ Ruby.on("ready", () => {
   for (let channel of guild.channels.array()) {
     if (channel.type === "voice" && channel.name.endsWith("Scene Ouverte")) {
       sceneOuverte = channel;
-      speechToText(channel);
+      speechToText(onSpokenCommand);
       channel.join()
       .then(connection => {
         connection.on('speaking', (user, speaking) =>{

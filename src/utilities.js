@@ -6,17 +6,18 @@
  * @returns None
  * @see Has to be changed. TEST ONLY.
  */
-function speechToText(channel){
+function speechToText(callback){
 
-  var electron = spawn('./standalone/speechWorker.js', {
+  var electron = spawn('src/standalone/speechWorker.js', {
     detached: false
   });
   electron.stderr.on('data', function (data) {
   if(data.toString() === "end42"){
-    speechToText();
+    speechToText(onSpokenCommand);
   }
   });
   electron.stdout.on('data', function (data) {
-    guild.channels.first().sendMessage(data.toString());
+    console.log("calling callback");
+    callback(data.toString());
   });
 }
