@@ -46,6 +46,7 @@ let commands = [
     }
   }
 ];
+
 function onSpokenCommand (data){
   let functionHasBeenTrigered = false;
     if(data.indexOf('commande') !== -1 ){
