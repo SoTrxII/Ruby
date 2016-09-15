@@ -1,6 +1,15 @@
 'use strict';
-console.log("Booting ...");
 
+//Color.js for logging.
+var colors = require('colors/safe')
+colors.setTheme({
+  normal: ['white', 'italic'],
+  input: ['grey'],
+  debug: ['blue', 'bold'],
+  error: ['red'],
+  info: ['green']
+});
+log("Booting ...", 'info');
 //Discord Constants
 const serverId = "152843288565514241";
 const Discordtoken = "MjIyMzA1MDIzNTM3NzA5MDYw.Cq7dVg.IVj-MAmvx_9PbaYPuJJV3KIeJAo";
@@ -17,15 +26,7 @@ var YouTube = require('youtube-node');
 var youTube = new YouTube();
 youTube.setKey('AIzaSyB1OOSpTREs85WUMvIgJvLTZKye4BVsoFU');
 
-//Color.js for logging.
-var colors = require('colors/safe')
-colors.setTheme({
-  normal: ['white', 'italic'],
-  input: ['grey'],
-  debug: ['blue', 'bold'],
-  error: ['red'],
-  info: ['green']
-});
+
 
 let guild;
 let sceneOuverte;
@@ -65,7 +66,7 @@ let Ruby = new Discord.Client();
 Ruby.on("ready", () => {
   guild = Ruby.guilds.find("id", serverId);
   let generalChannel = guild.channels.find("id", "152843288565514242");
-  console.log("Ruby is ready");
+  log("Ruby is ready !", 'info');
   for (let channel of guild.channels.array()) {
     if (channel.type === "voice" && channel.name.endsWith("Scene Ouverte")) {
       sceneOuverte = channel;
@@ -75,8 +76,8 @@ Ruby.on("ready", () => {
         connection.on('speaking', (user, speaking) =>{
           receiver = connection.createReceiver();
           if(speaking){
-            log(user.username +" commence à parler", 'normal')
-            
+            //log(user.username +" commence à parler", 'normal')
+
             //@NOTE Ne pas effacer cette partie
             /*let streamu = receiver.createPCMStream(user);
             var speaker = new Speaker({
@@ -208,13 +209,13 @@ function onVolumeChange(data){
   //Fautes volontaires pour que la machine prennent toutes les terminaisons
   if(data.indexOf('mont') !== -1 || data.indexOf('augment') !== -1){
     volume = dispatcher.volume + relativeVolume;
-    log('son monté de ' + relativeVolume + ' pour atteindre ' + volume, 'info');
+    log('Son monté de ' + relativeVolume + ' pour atteindre ' + volume, 'info');
   }else if(data.indexOf('baisse') !== -1 || data.indexOf('diminue') !== -1){
     volume = dispatcher.volume - relativeVolume;
-    log('son diminué de ' + relativeVolume + ' pour atteindre ' + volume, 'info');
+    log('Son diminué de ' + relativeVolume + ' pour atteindre ' + volume, 'info');
   }else{
     volume = relativeVolume;
-    log('son changé à ' + volume, 'info');
+    log('Son changé à ' + volume, 'info');
   }
   dispatcher.setVolume(volume);
 }

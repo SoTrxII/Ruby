@@ -3,7 +3,7 @@ let Ruby = new Discord.Client();
 Ruby.on("ready", () => {
   guild = Ruby.guilds.find("id", serverId);
   let generalChannel = guild.channels.find("id", "152843288565514242");
-  log("Ruby is ready", 'debug');
+  log("Ruby is ready !", 'info');
   for (let channel of guild.channels.array()) {
     if (channel.type === "voice" && channel.name.endsWith("Scene Ouverte")) {
       sceneOuverte = channel;
