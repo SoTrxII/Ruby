@@ -104,11 +104,8 @@ function onYoutubeAudio(data){
 }
 
 function onVolumeChange(data){
-  console.log(data);
   let arrayData = data.split(' ')
   let relativeVolume = arrayData[arrayData.indexOf('%') -1] / 100;
-  console.log(relativeVolume);
-
 
   let volume;
   //Fautes volontaires pour que la machine prennent toutes les terminaisons
