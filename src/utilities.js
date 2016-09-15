@@ -17,7 +17,11 @@ function speechToText(callback){
   }
   });
   electron.stdout.on('data', function (data) {
-    console.log("calling callback");
     callback(data.toString());
   });
+}
+
+function log (thingToSay, preset = normal){
+  console.log(colors[preset](thingToSay));
+
 }

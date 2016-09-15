@@ -5,12 +5,11 @@ Ruby.on("message", message => {
     return;
   }
   let mentioned = message.mentions.users.exists("id", Ruby.user.id);
-  console.log(mentioned ? "Rin has been mentioned" : "Rin hasn't been mentioned");
+  log(mentioned ? "Rin has been mentioned" : "Rin hasn't been mentioned");
   if (message.content.startsWith("!")) {
     let command = message.content.substring(1).split(" ")[0];
     let parameters = message.content.substring(command.length + 2);
     if (command === "inception") {
-      console.log("Inception");
       sceneOuverte.join().then(connection => {
         connection.playFile("sounds/inception.mp3");
       });
@@ -52,7 +51,7 @@ function onSpokenCommand (data){
     if(data.indexOf('commande') !== -1 ){
       for(let command of commands){
         if(Array.isArray(command.trigger)){
-          console.log("La commande est un vecteur");
+          log("La commande est un vecteur",'debug');
           for(let triggerPart of command.trigger){
             if(data.indexOf(triggerPart) !== -1){
               command.reaction(data);
@@ -67,10 +66,9 @@ function onSpokenCommand (data){
             break;
           }
         }
-
       }
       if(!functionHasBeenTrigered){
-        console.log('No function matching ' + data);
+        log('No function matching ' + data, 'error');
       }
     }
 }
@@ -83,11 +81,11 @@ function onYoutubeAudio(data){
   if(searchTerm.indexOf("thème de Victor") !== -1){
     searchTerm = "John Cena thème kazoo"
   }
-  console.log( 'search : ' + searchTerm);
+  log( 'search : ' + searchTerm, 'input');
   //Take the first result found on YouTube and stream it.
   youTube.search(searchTerm, 1, function(error, result) {
     if (error) {
-      console.log(error);
+      log(error, 'error');
     }
     else {
       const streamOptions = { seek: 0, volume: 0.4 };
@@ -97,8 +95,6 @@ function onYoutubeAudio(data){
         dispatcher = connection.playStream(stream, streamOptions);
       })
       .catch(console.log);
-      //console.log(JSON.stringify(result, null, 1));
-
     }
   });
 }
@@ -111,13 +107,13 @@ function onVolumeChange(data){
   //Fautes volontaires pour que la machine prennent toutes les terminaisons
   if(data.indexOf('mont') !== -1 || data.indexOf('augment') !== -1){
     volume = dispatcher.volume + relativeVolume;
-    console.log('son monté de ' + relativeVolume + ' pour atteindre ' + volume);
+    log('Son monté de ' + relativeVolume + ' pour atteindre ' + volume, 'info');
   }else if(data.indexOf('baisse') !== -1 || data.indexOf('diminue') !== -1){
     volume = dispatcher.volume - relativeVolume;
-    console.log('son diminué de ' + relativeVolume + ' pour atteindre ' + volume);
+    log('Son diminué de ' + relativeVolume + ' pour atteindre ' + volume, 'info');
   }else{
     volume = relativeVolume;
-    console.log('son changé à ' + volume);
+    log('Son changé à ' + volume, 'info');
   }
   dispatcher.setVolume(volume);
 }

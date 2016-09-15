@@ -5,6 +5,7 @@
   "description": "Discord bot for Pocot Discord Guild",
   "dependencies": {
     "chalk": "*",
+    "colors": "^1.1.2",
     "discord.js": "*",
     "electron-spawn": "^5.0.0",
     "electron-speech": "^1.0.3",
