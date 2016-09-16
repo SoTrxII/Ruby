@@ -5,19 +5,14 @@ Ruby.on("message", message => {
     return;
   }
   let mentioned = message.mentions.users.exists("id", Ruby.user.id);
-  log(mentioned ? "Rin has been mentioned" : "Rin hasn't been mentioned");
+  log(mentioned ? "Ruby has been mentioned" : "Ruby hasn't been mentioned", 'info');
   if (message.content.startsWith("!")) {
     let command = message.content.substring(1).split(" ")[0];
     let parameters = message.content.substring(command.length + 2);
-    if (command === "inception") {
-      sceneOuverte.join().then(connection => {
-        connection.playFile("sounds/inception.mp3");
-      });
-      return;
+    if(mentioned){
+      guild.channels.first().sendMessage('meh');
     }
-    if (mentioned) {
-      return message.reply("B-baka!");
-    }
+    onSpokenCommand(message.content);
   }
 });
 let commands = [
@@ -89,7 +84,7 @@ function onYoutubeAudio(data){
       log(error, 'error');
     }
     else {
-      const streamOptions = { seek: 0, volume: 0.4 };
+      const streamOptions = { seek: 0, volume: 0.3 , passes : 3};
       sceneOuverte.join()
       .then(connection => {
         const stream = ytdl('https://www.youtube.com/watch?v=' +  result.items[0].id.videoId, {filter : 'audioonly', quality : 'lowest'});

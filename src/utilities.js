@@ -21,7 +21,7 @@ function speechToText(callback){
   });
 }
 
-function log (thingToSay, preset = normal){
+function log (thingToSay, preset = 'normal'){
   console.log(colors[preset](thingToSay));
 
 }
