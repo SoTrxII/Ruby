@@ -10,9 +10,11 @@ colors.setTheme({
   info: ['green']
 });
 log("Booting ...", 'info');
+var config = require('config');
+
 //Discord Constants
-const serverId = "152843288565514241";
-const Discordtoken = "MjIyMzA1MDIzNTM3NzA5MDYw.Cq7dVg.IVj-MAmvx_9PbaYPuJJV3KIeJAo";
+const serverId = config.get('Discord.serverId');
+const Discordtoken = config.get('Discord.RubyToken');
 
 let Discord = require("discord.js");
 let spawn = require('electron-spawn');
@@ -24,7 +26,7 @@ var Speaker = require('speaker');
 const ytdl = require('ytdl-core');
 var YouTube = require('youtube-node');
 var youTube = new YouTube();
-youTube.setKey('AIzaSyB1OOSpTREs85WUMvIgJvLTZKye4BVsoFU');
+youTube.setKey(config.get('API.Google.youtubeParser'));
 
 
 

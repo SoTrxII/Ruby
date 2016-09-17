@@ -6,6 +6,7 @@
   "dependencies": {
     "chalk": "*",
     "colors": "^1.1.2",
+    "config": "^1.21.0",
     "discord.js": "*",
     "electron-spawn": "^5.0.0",
     "electron-speech": "^1.0.3",
