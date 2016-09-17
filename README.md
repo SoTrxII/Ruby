@@ -14,6 +14,11 @@ A discord.js based bot that can be controlled with text and voice.
 Multiples start options are available :
 - Clone the repository : `git clone https://github.com/SoTrxII/Transcord`
 
+Install the needed dependencies
+```Shell
+npm install
+```
+
 ### Usage
 
 ```Shell
