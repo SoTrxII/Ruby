@@ -1,25 +1,25 @@
 'use strict';
 
-var gulp = require('gulp');
-var plugins = require('gulp-load-plugins')();
+let gulp = require('gulp');
+let plugins = require('gulp-load-plugins')();
 
-var scripts = {
-  name: 'Ruby.js',
-  all: [
-    'gulpfile.js',
-    'dist/Ruby.js'
-  ],
-  list: [
-    'src/intro.js',
-    'src/variables.js',
-    'src/utilities.js',
-    'src/Ruby.js',
-    'src/reaction.js',
-    'src/outro.js'
-  ],
-  main: 'dist/Ruby.js',
-  src: 'src/*.js',
-  dest: 'dist'
+let scripts = {
+    name: 'Ruby.js',
+    all: [
+        'gulpfile.js',
+        'dist/Ruby.js'
+    ],
+    list: [
+        'src/intro.js',
+        'src/variables.js',
+        'src/utilities.js',
+        'src/Ruby.js',
+        'src/reaction.js',
+        'src/outro.js'
+    ],
+    main: 'dist/Ruby.js',
+    src: 'src/*.js',
+    dest: 'dist'
 };
 
 gulp.task('concat', function () {
