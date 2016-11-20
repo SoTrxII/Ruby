@@ -1,5 +1,5 @@
 //Color.js for logging.
-var colors = require('colors/safe')
+var colors = require('')
 colors.setTheme({
   normal: ['white', 'italic'],
   input: ['grey'],

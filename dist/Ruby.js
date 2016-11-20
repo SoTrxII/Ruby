@@ -1,32 +1,32 @@
 'use strict';
 
 //Color.js for logging.
-let colors = require('colors/safe');
-colors.setTheme({
-    normal: ['white', 'italic'],
-    input: ['grey'],
-    debug: ['blue', 'bold'],
-    error: ['red'],
-    info: ['green']
-});
-log("Booting ...", 'info');
+const chalk = require('chalk');
+const log = console.log;
+const normal = chalk.italic.white;
+const input = chalk.grey;
+const debug = chalk.bold.blue;
+const error = chalk.red;
+const info = chalk.green;
+
+log(info("Booting ..."));
 let config = require('../config/default.json');
 
 //Discord Constants
-const serverId = config.get('Discord.serverId');
-const Discordtoken = config.get('Discord.RubyToken');
+const serverId = config.Discord.serverId;
+const Discordtoken = config.Discord.RubyToken;
 
 let Discord = require("discord.js");
 let spawn = require('electron-spawn');
 
 //Used to speak discord PCM stream out loud
-let Speaker = require('speaker');
+// let Speaker = require('speaker');
 
 //Youtube parser and streamer used in reactions
 const ytdl = require('ytdl-core');
 let YouTube = require('youtube-node');
 let youTube = new YouTube();
-youTube.setKey(config.get('API.Google.youtubeParser'));
+youTube.setKey(config.API.Google.youtubeParser);
 
 
 let guild;
@@ -57,17 +57,13 @@ function speechToText(callback) {
     });
 }
 
-function log(thingToSay, preset = 'normal') {
-    console.log(colors[preset](thingToSay));
-
-}
 
 let Ruby = new Discord.Client();
 
 Ruby.on("ready", () => {
     guild = Ruby.guilds.find("id", serverId);
     let generalChannel = guild.channels.find("id", "152843288565514242");
-    log("Ruby is ready !", 'info');
+    log(info("Ruby is ready !"));
     for (let channel of guild.channels.array()) {
         if (channel.type === "voice" && channel.name.endsWith("Scene Ouverte")) {
             sceneOuverte = channel;
@@ -77,7 +73,7 @@ Ruby.on("ready", () => {
                     connection.on('speaking', (user, speaking) => {
                         receiver = connection.createReceiver();
                         if (speaking) {
-                            log(user.username + " commence à parler", 'normal')
+                            log(normal(user.username + " commence à parler"));
 
                             //@NOTE Ne pas effacer cette partie
                             /*let streamu = receiver.createPCMStream(user);
@@ -95,7 +91,9 @@ Ruby.on("ready", () => {
 
 
                 })
-                .catch(console.log());
+                .catch(
+                    console.log(error("failed to join channel " + channel.name))
+                );
         }
     }
 
@@ -108,7 +106,7 @@ Ruby.on("message", message => {
         return;
     }
     let mentioned = message.mentions.users.exists("id", Ruby.user.id);
-    log(mentioned ? "Ruby has been mentioned" : "Ruby hasn't been mentioned", 'info');
+    log(info(mentioned ? "Ruby has been mentioned" : "Ruby hasn't been mentioned"));
     if (message.content.startsWith("!")) {
         let command = message.content.substring(1).split(" ")[0];
         let parameters = message.content.substring(command.length + 2);
@@ -150,7 +148,7 @@ function onSpokenCommand(data) {
     if (data.indexOf('commande') !== -1) {
         for (let command of commands) {
             if (Array.isArray(command.trigger)) {
-                log("La commande est un vecteur", 'debug');
+                log(debug("La commande est un vecteur"));
                 for (let triggerPart of command.trigger) {
                     if (data.indexOf(triggerPart) !== -1) {
                         command.reaction(data);
@@ -167,7 +165,7 @@ function onSpokenCommand(data) {
             }
         }
         if (!functionHasBeenTrigered) {
-            log('No function matching ' + data, 'error');
+            log(error('No function matching ' + data));
         }
     }
 }
@@ -178,13 +176,13 @@ function onYoutubeAudio(data) {
 
     //Because this is the puprose of the function
     if (searchTerm.indexOf("thème de Victor") !== -1) {
-        searchTerm = "John Cena thème kazoo"
+        searchTerm = "John Cena thème kazoo";
     }
-    log('search : ' + searchTerm, 'input');
+    log(input('search : ' + searchTerm));
     //Take the first result found on YouTube and stream it.
     youTube.search(searchTerm, 1, function (error, result) {
         if (error) {
-            log(error, 'error');
+            log(error(error));
         }
         else {
             const streamOptions = {seek: 0, volume: 0.3, passes: 3};
@@ -209,13 +207,13 @@ function onVolumeChange(data) {
     //Fautes volontaires pour que la machine prennent toutes les terminaisons
     if (data.indexOf('mont') !== -1 || data.indexOf('augment') !== -1) {
         volume = dispatcher.volume + relativeVolume;
-        log('Son monté de ' + relativeVolume + ' pour atteindre ' + volume, 'info');
+        log(info('Son monté de ' + relativeVolume + ' pour atteindre ' + volume));
     } else if (data.indexOf('baisse') !== -1 || data.indexOf('diminue') !== -1) {
         volume = dispatcher.volume - relativeVolume;
-        log('Son diminué de ' + relativeVolume + ' pour atteindre ' + volume, 'info');
+        log(info('Son diminué de ' + relativeVolume + ' pour atteindre ' + volume));
     } else {
         volume = relativeVolume;
-        log('Son changé à ' + volume, 'info');
+        log(info('Son changé à ' + volume));
     }
     dispatcher.setVolume(volume);
 }
