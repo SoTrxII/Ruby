@@ -182,7 +182,7 @@ function onYoutubeAudio(data) {
     log(input('search : ' + searchTerm));
     //Take the first result found on YouTube and stream it.
     youTube.search(searchTerm, 1, function (error, result) {
-        if (error) {
+        if (error || result.items[0].id === undefined) {
             log(error(error));
         }
         else {
@@ -202,7 +202,8 @@ function onYoutubeAudio(data) {
 
 function onVolumeChange(data) {
     let arrayData = data.split(' ');
-    let relativeVolume = arrayData[arrayData.indexOf('%') - 1] / 100;
+    let absoluteVolume = arrayData[arrayData.indexOf('%') - 1];
+    let relativeVolume = absoluteVolume / 100;
 
     let volume;
     //Fautes volontaires pour que la machine prennent toutes les terminaisons
@@ -216,6 +217,13 @@ function onVolumeChange(data) {
         volume = relativeVolume;
         log(info('Son changé à ' + volume));
     }
+
+    if (volume > 1.0) {
+        volume = 1.0;
+    } else if (volume < 0.0) {
+        volume = 0.0;
+    }
+
     dispatcher.setVolume(volume);
 }
 
