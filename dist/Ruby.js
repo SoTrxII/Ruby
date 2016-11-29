@@ -176,7 +176,7 @@ function onYoutubeAudio(data) {
     let searchTerm = data.split(' ').slice(3).join(' ');
 
     //Because this is the puprose of the function
-    if (searchTerm.indexOf("thème de Victor") !== -1) {
+    if (searchTerm.indexOf("") !== -1) {
         searchTerm = "John Cena thème kazoo";
     }
     log(input('search : ' + searchTerm));
@@ -202,7 +202,7 @@ function onYoutubeAudio(data) {
 
 function onVolumeChange(data) {
     let arrayData = data.split(' ');
-    let absoluteVolume = arrayData[arrayData.indexOf('%') - 1];
+    let absoluteVolume = arrayData[arrayData.length - 1].substring(0, arrayData.length - 1);
     let relativeVolume = absoluteVolume / 100;
 
     let volume;
