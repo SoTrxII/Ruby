@@ -15,6 +15,8 @@ let config = require('../config/default.json');
 //Discord Constants
 const serverId = config.Discord.serverId;
 const Discordtoken = config.Discord.RubyToken;
+const mentionedReplic = require("../lib/rubyReplics.json");
+
 
 let Discord = require("discord.js");
 let spawn = require('electron-spawn');
@@ -75,15 +77,15 @@ Ruby.on("ready", () => {
                         if (speaking) {
                             log(normal(user.username + " commence à parler"));
 
-                            //@NOTE Ne pas effacer cette partie
-                            /*let streamu = receiver.createPCMStream(user);
-                             var speaker = new Speaker({
+                            /*//@NOTE Ne pas effacer cette partie
+                             let streamu = receiver.createPCMStream(user);
+                             let speaker = new Speaker({
                              channels: 2,          // 2 channels
                              bitDepth: 16,         // 16-bit samples
                              sampleRate: 48000     // 48,000 Hz sample rate
                              });
-                             streamu.pipe(speaker);*/
-                            // Fin du NE PAS EFFACER
+                             streamu.pipe(speaker);
+                             // Fin du NE PAS EFFACER*/
 
 
                         }
@@ -99,22 +101,35 @@ Ruby.on("ready", () => {
 
 });
 
+
 Ruby.on("message", message => {
-    // if the message is "ping",
     // Ignore own messages
     if (message.author.id === Ruby.user.id) {
         return;
     }
-    let mentioned = message.mentions.users.exists("id", Ruby.user.id);
-    log(info(mentioned ? "Ruby has been mentioned" : "Ruby hasn't been mentioned"));
-    if (message.content.startsWith("!")) {
-        let command = message.content.substring(1).split(" ")[0];
-        log(debug(command));
-        let parameters = message.content.substring(command.length + 2);
-        if (mentioned) {
-            guild.channels.first().sendMessage('meh');
+    let mentioned = message.isMentioned(Ruby.user);
+
+    function mentionRepy() {
+
+    }
+
+    if (mentioned) {
+        message.reply(mentionReply())
+            .then(msg => log(info("Ruby has been mentioned by " + message.author.username + " and replied " + msg.content)))
+            .catch(console.error);
+
+    } else {
+        log(info("Ruby hasn't been mentioned by " + message.author.username));
+
+        if (message.content.startsWith("!")) {
+            let command = message.content.substring(1).split(" ")[0];
+            log(debug(command));
+            let parameters = message.content.substring(command.length + 2);
+            if (mentioned) {
+                guild.channels.first().sendMessage('meh');
+            }
+            onSpokenCommand(message.content);
         }
-        onSpokenCommand(message.content);
     }
 });
 let commands = [
@@ -143,6 +158,17 @@ let commands = [
         }
     }
 ];
+
+
+function mentionReply() {
+    let replic = mentionedReplic.replic[random(0, mentionedReplic.replic.length)];
+    return replic;
+}
+
+function random(startNumber, endNumber) {
+    let randomNumber = Math.floor((Math.random() * endNumber) + startNumber);
+    return randomNumber;
+}
 
 function onSpokenCommand(data) {
     let functionHasBeenTrigered = false;
@@ -176,7 +202,7 @@ function onYoutubeAudio(data) {
     let searchTerm = data.split(' ').slice(3).join(' ');
 
     //Because this is the puprose of the function
-    if (searchTerm.indexOf("") !== -1) {
+    if (searchTerm.indexOf("thème de Victor") !== -1) {
         searchTerm = "John Cena thème kazoo";
     }
     log(input('search : ' + searchTerm));
