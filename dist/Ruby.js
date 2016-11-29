@@ -109,6 +109,7 @@ Ruby.on("message", message => {
     log(info(mentioned ? "Ruby has been mentioned" : "Ruby hasn't been mentioned"));
     if (message.content.startsWith("!")) {
         let command = message.content.substring(1).split(" ")[0];
+        log(debug(command));
         let parameters = message.content.substring(command.length + 2);
         if (mentioned) {
             guild.channels.first().sendMessage('meh');
@@ -185,7 +186,7 @@ function onYoutubeAudio(data) {
             log(error(error));
         }
         else {
-            const streamOptions = {seek: 0, volume: 0.3, passes: 3};
+            const streamOptions = {seek: 0, volume: 0.1, passes: 3};
             sceneOuverte.join()
                 .then(connection => {
                     const stream = ytdl('https://www.youtube.com/watch?v=' + result.items[0].id.videoId, {
