@@ -114,7 +114,7 @@ Ruby.on("message", message => {
     }
 
     if (mentioned) {
-        message.reply(mentionReply())
+        message.reply(mentionReply(message.author))
             .then(msg => log(info("Ruby has been mentioned by " + message.author.username + " and replied " + msg.content)))
             .catch(console.error);
 
@@ -160,9 +160,19 @@ let commands = [
 ];
 
 
-function mentionReply() {
-    let replic = mentionedReplic.replic[random(0, mentionedReplic.replic.length)];
-    return replic;
+function mentionReply(author) {
+    let replics;
+    for (let user of mentionedReplic) {
+        if (user.id === author.id) {
+            replics = user.replic;
+            break;
+        }
+    }
+    if (replics === undefined) {
+        replics = mentionedReplic[mentionedReplic.length - 1].all;
+    }
+    replics = replics[random(0, replics.length)];
+    return replics;
 }
 
 function random(startNumber, endNumber) {
