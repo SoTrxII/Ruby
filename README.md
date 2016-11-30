@@ -1,4 +1,4 @@
-# Rin
+# Ruby
 A discord.js based bot that can be controlled with text and voice.
 
 ## Summary
