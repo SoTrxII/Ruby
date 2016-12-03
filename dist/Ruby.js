@@ -162,12 +162,12 @@ let commands = [
 
 function mentionReply(author) {
     let replics;
-    for (let user of mentionedReplic) {
-        if (user.id === author.id) {
-            replics = user.replic;
-            break;
-        }
-    }
+    // for (let user of mentionedReplic) {
+    //     if (user.id === author.id) {
+    //         replics = user.replic;
+    //         break;
+    //     }
+    // }
     if (replics === undefined) {
         replics = mentionedReplic[mentionedReplic.length - 1].all;
     }
