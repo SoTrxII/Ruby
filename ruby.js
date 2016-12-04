@@ -188,6 +188,7 @@ ruby.on("message", /*Promise.coroutine(*/function/***/(message) {
                 return message.reply('http://www.brasil-infos.com/medias/images/sandwich.jpg');
 
             case 'inception':
+            case 'dramatic':
                 return ruby.voiceConnections.get(serverId).playFile(`./sounds/inception.mp3`, {}, (error, streamIntent) => {
                     if (error) {
                         console.error(error);
