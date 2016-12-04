@@ -1,19 +1,28 @@
 {
-	"name": "Rin",
-	"version": "0.1.0",
-	"main": "index.js",
-	"description": "Discord bot for Pocot Discord Guild",
-	"dependencies": {
-		"chalk": "*",
-		"discord.js": "9.0.2"
-	},
-	"keywords": [
-		"discord",
-		"bot",
-		"rin"
-	],
-	"repository": {
-		"type" : "git",
-		"url" : "https://github.com/Soulcramer/Rin"
-	}
+  "name": "Rin",
+  "version": "0.1.0",
+  "main": "index.js",
+  "description": "Discord bot for Pocot Discord Guild",
+  "dependencies": {
+    "bluebird": "*",
+    "chalk": "*",
+    "config": "*",
+    "discord.js": "*",
+    "electron-spawn": "*",
+    "electron-speech": "*",
+    "node-opus": "*",
+    "opusscript": "*",
+    "speaker": "*",
+    "youtube-node": "*",
+    "ytdl-core": "*"
+  },
+  "keywords": [
+    "discord",
+    "bot",
+    "rin"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Soulcramer/Rin"
+  }
 }
