@@ -2,7 +2,7 @@
   "apps":[
     {
 			"name": "bots",
-      "script": "./dist/Ruby.js",
+      "script": "./ruby.js",
 			"node_args": "--use_strict --expose-gc",
 			"env": {
 				"NODE_ENV": "production"

@@ -16,13 +16,19 @@ let config = require('./config.json');
 global.Promise = require('bluebird');
 
 const commandTxt = [
-    '**!addreply** [name] [message]',
-    '**!g** [google search term]',
-    '**!removereply** [name]',
-    '**!replies**',
-    '**!inception**',
-    '**!say** [message in general chat]',
-    '**!search** [search term for notify.moe only]'
+    '**Aide**:',
+    '**!search || !g** [recherch google]',
+    '**!lmgtfy** [recherche google]',
+    '**!inception** (*BOOOM*)',
+    '**!say** [message à écrire] (*écrit dans le cannal Scène Ouverte*)',
+    '**!youtube || !musique** [recherche youtube] (*joue une vidéo de youtube en audio*)',
+    '**!son || !volume** [niveau de volume de **0** à **100**]**%** (*change le volume du son joué*)',
+    '**!stop || !fin || !finduflux** (*coupe le son qui était joué*)',
+    '**!sandwich** (*voici un délicieux mets*)',
+    '**!help || !aide** (*affiche l\'aide*)',
+    '',
+    '**Prochaine feature**:',
+    '- Ajout/suppresion de commande via une commande ex: *!sotrx* => *"poulet"/une image/un gif/une vidéo*'
 ];
 
 //Discord Constants
@@ -66,7 +72,7 @@ function speechToText(callback) {
     });
     electron.stderr.on('data', function (data) {
         if (data.toString() === "end42") {
-            speechToText(onSpokenCommand);
+            // speechToText(onSpokenCommand);
         }
     });
     electron.stdout.on('data', function (data) {
@@ -97,7 +103,7 @@ ruby.on("ready", () => {
         }
         if (channel.type === "voice" && channel.name.endsWith("Scene Ouverte")) {
             sceneOuverte = channel;
-            speechToText(onSpokenCommand);
+            // speechToText(onSpokenCommand);
             channel.join()
                 .then(connection => {
                     connection.on('speaking', (user, speaking) => {
@@ -181,6 +187,13 @@ ruby.on("message", /*Promise.coroutine(*/function/***/(message) {
             case 'sandwich':
                 return message.reply('http://www.brasil-infos.com/medias/images/sandwich.jpg');
 
+            case 'inception':
+                return ruby.voiceConnections.get(serverId).playFile(`./sounds/inception.mp3`, {}, (error, streamIntent) => {
+                    if (error) {
+                        console.error(error);
+                    }
+                });
+
             // case 'addreply':
             // case 'ar':
             //     let name = parameters.split(' ')[0];
@@ -234,7 +247,8 @@ ruby.on("message", /*Promise.coroutine(*/function/***/(message) {
             //     return message.reply('Registered commands:\n' + Object.keys(botCommands.replies).join(', '));
 
             case 'help':
-                let help = '\n' + commands.join('\n');
+            case 'aide':
+                let help = '\n' + commandTxt.join('\n');
                 return message.reply(help);
 
             // case rubyCommands.replies[command]:
@@ -270,32 +284,32 @@ ruby.on("message", /*Promise.coroutine(*/function/***/(message) {
 
     // }
 })/*)*/;
-let commands = [
-    {
-        'trigger': 'sandwich',
-        'reaction': function (data) {
-            guild.channels.first().sendMessage('http://www.brasil-infos.com/medias/images/sandwich.jpg');
-        }
-    },
-    {
-        'trigger': ['YouTube audio', 'musique'],
-        'reaction': function (data) {
-            onYoutubeAudio(data);
-        }
-    },
-    {
-        'trigger': 'fin du flux',
-        'reaction': function (data) {
-            dispatcher.end();
-        }
-    },
-    {
-        'trigger': ['volume', 'son'],
-        'reaction': function (data) {
-            onVolumeChange(data);
-        }
-    }
-];
+// let commands = [
+//     {
+//         'trigger': 'sandwich',
+//         'reaction': function (data) {
+//             guild.channels.first().sendMessage('http://www.brasil-infos.com/medias/images/sandwich.jpg');
+//         }
+//     },
+//     {
+//         'trigger': ['YouTube audio', 'musique'],
+//         'reaction': function (data) {
+//             onYoutubeAudio(data);
+//         }
+//     },
+//     {
+//         'trigger': 'fin du flux',
+//         'reaction': function (data) {
+//             dispatcher.end();
+//         }
+//     },
+//     {
+//         'trigger': ['volume', 'son'],
+//         'reaction': function (data) {
+//             onVolumeChange(data);
+//         }
+//     }
+// ];
 
 
 function mentionReply(author) {
@@ -318,32 +332,32 @@ function random(startNumber, endNumber) {
     return randomNumber;
 }
 
-function onSpokenCommand(data) {
-    let functionHasBeenTrigered = false;
-    if (data.indexOf('commande') !== -1) {
-        for (let command of commands) {
-            if (Array.isArray(command.trigger)) {
-                log(debug("La commande est un vecteur"));
-                for (let triggerPart of command.trigger) {
-                    if (data.indexOf(triggerPart) !== -1) {
-                        command.reaction(data);
-                        functionHasBeenTrigered = true;
-                        break;
-                    }
-                }
-            } else {
-                if (data.indexOf(command.trigger) !== -1) {
-                    command.reaction(data);
-                    functionHasBeenTrigered = true;
-                    break;
-                }
-            }
-        }
-        if (!functionHasBeenTrigered) {
-            log(error('No function matching ' + data));
-        }
-    }
-}
+// function onSpokenCommand(data) {
+//     let functionHasBeenTrigered = false;
+//     if (data.indexOf('commande') !== -1) {
+//         for (let command of commands) {
+//             if (Array.isArray(command.trigger)) {
+//                 log(debug("La commande est un vecteur"));
+//                 for (let triggerPart of command.trigger) {
+//                     if (data.indexOf(triggerPart) !== -1) {
+//                         command.reaction(data);
+//                         functionHasBeenTrigered = true;
+//                         break;
+//                     }
+//                 }
+//             } else {
+//                 if (data.indexOf(command.trigger) !== -1) {
+//                     command.reaction(data);
+//                     functionHasBeenTrigered = true;
+//                     break;
+//                 }
+//             }
+//         }
+//         if (!functionHasBeenTrigered) {
+//             log(error('No function matching ' + data));
+//         }
+//     }
+// }
 
 function onYoutubeAudio(search) {
 
