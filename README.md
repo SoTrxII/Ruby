@@ -22,7 +22,7 @@ npm install
 ### Usage
 
 ```Shell
-gulp concat && node dist/Ruby.js
+gulp concat && node dist/ruby.js
 ```
 
 ### Commands

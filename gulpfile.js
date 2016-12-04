@@ -4,20 +4,20 @@ let gulp = require('gulp');
 let plugins = require('gulp-load-plugins')();
 
 let scripts = {
-    name: 'Ruby.js',
+    name: 'ruby.js',
     all: [
         'gulpfile.js',
-        'dist/Ruby.js'
+        'dist/ruby.js'
     ],
     list: [
         'src/intro.js',
         'src/variables.js',
         'src/utilities.js',
-        'src/Ruby.js',
+        'src/ruby.js',
         'src/reaction.js',
         'src/outro.js'
     ],
-    main: 'dist/Ruby.js',
+    main: 'dist/ruby.js',
     src: 'src/*.js',
     dest: 'dist'
 };

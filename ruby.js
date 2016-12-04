@@ -2,6 +2,7 @@
 
 //Color.js for logging.
 const chalk = require('chalk');
+
 const log = console.log;
 const normal = chalk.italic.white;
 const input = chalk.grey;
@@ -10,12 +11,24 @@ const error = chalk.red;
 const info = chalk.green;
 
 log(info("Booting ..."));
-let config = require('../config/default.json');
+
+let config = require('./config.json');
+global.Promise = require('bluebird');
+
+const commandTxt = [
+    '**!addreply** [name] [message]',
+    '**!g** [google search term]',
+    '**!removereply** [name]',
+    '**!replies**',
+    '**!inception**',
+    '**!say** [message in general chat]',
+    '**!search** [search term for notify.moe only]'
+];
 
 //Discord Constants
 const serverId = config.Discord.serverId;
 const Discordtoken = config.Discord.RubyToken;
-const mentionedReplic = require("../lib/rubyReplics.json");
+const mentionedReplic = require("./lib/rubyReplics.json");
 
 
 let Discord = require("discord.js");
@@ -35,6 +48,8 @@ let guild;
 let sceneOuverte;
 let receiver;
 let dispatcher;
+let ruby = new Discord.Client();
+
 
 /**
  *
@@ -60,13 +75,26 @@ function speechToText(callback) {
 }
 
 
-let Ruby = new Discord.Client();
+let sendMessage = function (channelName, message) {
+    let channel = ruby.channels.find('name', channelName);
 
-Ruby.on("ready", () => {
-    guild = Ruby.guilds.find("id", serverId);
-    let generalChannel = guild.channels.find("id", "152843288565514242");
-    log(info("Ruby is ready !"));
+    if (channel) {
+        channel.sendMessage(message);
+
+    } else {
+        log(error('Channel', channelName, 'not found.'));
+    }
+};
+
+ruby.on("ready", () => {
+
+    log(info('ruby is ready'));
+    guild = ruby.guilds.find("id", serverId);
+
     for (let channel of guild.channels.array()) {
+        if (!channel.name) {
+            continue;
+        }
         if (channel.type === "voice" && channel.name.endsWith("Scene Ouverte")) {
             sceneOuverte = channel;
             speechToText(onSpokenCommand);
@@ -93,45 +121,155 @@ Ruby.on("ready", () => {
 
 
                 })
-                .catch(
-                    console.log(error("failed to join channel " + channel.name))
+                .catch(error =>
+                    log(debug("failed to join channel " + channel.name), error(error))
                 );
+            break;
         }
     }
 
 });
 
 
-Ruby.on("message", message => {
+ruby.on("message", /*Promise.coroutine(*/function/***/(message) {
+    console.log(chalk.yellow(message.author.username), message.cleanContent);
+
     // Ignore own messages
-    if (message.author.id === Ruby.user.id) {
+    if (message.author.id === ruby.user.id) {
         return;
     }
-    let mentioned = message.isMentioned(Ruby.user);
 
-    function mentionRepy() {
+    let mentioned = message.isMentioned(ruby.user);
 
+    if (message.content.startsWith('!')) {
+        let command = message.content.substring(1).split(' ')[0];
+        let parameters = message.content.substring(command.length + 2);
+
+        // Custom replies
+        // let botCommands = yield arn.db.get('Cache', 'botCommands').catch(error => {
+        //     return {
+        //         replies: {}
+        //     };
+        // });
+
+        switch (command) {
+            case 'say':
+                return sendMessage('general', parameters);
+
+            case 'search':
+            case 'g':
+                return message.reply('https://www.google.com/search?q=' + encodeURIComponent(parameters));
+
+            case 'lmgtfy':
+                return message.reply('http://lmgtfy.com/?q=' + encodeURIComponent(parameters));
+
+            case 'youtube':
+            case 'musique':
+                return onYoutubeAudio(parameters);
+
+            case 'son':
+            case 'volume':
+                return onVolumeChange(parameters);
+
+            case 'stop':
+            case 'fin':
+            case 'finduflux':
+            case 'yamete':
+            case 'tg':
+                return dispatcher.end();
+
+            case 'sandwich':
+                return message.reply('http://www.brasil-infos.com/medias/images/sandwich.jpg');
+
+            // case 'addreply':
+            // case 'ar':
+            //     let name = parameters.split(' ')[0];
+            //     let reply = parameters.substring(name.length + 1);
+            //
+            //     if (!name || !reply) {
+            //         return;
+            //     }
+            //
+            //     console.log('Adding reply:', name, reply);
+            //
+            //     // Limit reply length
+            //     if (reply.length > 512) {
+            //         return;
+            //     }
+            //
+            //     let botCommands = yield arn.db.get('Cache', 'botCommands').catch(error => {
+            //         return {
+            //             replies: {}
+            //         };
+            //     });
+            //
+            //     botCommands.replies[name] = reply;
+            //
+            //     return arn.db.set('Cache', 'botCommands', botCommands)
+            //         .then(() => message.reply('Registered commands:\n' + Object.keys(botCommands.replies)));
+            // case 'removereply':
+            // case 'rr':
+            //     let name = parameters;
+            //
+            //     if (!name) {
+            //         return;
+            //     }
+            //     let botCommands = yield arn.db.get('Cache', 'botCommands').catch(error => {
+            //         return {
+            //             replies: {}
+            //         };
+            //     });
+            //
+            //     delete botCommands.replies[name];
+            //
+            //     return arn.db.set('Cache', 'botCommands', botCommands).then(() => message.reply('Registered commands:\n' + Object.keys(botCommands.replies).join(', ')));
+            //
+            // case 'replies':
+            //     let botCommands = yield arn.db.get('Cache', 'botCommands').catch(error => {
+            //         return {
+            //             replies: {}
+            //         };
+            //     });
+            //
+            //     return message.reply('Registered commands:\n' + Object.keys(botCommands.replies).join(', '));
+
+            case 'help':
+                let help = '\n' + commands.join('\n');
+                return message.reply(help);
+
+            // case rubyCommands.replies[command]:
+            //     return message.reply(botCommands.replies[command]);
+
+            default :
+                return message.reply("Mais, euh, tu ne m'avais pas dit de t'écouter. Donc, bah je l'ai pas fait.");
+
+        }
     }
 
     if (mentioned) {
-        message.reply(mentionReply(message.author))
-            .then(msg => log(info("Ruby has been mentioned by " + message.author.username + " and replied " + msg.content)))
+        return message.reply(mentionReply(message.author))
+            .then(msg => log(info("ruby has been mentioned by " + message.author.username + " and replied " + msg.content)))
             .catch(console.error);
-
-    } else {
-        log(info("Ruby hasn't been mentioned by " + message.author.username));
-
-        if (message.content.startsWith("!")) {
-            let command = message.content.substring(1).split(" ")[0];
-            log(debug(command));
-            let parameters = message.content.substring(command.length + 2);
-            if (mentioned) {
-                guild.channels.first().sendMessage('meh');
-            }
-            onSpokenCommand(message.content);
-        }
     }
-});
+
+    // if (mentioned) {
+    //
+    //
+    // } else {
+    //     log(info("ruby hasn't been mentioned by " + message.author.username));
+    //
+    //     if (message.content.startsWith("!")) {
+    //         let command = message.content.substring(1).split(" ")[0];
+    //         log(debug(command));
+    //         let parameters = message.content.substring(command.length + 2);
+    //         if (mentioned) {
+    //             guild.channels.first().sendMessage('meh');
+    //         }
+    //         onSpokenCommand(message.content);
+    //     }
+
+    // }
+})/*)*/;
 let commands = [
     {
         'trigger': 'sandwich',
@@ -207,17 +345,15 @@ function onSpokenCommand(data) {
     }
 }
 
-function onYoutubeAudio(data) {
-    //Extract the search query by removing
-    let searchTerm = data.split(' ').slice(3).join(' ');
+function onYoutubeAudio(search) {
 
     //Because this is the puprose of the function
-    if (searchTerm.indexOf("thème de Victor") !== -1) {
-        searchTerm = "John Cena thème kazoo";
+    if (search.indexOf("thème de Victor") !== -1) {
+        search = "John Cena thème kazoo";
     }
-    log(input('search : ' + searchTerm));
+    log(input('search : ' + search));
     //Take the first result found on YouTube and stream it.
-    youTube.search(searchTerm, 1, function (error, result) {
+    youTube.search(search, 1, function (error, result) {
         if (error || result.items[0].id === undefined) {
             log(error(error));
         }
@@ -231,14 +367,13 @@ function onYoutubeAudio(data) {
                     });
                     dispatcher = connection.playStream(stream, streamOptions);
                 })
-                .catch(console.log);
+                .catch(log);
         }
     });
 }
 
 function onVolumeChange(data) {
-    let arrayData = data.split(' ');
-    let absoluteVolume = arrayData[arrayData.length - 1].substring(0, arrayData.length - 1);
+    let absoluteVolume = data.substring(0, data.length - 1);
     let relativeVolume = absoluteVolume / 100;
 
     let volume;
@@ -263,4 +398,4 @@ function onVolumeChange(data) {
     dispatcher.setVolume(volume);
 }
 
-Ruby.login(Discordtoken);
+ruby.login(Discordtoken);
