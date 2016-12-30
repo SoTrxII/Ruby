@@ -95,44 +95,40 @@ let sendMessage = function (channelName, message) {
 ruby.on("ready", () => {
 
     log(info('ruby is ready'));
-    guild = ruby.guilds.find("id", serverId);
+    guild = ruby.guilds.get(serverId);
+    guild.channels.array().filter(chan => {
+        return chan.type === "voice" && chan.name.endsWith("Scene Ouverte");
 
-    for (let channel of guild.channels.array()) {
-        if (!channel.name) {
-            continue;
-        }
-        if (channel.type === "voice" && channel.name.endsWith("Scene Ouverte")) {
-            sceneOuverte = channel;
-            // speechToText(onSpokenCommand);
-            channel.join()
-                .then(connection => {
-                    connection.on('speaking', (user, speaking) => {
-                        receiver = connection.createReceiver();
-                        if (speaking) {
-                            log(normal(user.username + " commence à parler"));
-
-                            /*//@NOTE Ne pas effacer cette partie
-                             let streamu = receiver.createPCMStream(user);
-                             let speaker = new Speaker({
-                             channels: 2,          // 2 channels
-                             bitDepth: 16,         // 16-bit samples
-                             sampleRate: 48000     // 48,000 Hz sample rate
-                             });
-                             streamu.pipe(speaker);
-                             // Fin du NE PAS EFFACER*/
-
-
-                        }
-                    });
+    }).map(channel => {
+        // speechToText(onSpokenCommand);
+        sceneOuverte = channel;
+        channel.join()
+            .then(connection => {
+                // connection.on('speaking', (user, speaking) => {
+                //     receiver = connection.createReceiver();
+                //     if (speaking) {
+                //         log(normal(user.username + " commence à parler"));
+                //
+                //         /*//@NOTE Ne pas effacer cette partie
+                //          let streamu = receiver.createPCMStream(user);
+                //          let speaker = new Speaker({
+                //          channels: 2,          // 2 channels
+                //          bitDepth: 16,         // 16-bit samples
+                //          sampleRate: 48000     // 48,000 Hz sample rate
+                //          });
+                //          streamu.pipe(speaker);
+                //          // Fin du NE PAS EFFACER*/
+                //
+                //
+                //     }
+                // });
 
 
-                })
-                .catch(error =>
-                    log(debug("failed to join channel " + channel.name), error(error))
-                );
-            break;
-        }
-    }
+            })
+            .catch(error =>
+                log(debug("failed to join channel " + channel.name), error(error))
+            );
+    });
 
 });
 
@@ -145,10 +141,8 @@ ruby.on("message", /*Promise.coroutine(*/function/***/(message) {
         return;
     }
 
-    let mentioned = message.isMentioned(ruby.user);
-
     if (message.content.startsWith('!')) {
-        let command = message.content.substring(1).split(' ')[0];
+        let command = message.content.substring(1).split(' ')[0].toLowerCase();
         let parameters = message.content.substring(command.length + 2);
 
         // Custom replies
@@ -157,6 +151,10 @@ ruby.on("message", /*Promise.coroutine(*/function/***/(message) {
         //         replies: {}
         //     };
         // });
+        let dispatcher = ruby.voiceConnections.first().player.dispatcher;
+        if (dispatcher !== null) {
+            dispatcher.end();
+        }
 
         switch (command) {
             case 'say':
@@ -170,6 +168,7 @@ ruby.on("message", /*Promise.coroutine(*/function/***/(message) {
                 return message.reply('http://lmgtfy.com/?q=' + encodeURIComponent(parameters));
 
             case 'youtube':
+            case 'yt':
             case 'musique':
                 return onYoutubeAudio(parameters);
 
@@ -260,6 +259,8 @@ ruby.on("message", /*Promise.coroutine(*/function/***/(message) {
 
         }
     }
+
+    let mentioned = message.isMentioned(ruby.user);
 
     if (mentioned) {
         return message.reply(mentionReply(message.author))
