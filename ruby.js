@@ -151,10 +151,8 @@ ruby.on("message", /*Promise.coroutine(*/function/***/(message) {
         //         replies: {}
         //     };
         // });
-        let dispatcher = ruby.voiceConnections.first().player.dispatcher;
-        if (dispatcher !== null) {
-            dispatcher.end();
-        }
+        // let dispatcher = ruby.voiceConnections.first().player.dispatcher;
+
 
         switch (command) {
             case 'say':
@@ -170,6 +168,9 @@ ruby.on("message", /*Promise.coroutine(*/function/***/(message) {
             case 'youtube':
             case 'yt':
             case 'musique':
+                if (dispatcher !== null) {
+                    dispatcher.end();
+                }
                 return onYoutubeAudio(parameters);
 
             case 'son':
@@ -188,6 +189,9 @@ ruby.on("message", /*Promise.coroutine(*/function/***/(message) {
 
             case 'inception':
             case 'dramatic':
+                if (dispatcher !== null) {
+                    dispatcher.end();
+                }
                 return ruby.voiceConnections.get(serverId).playFile(`./sounds/inception.mp3`, {}, (error, streamIntent) => {
                     if (error) {
                         console.error(error);
@@ -330,8 +334,7 @@ function mentionReply(author) {
 }
 
 function random(startNumber, endNumber) {
-    let randomNumber = Math.floor((Math.random() * endNumber) + startNumber);
-    return randomNumber;
+    return Math.floor((Math.random() * endNumber) + startNumber);
 }
 
 // function onSpokenCommand(data) {
@@ -414,4 +417,4 @@ function onVolumeChange(data) {
     dispatcher.setVolume(volume);
 }
 
-ruby.login(Discordtoken);
+ruby.login(Discordtoken).then(info("Successfully logged in"));
