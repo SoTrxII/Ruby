@@ -151,7 +151,7 @@ ruby.on("message", /*Promise.coroutine(*/function/***/(message) {
         //         replies: {}
         //     };
         // });
-        // let dispatcher = ruby.voiceConnections.first().player.dispatcher;
+        let dispatcher = ruby.voiceConnections.first().player.dispatcher;
 
 
         switch (command) {
