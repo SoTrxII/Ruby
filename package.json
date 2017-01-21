@@ -10,9 +10,11 @@
     "discord.js": "*",
     "electron-spawn": "*",
     "electron-speech": "*",
+    "erlpack": "*",
     "node-opus": "*",
     "opusscript": "*",
     "speaker": "*",
+    "uws": "*",
     "youtube-node": "*",
     "ytdl-core": "*"
   },
