@@ -2,7 +2,7 @@ let spawn = require('electron-spawn');
 
 function speechToText(){
 
-  var electron = spawn('../speech.js', {
+  let electron = spawn('../speech.js', {
     detached: false
   });
   electron.stderr.on('data', function (data) {
