@@ -348,7 +348,7 @@ function onYoutubeAudio(search) {
     if (error || result.items[0].id === undefined) {
       log(error(error));
     } else {
-      const streamOptions = {seek: 0, volume: 0.1, passes: 3};
+      const streamOptions = {volume: 0.1, passes: 3};
       sceneOuverte.join()
           .then(connection => {
             const stream = ytdl('https://www.youtube.com/watch?v=' + result.items[0].id.videoId, {
