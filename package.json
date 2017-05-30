@@ -16,7 +16,12 @@
     "speaker": "*",
     "uws": "*",
     "youtube-node": "*",
-    "ytdl-core": "*"
+    "ytdl-core": "*",
+    "bufferutil":"*",
+    "hammerandchisel/erlpack":"*",
+    "sodium":"*",
+
+
   },
   "keywords": [
     "discord",
