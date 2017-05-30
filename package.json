@@ -19,9 +19,7 @@
     "ytdl-core": "*",
     "bufferutil":"*",
     "hammerandchisel/erlpack":"*",
-    "sodium":"*",
-
-
+    "sodium":"*"
   },
   "keywords": [
     "discord",
