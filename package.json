@@ -20,8 +20,6 @@
     "bufferutil":"*",
     "hammerandchisel/erlpack":"*",
     "sodium":"*"
-
-
   },
   "keywords": [
     "discord",
