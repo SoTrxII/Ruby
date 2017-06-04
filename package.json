@@ -8,8 +8,7 @@
     "chalk": "*",
     "config": "*",
     "discord.js": "*",
-    "electron-spawn": "*",
-    "electron-speech": "*",
+    "electron": "*",
     "erlpack": "*",
     "node-opus": "*",
     "opusscript": "*",
@@ -18,7 +17,7 @@
     "youtube-node": "*",
     "ytdl-core": "*",
     "bufferutil":"*",
-    "hammerandchisel/erlpack":"*",
+    "libsodium-wrappers":"*",
     "sodium":"*"
   },
   "keywords": [
