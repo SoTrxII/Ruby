@@ -9,15 +9,13 @@
     "config": "*",
     "discord.js": "*",
     "electron": "*",
-    "erlpack@hammerandchisel/erlpack": "*",
     "node-opus": "*",
     "opusscript": "*",
     "speaker": "*",
-    "uws": "*",
     "youtube-node": "*",
     "ytdl-core": "*",
     "bufferutil":"*",
-    "libsodium-wrappers":"*",
+    "libsodium-wrappers":"0.5.1",
     "sodium":"*"
   },
   "keywords": [
