@@ -9,7 +9,7 @@
     "config": "*",
     "discord.js": "*",
     "electron": "*",
-    "erlpack": "*",
+    "erlpack@hammerandchisel/erlpack": "*",
     "node-opus": "*",
     "opusscript": "*",
     "speaker": "*",

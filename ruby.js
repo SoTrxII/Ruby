@@ -37,7 +37,7 @@ const Discordtoken = config.Discord.RubyToken;
 const mentionedReplic = require("./lib/rubyReplics.json");
 
 let Discord = require("discord.js");
-let spawn = require('electron-spawn');
+let spawn = require('electron');
 
 //Used to speak discord PCM stream out loud
 // let Speaker = require('speaker');
