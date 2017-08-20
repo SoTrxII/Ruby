@@ -2,7 +2,7 @@
 const Promise = require('bluebird');
 
 /**
- Stop the current File playing.
+ Stop the current File
 **/
 let stopPlaying = (evt, command, cmdArg) => {
   return new Promise( (resolve, reject) => {
@@ -19,3 +19,7 @@ exports.default = {
   yamete : stopPlaying,
   finduflux : stopPlaying
 }
+
+exports.help = {
+  'yamete': {parameters: 'Quoi rechercher', desc : "Let Me Google It For You, Noob"}
+};

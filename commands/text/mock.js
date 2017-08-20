@@ -16,5 +16,5 @@ exports.default = {
 };
 
 exports.help = {
-  'mock': {parameters: 'what to say'}
+  'mock': {desc: 'Debug'}
 };

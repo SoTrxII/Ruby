@@ -18,3 +18,8 @@ const commandsFiles = R.uniq(R.flatten([
 exports.commands = R.mergeAll(R.map(scriptPath => {
   return require(scriptPath).default;
 }, commandsFiles));
+
+//Get the help of every command
+exports.help = R.mergeAll(R.map(scriptPath => {
+  return require(scriptPath).help;
+}, commandsFiles));

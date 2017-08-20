@@ -9,6 +9,8 @@ const soundDir = Path.join(baseAppDir, 'sounds');
 
 //Internal Librairies
 const Log = require(Path.join(baseAppDir, 'lib', 'logger.js'));
+const StopPlaying = require('./stopPlaying.js');
+
 //AudioFile aliases.
 //@NOTE Implemented as Array : String
 // The dictionnary keys are Arrays which are bound to be small.
@@ -21,7 +23,7 @@ const aliases = {
 }
 
 const streamOptions = {
-  volume : 0.11,
+  volume : 0.08,
   passes : 1
 }
 
@@ -33,6 +35,9 @@ const streamOptions = {
 let playFile = (evt, command, cmdArg) => {
 
   return new Promise( (resolve, reject) => {
+    if(global.voice.dispatcher){
+      global.voice.dispatcher.end();
+    }
     let filename = searchForFileName(command);
     if(!filename){
       reject(cmdArg + " is not associated with any file. Cannot play sound");
@@ -59,10 +64,10 @@ let playFile = (evt, command, cmdArg) => {
     global.voice.dispatcher.on('debug', (info) => {
       Log.debug(info);
     });
-
-  })
+});
 
 }
+
 /**
 Search the file to play given a possible alias
 @param needle alias to search
