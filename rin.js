@@ -21,7 +21,10 @@ global.Rin = new Discord.Client();
 const Rin = global.Rin; //Convenient alias
 const commandPrefix = '$';
 var guild = undefined; //Pre-declared
-var voiceConnection = undefined; //Pre-declared
+global.voice = {
+  connection : undefined,
+  dispatcher : undefined
+}; //Pre-declared
 const commandTimeout = 8000;
 
 
@@ -32,7 +35,8 @@ Rin.on('ready', () => {
 
   //Attempt to join a voiceChannel
   Utils.joinVoiceChannel(guild).then( (channelConnection) => {
-    voiceConnection = channelConnection;
+    global.voice.connection = channelConnection;
+
   }, (err) => {
     Log.error("Could not join any voice channel.", err);
   });
