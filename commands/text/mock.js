@@ -9,7 +9,7 @@ let mock = (evt, cmdArg) => {
         console.log("meh");
         resolve();
     })
-}
+};
 
 exports.default = {
     mock: mock,

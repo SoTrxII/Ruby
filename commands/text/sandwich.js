@@ -6,7 +6,7 @@ const Promise = require('bluebird');
  **/
 let sandwich = (evt, command, cmdArg) => {
     return Promise.revolve(evt.reply('http://www.brasil-infos.com/medias/images/sandwich.jpg'));
-}
+};
 
 exports.default = {
     sandwich: sandwich

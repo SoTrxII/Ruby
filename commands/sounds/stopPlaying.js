@@ -13,12 +13,12 @@ let stopPlaying = (evt, command, cmdArg) => {
             reject("No dispatcher seems to be initialized");
         }
     });
-}
+};
 
 exports.default = {
     yamete: stopPlaying,
     finduflux: stopPlaying
-}
+};
 
 exports.help = {
     'yamete': {parameters: 'Quoi rechercher', desc: "Let Me Google It For You, Noob"}

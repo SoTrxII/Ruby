@@ -26,17 +26,18 @@ let controlVolume = (evt, command, cmdArg) => {
 
 
     });
-}
+};
 
 exports.default = {
     son: controlVolume,
     volume: controlVolume
-}
+};
 
 exports.help = {
     'volume': {parameters: 'Valeur entre ' + minVolume + ' et ' + maxVolume, desc: "Change le son de la musique jouée"}
 };
 
 let isValidFloat = (n) => {
+    // noinspection EqualityComparisonWithCoercionJS
     return Number(n) == n
-}
+};

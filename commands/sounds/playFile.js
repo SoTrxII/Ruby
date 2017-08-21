@@ -9,7 +9,6 @@ const soundDir = Path.join(baseAppDir, 'sounds');
 
 //Internal Librairies
 const Log = require(Path.join(baseAppDir, 'lib', 'logger.js'));
-const StopPlaying = require('./stopPlaying.js');
 
 //AudioFile aliases.
 //@NOTE Implemented as Array : String
@@ -20,12 +19,12 @@ const aliases = {
     'corbeau.mp3': ['mabite', 'corbeau'],
     'HEYYEYAAEYAAAEYAEYAA.mp3': ['yeah'],
     'inception.mp3': ['inception', 'dramatic']
-}
+};
 
 const streamOptions = {
     volume: 0.08,
     passes: 1
-}
+};
 
 /**
  @param evt Event leading to this command
@@ -66,7 +65,7 @@ let playFile = (evt, command, cmdArg) => {
         });
     });
 
-}
+};
 
 /**
  Search the file to play given a possible alias
@@ -80,7 +79,7 @@ let searchForFileName = (needle) => {
         }
     }
     return false;
-}
+};
 
 let generateCommands = () => {
     let commands = {};
@@ -90,7 +89,7 @@ let generateCommands = () => {
         }
     }
     return commands;
-}
+};
 
 exports.default = generateCommands();
 

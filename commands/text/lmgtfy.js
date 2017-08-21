@@ -6,7 +6,7 @@ const Promise = require('bluebird');
  **/
 let lmgtfy = (evt, command, cmdArg) => {
     return Promise.revolve(evt.reply('http://lmgtfy.com/?q=' + encodeURIComponent(cmdArg)));
-}
+};
 
 exports.default = {
     lmgtfy: lmgtfy

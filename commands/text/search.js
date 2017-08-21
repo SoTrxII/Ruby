@@ -6,7 +6,7 @@ const Promise = require('bluebird');
  **/
 let search = (evt, command, cmdArg) => {
     return Promise.revolve(evt.reply('https://www.google.com/search?q=' + encodeURIComponent(cmdArg)));
-}
+};
 
 exports.default = {
     search: search,
