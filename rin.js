@@ -5,7 +5,6 @@ const Promise = require('bluebird');
 const Discord = require('discord.js');
 
 //Internal Libraries
-const MentionedReplic = require("./lib/rubyReplics.json");
 const Log = require("./lib/logger.js");
 const Utils = require("./lib/utilities.js");
 
@@ -19,7 +18,7 @@ const ServerId = Config.Discord.serverId;
 //Constants
 global.Rin = new Discord.Client();
 const Rin = global.Rin; //Convenient alias
-const commandPrefix = '$';
+const CommandPrefix = '$';
 var guild = undefined; //Pre-declared
 global.voice = {
   connection : undefined,
@@ -50,13 +49,19 @@ Rin.on('message', message => {
     return;
   }
   Log.userMessage("@" + message.author.username + ": " + message.cleanContent);
+  //Message variables.
+  let isMentionned = message.isMentioned(Rin.user);
+  let isCommand = message.content.startsWith(CommandPrefix);
 
   //Handle bot command
-  if (message.content.startsWith('$')) {
+  if (isCommand) {
     //Commands goes here
     Utils.parseTextCommand(message).then(() => {
       return;
     }).catch(Log.error);
+
+  }else if(isMentionned){
+    Utils.replyRandom(message);
   }
 
 });
