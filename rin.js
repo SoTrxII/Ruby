@@ -19,58 +19,57 @@ const ServerId = Config.Discord.serverId;
 global.Rin = new Discord.Client();
 const Rin = global.Rin; //Convenient alias
 const CommandPrefix = '$';
-var guild = undefined; //Pre-declared
+let guild = undefined; //Pre-declared
 global.voice = {
-  connection : undefined,
-  dispatcher : undefined
+    connection: undefined,
+    dispatcher: undefined
 }; //Pre-declared
 const commandTimeout = 8000;
 
 
-
 Rin.on('ready', () => {
-  Log.success("Up & Ready to roll");
-  guild = Rin.guilds.get(ServerId);
+    Log.success("Up & Ready to roll");
+    guild = Rin.guilds.get(ServerId);
 
-  //Attempt to join a voiceChannel
-  Utils.joinVoiceChannel(guild).then( (channelConnection) => {
-    global.voice.connection = channelConnection;
+    //Attempt to join a voiceChannel
+    Utils.joinVoiceChannel(guild).then((channelConnection) => {
+        global.voice.connection = channelConnection;
 
-  }, (err) => {
-    Log.error("Could not join any voice channel.", err);
-  });
+    }, (err) => {
+        Log.error("Could not join any voice channel.", err);
+    });
 
 
 });
 
 Rin.on('message', message => {
-  // Bot has to ignore his own message.
-  if(message.author.id === Rin.user.id){
-    return;
-  }
-  Log.userMessage("@" + message.author.username + ": " + message.cleanContent);
-  //Message variables.
-  let isMentionned = message.isMentioned(Rin.user);
-  let isCommand = message.content.startsWith(CommandPrefix);
+    // Bot has to ignore his own message.
+    if (message.author.id === Rin.user.id) {
+        return;
+    }
+    Log.userMessage("@" + message.author.username + ": " + message.cleanContent);
+    //Message variables.
+    let isMentionned = message.isMentioned(Rin.user);
+    let isCommand = message.content.startsWith(CommandPrefix);
 
-  //Handle bot command
-  if (isCommand) {
-    //Commands goes here
-    Utils.parseTextCommand(message).then(() => {
-      return;
-    }).catch(Log.error);
+    //Handle bot command
+    if (isCommand) {
+        //Commands goes here
+        Utils.parseTextCommand(message).then(() => {
+            return;
+        }).catch(Log.error);
 
-  }else if(isMentionned){
-    Utils.replyRandom(message);
-  }
+    } else if (isMentionned) {
+        Utils.replyRandom(message);
+    }
 
 });
 
 Rin.login(Config.Discord.RubyToken).then(Log.success("Successfully logged in"));
 
 /**
-  PROCESS EVENTS
-**/
+ PROCESS EVENTS
+ **/
 
 //do something when app is closing
 process.on('exit', Utils.exitHandler.bind(null, {
