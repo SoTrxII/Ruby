@@ -100,24 +100,6 @@ ruby.on("ready", () => {
     sceneOuverte = channel;
     channel.join()
         .then(connection => {
-          // connection.on('speaking', (user, speaking) => {
-          //     receiver = connection.createReceiver();
-          //     if (speaking) {
-          //         log(normal(user.username + " commence à parler"));
-          //
-          //         /*//@NOTE Ne pas effacer cette partie
-          //          let streamu = receiver.createPCMStream(user);
-          //          let speaker = new Speaker({
-          //          channels: 2,          // 2 channels
-          //          bitDepth: 16,         // 16-bit samples
-          //          sampleRate: 48000     // 48,000 Hz sample rate
-          //          });
-          //          streamu.pipe(speaker);
-          //          // Fin du NE PAS EFFACER*/
-          //
-          //
-          //     }
-          // });
 
         })
         .catch(error => log(debug("failed to join channel " + channel.name), error(error)));
@@ -133,7 +115,7 @@ function playsound(filename, volume) {
     }
   });
 }
-ruby.on("message", /*Promise.coroutine(*/function/***/(message) {
+ruby.on("message", function(message) {
   console.log(chalk.yellow(message.author.username), message.cleanContent);
 
   // Ignore own messages
@@ -144,13 +126,6 @@ ruby.on("message", /*Promise.coroutine(*/function/***/(message) {
   if (message.content.startsWith('$')) {
     let command = message.content.substring(1).split(' ')[0].toLowerCase();
     let parameters = message.content.substring(command.length + 2);
-
-    // Custom replies
-    // let botCommands = yield arn.db.get('Cache', 'botCommands').catch(error => {
-    //     return {
-    //         replies: {}
-    //     };
-    // });
 
     switch (command) {
       case 'say':
@@ -202,48 +177,10 @@ ruby.on("message", /*Promise.coroutine(*/function/***/(message) {
         }
         return playsound("HEYYEYAAEYAAAEYAEYAA.mp3", 0.2);
 
-        // case 'addreply':
-        // case 'ar':
-        //     let name = parameters.split(' ')[0];
-        //     let reply = parameters.substring(name.length + 1);
-        //
-        //     if (!name || !reply) {
-        //         return;
-        //     }
-        //
-        //     console.log('Adding reply:', name, reply);
-        //
-        //     // Limit reply length
-        //     if (reply.length > 512) {
-        //         return;
-        //     }
-        //
-        //     let botCommands = yield arn.db.get('Cache', 'botCommands').catch(error => {
-        //         return {
-        //             replies: {}
-        //         };
-        //     });
-        //
-        //     botCommands.replies[name] = reply;
-        //
-        //     return arn.db.set('Cache', 'botCommands', botCommands)
-        //         .then(() => message.reply('Registered commands:\n' +
-        // Object.keys(botCommands.replies))); case 'removereply': case 'rr': let name =
-        // parameters;  if (!name) { return; } let botCommands = yield arn.db.get('Cache',
-        // 'botCommands').catch(error => { return { replies: {} }; });  delete
-        // botCommands.replies[name];  return arn.db.set('Cache', 'botCommands',
-        // botCommands).then(() => message.reply('Registered commands:\n' +
-        // Object.keys(botCommands.replies).join(', ')));  case 'replies': let botCommands = yield
-        // arn.db.get('Cache', 'botCommands').catch(error => { return { replies: {} }; });  return
-        // message.reply('Registered commands:\n' + Object.keys(botCommands.replies).join(', '));
-
       case 'help':
       case 'aide':
         let help = '\n' + commandTxt.join('\n');
         return message.reply(help);
-
-        // case rubyCommands.replies[command]:
-        //     return message.reply(botCommands.replies[command]);
 
       default :
         return message.reply("Mais, euh, tu ne m'avais pas dit de t'écouter. Donc, bah je l'ai pas fait.");
@@ -346,7 +283,7 @@ function onYoutubeAudio(search) {
   //Take the first result found on YouTube and stream it.
   youTube.search(search, 1, function (error, result) {
     if (error || result.items[0].id === undefined) {
-      log(error(error));
+      log(error);
     } else {
       const streamOptions = {volume: 0.1, passes: 3};
       sceneOuverte.join()
