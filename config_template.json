@@ -1,0 +1,19 @@
+{
+  "Discord": {
+    "serverId": "YOUR_SERV_ID",
+    "channelId": "YOUR_MAIN_CHANNEL_ID",
+    "RubyToken": "YOUR_BOT_TOKEN",
+    "MastersIds": [
+    ]
+  },
+  "API": {
+    "Google": {
+      "youtubeParser": "YOUR_TOKEN"
+    }
+  },
+  "Commands": {
+    "allowPrivate": false,
+    "denyList": {
+    }
+  }
+}

@@ -16,5 +16,5 @@ exports.default = {
 };
 
 exports.help = {
-    'mock': {desc: 'Debug'}
+    'mock': {desc: 'Commande pour faire parler les curieux.'}
 };

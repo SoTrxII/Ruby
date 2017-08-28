@@ -34,7 +34,11 @@ exports.default = {
 }
 
 exports.help = {
-    'volume': {parameters: 'Valeur entre ' + minVolume + ' et ' + maxVolume, desc: "Change le son de la musique jouée"}
+    'volume': {
+      parameters: 'Valeur entre ' + minVolume + ' et ' + maxVolume,
+      desc: "Change le son de la musique jouée",
+      aliases : ['son']
+    }
 };
 
 let isValidFloat = (n) => {

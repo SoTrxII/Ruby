@@ -4,15 +4,11 @@
 const Promise = require('bluebird');
 const Discord = require('discord.js');
 
-//Internal Libraries
-const Log = require("./lib/logger.js");
-const Utils = require("./lib/utilities.js");
-
-Log.normal("Booting...");
-
 //Configuration
-const Config = require('./config.json');
+global.Config = require('./config.json');
 const ServerId = Config.Discord.serverId;
+global.baseAppDir = __dirname;
+
 
 
 //Constants
@@ -25,6 +21,11 @@ global.voice = {
     dispatcher: undefined
 }; //Pre-declared
 const commandTimeout = 8000;
+
+//Internal Libraries
+const Log = require("./lib/logger.js");
+const Utils = require("./lib/utilities.js");
+Log.normal("Booting...");
 
 
 Rin.on('ready', () => {
@@ -65,11 +66,13 @@ Rin.on('message', message => {
 
 });
 
+
 Rin.login(Config.Discord.RubyToken).then(Log.success("Successfully logged in"));
 
 /**
  PROCESS EVENTS
  **/
+
 
 //do something when app is closing
 process.on('exit', Utils.exitHandler.bind(null, {
@@ -80,6 +83,8 @@ process.on('SIGINT', Utils.exitHandler.bind(null, {
     cleanup: true
 }));
 //catches uncaught exceptions
-process.on('uncaughtException', Utils.exitHandler.bind(null, {
+process.on('uncaughtException', (err) => {
+  Utils.exitHandler({
     panic: true
-}));
+  }, err);
+});

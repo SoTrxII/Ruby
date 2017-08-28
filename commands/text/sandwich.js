@@ -13,5 +13,5 @@ exports.default = {
 };
 
 exports.help = {
-    'sandwich': {desc: "affiche un très beau sandwich"}
+    'sandwich': {desc: "Affiche un très beau sandwich"}
 };

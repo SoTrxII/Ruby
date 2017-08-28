@@ -6,15 +6,14 @@ const YouTube = require('youtube-node');
 const youTube = new YouTube();
 
 //Constants
-const baseAppDir = Path.join(__dirname, '../../');
 const baseUrl = 'https://youtube.com/watch?v=';
 const specialSearchs = {
     "NyaNya's theme": "J"
 };
-const streamOptions = {volume: 0.10, passes: 1};
+const streamOptions = {volume: 0.03, passes: 1};
 
 //Internal Librairies
-const Log = require(Path.join(baseAppDir, 'lib', 'logger.js'));
+const Log = require(Path.join(global.baseAppDir, 'lib', 'logger.js'));
 
 
 youTube.setKey("AIzaSyDLxs-tX86li5_i42cWI0-0kTwR8jBF7V4");
@@ -65,3 +64,11 @@ exports.default = {
     youtube: playFromYoutube,
     musique: playFromYoutube
 }
+
+exports.help = {
+    'youtube': {
+      parameters: 'Truc à rechercher',
+      desc: "Cherche et joue une vidéo youtube dans le chat vocal.",
+      aliases : ['yt', 'musique']
+    }
+};

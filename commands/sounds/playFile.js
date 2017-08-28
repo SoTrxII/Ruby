@@ -4,11 +4,10 @@ const Path = require('path');
 const Fs = require('fs');
 
 //Constants
-const baseAppDir = Path.join(__dirname, '../../');
-const soundDir = Path.join(baseAppDir, 'sounds');
+const soundDir = Path.join(global.baseAppDir, 'sounds');
 
 //Internal Librairies
-const Log = require(Path.join(baseAppDir, 'lib', 'logger.js'));
+const Log = require(Path.join(global.baseAppDir, 'lib', 'logger.js'));
 const StopPlaying = require('./stopPlaying.js');
 
 //AudioFile aliases.
@@ -95,5 +94,7 @@ let generateCommands = () => {
 exports.default = generateCommands();
 
 exports.help = {
-    'mock': {parameters: 'what to say'}
+    'corbeau': {desc : "When the joke is just right"},
+    'yeah' : {desc : "Faboulous intensifies"},
+    'inception' : {desc : "La fontaine était là depuis le début"}
 };

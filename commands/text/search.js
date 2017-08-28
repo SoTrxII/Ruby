@@ -14,5 +14,9 @@ exports.default = {
 };
 
 exports.help = {
-    'search': {parameters: 'Quoi rechercher', desc: "Recherche sur Google un truc"}
+    'search': {
+      parameters: 'Quoi rechercher',
+      desc: "Recherche sur Google un truc",
+      aliases : ['g']
+    }
 };

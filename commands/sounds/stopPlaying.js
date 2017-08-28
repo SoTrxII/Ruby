@@ -17,9 +17,15 @@ let stopPlaying = (evt, command, cmdArg) => {
 
 exports.default = {
     yamete: stopPlaying,
-    finduflux: stopPlaying
+    finduflux: stopPlaying,
+    'plsstahp;_;' : stopPlaying,
+    omgstfu : stopPlaying
 }
 
 exports.help = {
-    'yamete': {parameters: 'Quoi rechercher', desc: "Let Me Google It For You, Noob"}
+    'yamete': {
+      parameters: '',
+      desc: "Arrête la lecture d'une musique ou d'une vidéo en cours de lecture.",
+      aliases : ['finduflux',  'plsstahp;_;', 'omgstfu']
+  }
 };

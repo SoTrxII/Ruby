@@ -14,5 +14,9 @@ exports.default = {
 };
 
 exports.help = {
-    'say': {parameters: 'Quoi dire', desc: "Fait répéter à Ruby la phrase entrée"}
+    'say': {
+      parameters: 'Quoi dire',
+      desc: 'Fait répéter à Ruby la phrase entrée',
+      aliases : ['tell']
+    }
 };
