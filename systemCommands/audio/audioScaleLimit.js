@@ -1,6 +1,8 @@
 const Path = require('path');
 const Utils = require(Path.join(baseAppDir, 'lib', 'utilities.js'));
-
+/**
+ Set the true Audio scale limit for the application.
+**/
 let audio = (evt, command, cmdArg) => {
     return new Promise((resolve, reject) => {
       if(cmdArg && Number(cmdArg) == cmdArg){

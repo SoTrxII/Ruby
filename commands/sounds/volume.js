@@ -24,8 +24,8 @@ let controlVolume = (evt, command, cmdArg) => {
             } else {
                 //Volume on a scale on 1 to maxScaleLimit %.
                 // Ex : User entered 100 % with a scaleLimit of 40 %  => 100/100/2.5 = 2/5 = 40%
-                console.log(volume / (100 * (volume/maxScaleLimit)));
-                global.voice.dispatcher.setVolume(volume / (100 * (volume/maxScaleLimit)) );
+                console.log((volume * maxScaleLimit) / (maxVolume *100));
+                global.voice.dispatcher.setVolume( (volume * maxScaleLimit) / (maxVolume *100) );
                 resolve();
             }
         }
