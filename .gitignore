@@ -26,6 +26,8 @@ node_modules
 
 # Config file
 config.json
+config_dev.json
+config_prod.json
 
 # Ignore .env configuration files
 .env

@@ -13,7 +13,7 @@ let stopPlaying = (evt, command, cmdArg) => {
             reject("No dispatcher seems to be initialized");
         }
     });
-}
+};
 
 exports.default = {
     yamete: stopPlaying,

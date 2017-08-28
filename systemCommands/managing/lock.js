@@ -1,7 +1,7 @@
 //External Libraries
 const Promise = require('bluebird');
-let writeFile = Promise.promisify(require("fs").writeFile);
 const path = require('path');
+const Utils = require(path.join(baseAppDir, 'lib', 'utilities.js'));
 
 //Constant
 const commands = require(path.join(baseAppDir, 'commands')).commands;
@@ -53,7 +53,7 @@ let lock = (evt, command, cmdArg) => {
         });
       }
       //Save the config file.
-      writeFile('config.json', JSON.stringify(global.Config, null, 2), 'utf8').then( () => {
+      Utils.saveConfig().then ( () => {
         resolve();
       });
 

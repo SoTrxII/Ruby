@@ -1,8 +1,8 @@
 {
   "Discord": {
-    "serverId": "152843288565514241",
-    "channelId": "152843288565514242",
-    "RubyToken": "MjIyMzA1MDIzNTM3NzA5MDYw.Cq7dVg.IVj-MAmvx_9PbaYPuJJV3KIeJAo",
+    "serverId": "226641484827459585",
+    "channelId": "226641484827459586",
+    "RubyToken": "Mjc0OTYyNTkxMjk2NTIwMTkz.DIWuOA.fQLM6_88ZcKGuJDk928cIgdvp4s",
     "MastersIds": [
       "152795063859150848",
       "141848794152042496"
@@ -20,7 +20,12 @@
   "Commands": {
     "allowPrivate": false,
     "denyList": {
-      "mock": []
+      "mock": [
+        "152795063859150848"
+      ]
     }
+  },
+  "Audio": {
+    "scaleLimit": "60"
   }
 }

@@ -1,7 +1,6 @@
 'use strict';
 
 //External Libraries
-const Promise = require('bluebird');
 const Discord = require('discord.js');
 
 //Configuration
@@ -20,7 +19,6 @@ global.voice = {
     connection: undefined,
     dispatcher: undefined
 }; //Pre-declared
-const commandTimeout = 8000;
 
 //Internal Libraries
 const Log = require("./lib/logger.js");
@@ -50,17 +48,15 @@ Rin.on('message', message => {
     }
     Log.userMessage("@" + message.author.username + ": " + message.cleanContent);
     //Message variables.
-    let isMentionned = message.isMentioned(Rin.user);
+    let isMentioned = message.isMentioned(Rin.user);
     let isCommand = message.content.startsWith(CommandPrefix);
 
     //Handle bot command
     if (isCommand) {
         //Commands goes here
-        Utils.parseTextCommand(message).then(() => {
-            return;
-        }).catch(Log.error);
+        Utils.parseTextCommand(message).catch(Log.error);
 
-    } else if (isMentionned) {
+    } else if (isMentioned) {
         Utils.replyRandom(message);
     }
 

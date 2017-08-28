@@ -6,7 +6,7 @@ const Promise = require('bluebird');
  **/
 let writeOnChat = (evt, command, cmdArg) => {
     return Promise.revolve(evt.reply(cmdArg));
-}
+};
 
 exports.default = {
     say: writeOnChat,

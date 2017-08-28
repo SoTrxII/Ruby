@@ -57,7 +57,7 @@ let playFromYoutube = (evt, command, cmdArg) => {
 
 
     });
-}
+};
 
 exports.default = {
     yt: playFromYoutube,
