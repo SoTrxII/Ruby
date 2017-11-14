@@ -4,7 +4,7 @@ const Promise = require('bluebird');
 const minVolume = 1;
 const maxVolume = 100;
 //True limit audio scaling.
-const maxScaleLimit = global.Config.Audio.scaleLimit;
+let maxScaleLimit = global.Config.Audio.scaleLimit;
 
 /**
  Stop the current File playing.
@@ -12,6 +12,8 @@ const maxScaleLimit = global.Config.Audio.scaleLimit;
 let controlVolume = (evt, command, cmdArg) => {
 
     return new Promise((resolve, reject) => {
+        //Refresh limit
+        maxScaleLimit = global.Config.Audio.scaleLimit
         //Take only the first arg if multiple are given
         let volume = cmdArg.replace('%', '').split(' ')[0];
 

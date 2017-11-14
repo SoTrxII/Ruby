@@ -26,6 +26,6 @@ exports.help = {
     'yamete': {
       parameters: '',
       desc: "Arrête la lecture d'une musique ou d'une vidéo en cours de lecture.",
-      aliases : ['finduflux',  'plsstahp;_;', 'omgstfu']
+      aliases : ['finduflux',  'plsstahp', 'omgstfu']
   }
 };

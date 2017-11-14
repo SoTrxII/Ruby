@@ -14,10 +14,13 @@ global.baseAppDir = __dirname;
 global.Rin = new Discord.Client();
 const Rin = global.Rin; //Convenient alias
 const CommandPrefix = '$';
+const recordDuration = 10;
 let guild = undefined; //Pre-declared
 global.voice = {
     connection: undefined,
-    dispatcher: undefined
+    dispatcher: undefined,
+    recordPath : undefined,
+    isRecording : false
 }; //Pre-declared
 
 //Internal Libraries
@@ -33,6 +36,9 @@ Rin.on('ready', () => {
     //Attempt to join a voiceChannel
     Utils.joinVoiceChannel(guild).then((channelConnection) => {
         global.voice.connection = channelConnection;
+      //Record Utilities.
+      //  Utils.recordCurrentVoiceChannel(recordDuration)
+      //  Utils.renewRecord(recordDuration);
 
     }, (err) => {
         Log.error("Could not join any voice channel.", err);

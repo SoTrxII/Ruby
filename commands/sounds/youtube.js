@@ -32,11 +32,16 @@ let playFromYoutube = (evt, command, cmdArg) => {
             if (error) {
                 reject(error);
             } else {
+                if(!result.items){
+                  evt.reply("Aucun résultat pour cette recherche");
+                  return;
+                }
                 let stream = Ytdl(baseUrl + result.items[0].id.videoId, {
                     filter: 'audioonly', quality: 'highest'
                 });
 
                 global.voice.dispatcher = global.voice.connection.playStream(stream, streamOptions);
+
                 evt.channel.send(baseUrl + result.items[0].id.videoId);
 
                 global.voice.dispatcher.on('end', (reason) => {
@@ -60,15 +65,12 @@ let playFromYoutube = (evt, command, cmdArg) => {
 };
 
 exports.default = {
-    yt: playFromYoutube,
-    youtube: playFromYoutube,
-    musique: playFromYoutube
+    yt: playFromYoutube
 }
 
 exports.help = {
-    'youtube': {
-      parameters: 'Truc à rechercher',
-      desc: "Cherche et joue une vidéo youtube dans le chat vocal.",
-      aliases : ['yt', 'musique']
+    'yt': {
+      parameters: 'Texte ou URL',
+      desc: "Cherche et joue une vidéo youtube dans le chat vocal."
     }
 };
