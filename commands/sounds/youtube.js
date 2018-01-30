@@ -48,7 +48,7 @@ let playFromYoutube = (evt, command, cmdArg) => {
               if (error) {
                   reject(error);
               } else {
-                  if(!result.items){
+                  if(!result.items.length){
                     evt.reply("Aucun résultat pour cette recherche");
                     return;
                   }else{

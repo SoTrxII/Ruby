@@ -3,6 +3,7 @@
 const Promise = require('bluebird');
 const Path = require('path');
 const Request = require('request');
+const tr = require('tor-request');
 
 
 //Internal Librariries
@@ -30,12 +31,14 @@ let debrid =  (evt, command, cmdArg) => {
         });
       }else{
         //If already logged in
+        console.log("Envoi de la reqûete");
         let debrid = Request({
           url : AlldebridLinks.debrid,
           jar : session,
           headers : {
             'User-Agent' : "Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_2_1 like Mac OS X; en-us) AppleWebKit/533.17.9(KHTML, like Gecko) Version/5.0.2 Mobile/8C148 Safari/6533.18.5"
           },
+          proxy : "http://37.59.47.13:3128",
           qs : {
             link : cmdArg,
             json : 'true'
@@ -43,6 +46,7 @@ let debrid =  (evt, command, cmdArg) => {
           method : 'GET'
         }, function (error, res, data) {
           if(!error && res.statusCode == 200){
+            console.log(res.body)
             let json = JSON.parse(data);
             if(!json.error){
               let urlEmbed = Utils.createEmbed({
@@ -56,6 +60,8 @@ let debrid =  (evt, command, cmdArg) => {
               });
               reject(json.error);
             }
+          }else{
+            reject("Impossible d'envoyer la requête");
           }
         })
       }
@@ -82,6 +88,12 @@ let connectToAccount = () => {
       Log.error("Failed to get Alldebrid username and/or password")
       reject("Invalid Alldebrid username and/or password");
     }
+    tr.request('https://api.ipify.org', function (err, res, body) {
+  if (!err && res.statusCode == 200) {
+    console.log("Your public (through Tor) IP is: " + body);
+    resolve("OK")
+  }
+});
 
     let connection = Request({
       url : AlldebridLinks.login,
@@ -102,6 +114,7 @@ let connectToAccount = () => {
       if(!error && res.statusCode == 200 && connection.uri.href == AlldebridLinks.infos){
         resolve("Logged");
       }else{
+        Log.error(res.body);
         reject("Could not log in");
       }
     });
