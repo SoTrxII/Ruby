@@ -3,7 +3,6 @@
 const Promise = require('bluebird');
 const Path = require('path');
 const Request = require('request');
-const tr = require('tor-request');
 
 
 //Internal Librariries
@@ -88,13 +87,6 @@ let connectToAccount = () => {
       Log.error("Failed to get Alldebrid username and/or password")
       reject("Invalid Alldebrid username and/or password");
     }
-    tr.request('https://api.ipify.org', function (err, res, body) {
-  if (!err && res.statusCode == 200) {
-    console.log("Your public (through Tor) IP is: " + body);
-    resolve("OK")
-  }
-});
-
     let connection = Request({
       url : AlldebridLinks.login,
       jar : session,
