@@ -12,7 +12,7 @@ const baseUrl = 'https://youtube.com/watch?v=';
 const specialSearchs = {
     "NyaNya's theme": "J"
 };
-let startVolume = (30 * global.Config.Audio.scaleLimit ) / (100 * 100);
+let startVolume = (70 * global.Config.Audio.scaleLimit ) / (100 * 100);
 const streamOptions = {seek: 0, volume: startVolume };
 
 //Internal Librairies
