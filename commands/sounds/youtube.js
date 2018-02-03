@@ -12,7 +12,8 @@ const baseUrl = 'https://youtube.com/watch?v=';
 const specialSearchs = {
     "NyaNya's theme": "J"
 };
-const streamOptions = {seek: 0, volume: 1};
+let startVolume = (30 * global.Config.Audio.scaleLimit ) / (100 * 100);
+const streamOptions = {seek: 0, volume: startVolume };
 
 //Internal Librairies
 const Log = require(Path.join(global.baseAppDir, 'lib', 'logger.js'));
