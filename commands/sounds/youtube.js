@@ -9,10 +9,7 @@ const Utilities = require(Path.join(global.baseAppDir, 'lib','utilities.js'));
 
 //Constants
 const baseUrl = 'https://youtube.com/watch?v=';
-const specialSearchs = {
-    "NyaNya's theme": "J"
-};
-const streamOptions = {seek: 0, volume: 1};
+const streamOptions = {seek: 0, volume: 0.1};
 
 //Internal Librairies
 const Log = require(Path.join(global.baseAppDir, 'lib', 'logger.js'));
@@ -52,7 +49,6 @@ let playFromYoutube = (evt, command, cmdArg) => {
                     evt.reply("Aucun résultat pour cette recherche");
                     return;
                   }else{
-                    console.log(result);
                     playStream(evt, result.items[0].id.videoId, result.items[0].snippet.title).then(resolve());
                   }
 
