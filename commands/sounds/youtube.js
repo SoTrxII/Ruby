@@ -76,16 +76,14 @@ function playStream(evt, videoId, title){
 
     global.voice.dispatcher.on('end', (reason) => {
       Log.debug("Fin de lecture de la vidéo Youtube : " + (title || "non nommée") );
-
       resolve(reason)
-      console.log("resolved")
+    });
 
-
+    global.voice.dispatcher.player.once('error', (error) => {
+      reject(error);
     });
 
     global.voice.dispatcher.on('error', (error) => {
-        //global.voice.dispatcher.destroy();
-        Log.error(error);
         reject(error);
     });
 
