@@ -5,7 +5,6 @@ const Discord = require('discord.js');
 
 //Configuration
 global.Config = require('./config.json');
-const ServerId = Config.Discord.serverId;
 global.baseAppDir = __dirname;
 
 
@@ -14,37 +13,25 @@ global.baseAppDir = __dirname;
 global.Rin = new Discord.Client();
 const Rin = global.Rin; //Convenient alias
 const CommandPrefix = '$';
-const recordDuration = 10;
-let guild = undefined; //Pre-declared
-global.voice = {
-    connection: undefined,
-    dispatcher: undefined,
-    recordPath : undefined,
-    isRecording : false
-}; //Pre-declared
 
 //Internal Libraries
-const Log = require("./lib/logger.js");
-const Utils = require("./lib/utilities.js");
+const Log = require("./utils/logger.js");
+const {
+    parseTextCommand
+} = require('./utils/commandHandle.js');
+const {
+    replyRandom
+} = require('./utils/replyAtRandom.js');
+const {
+    exitHandler
+} = require('./utils/exitHandler');
+
+
 Log.normal("Booting...");
 
 
 Rin.on('ready', () => {
     Log.success("Up & Ready to roll");
-    guild = Rin.guilds.get(ServerId);
-
-    //Attempt to join a voiceChannel
-    Utils.joinVoiceChannel(guild).then((channelConnection) => {
-        global.voice.connection = channelConnection;
-      //Record Utilities.
-      //  Utils.recordCurrentVoiceChannel(recordDuration)
-      //  Utils.renewRecord(recordDuration);
-
-    }, (err) => {
-        Log.error("Could not join any voice channel.", err);
-    });
-
-
 });
 
 Rin.on('message', message => {
@@ -60,10 +47,10 @@ Rin.on('message', message => {
     //Handle bot command
     if (isCommand) {
         //Commands goes here
-        Utils.parseTextCommand(message).catch(Log.error);
+        parseTextCommand(message).catch(Log.error);
 
     } else if (isMentioned) {
-        Utils.replyRandom(message);
+        replyRandom(message);
     }
 
 });
@@ -77,16 +64,16 @@ Rin.login(Config.Discord.RubyToken).then(Log.success("Successfully logged in"));
 
 
 //do something when app is closing
-process.on('exit', Utils.exitHandler.bind(null, {
+process.on('exit', exitHandler.bind(null, {
     cleanup: true
 }));
 //catches ctrl+c event
-process.on('SIGINT', Utils.exitHandler.bind(null, {
+process.on('SIGINT', exitHandler.bind(null, {
     cleanup: true
 }));
 //catches uncaught exceptions
 process.on('uncaughtException', (err) => {
-  Utils.exitHandler({
-    panic: true
-  }, err);
+    exitHandler({
+        panic: true
+    }, err);
 });

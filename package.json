@@ -1,35 +1,27 @@
 {
   "name": "Rin",
-  "version": "0.2.0",
+  "version": "3.0.0",
   "scripts": {
     "start": "node rin.js",
     "devstart": "nodemon rin.js",
     "dev": "mv config.json config_prod.json && mv config_dev.json config.json",
     "prod": "mv config.json config_dev.json && mv config_prod.json config.json"
   },
-  "description": "A normal chat bot for a normal chat ",
+  "description": "Ruby",
   "main": "rin.js",
   "repository": "https://github.com/Soulcramer/Rin.git",
   "author": "Soulcramer, SoTrx",
   "license": "MIT",
   "dependencies": {
-    "bluebird": "^3.5.0",
-    "chalk": "^2.1.0",
-    "discord.js": "^11.1.0",
-    "ffmpeg-binaries": "^3.2.2-3",
-    "fluent-ffmpeg": "^2.1.2",
+    "bluebird": "^3.5.1",
+    "chalk": "^2.4.1",
+    "debug": "^3.1.0",
+    "discord.js": "^11.3.0",
     "glob": "^7.1.2",
-    "libsodium-wrappers": "^0.5.2",
-    "math-expression-evaluator": "^1.2.17",
-    "node-opus": "^0.2.6",
-    "prism-media": "hydrabolt/prism-media",
-    "ramda": "^0.24.1",
-    "tor-request": "^1.0.6",
-    "uws": "^8.14.1",
-    "youtube-node": "^1.3.2",
-    "ytdl-core": "^0.20.1"
-  },
-  "devDependencies": {
-    "nodemon": "^1.11.0"
+    "node-opus": "^0.3.0",
+    "ramda": "^0.25.0",
+    "sodium": "^2.0.3",
+    "uws": "^10.148.1",
+    "ytdl-core": "^0.20.4"
   }
 }

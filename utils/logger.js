@@ -37,7 +37,7 @@ for (let presetName in Presets) {
  @param message informations to display
  @param preset preset to display with. @see Presets on top.
  @param descriptor wich stream to write to. (log, err, info (non standard))
- **/
+ * */
 let displayMessage = (message, preset = "Presets.normal", descriptor = "log") => {
-    console[descriptor](preset((typeof message === 'string' ) ? `${message}` : JSON.stringify(message)));
+    console[descriptor](preset((typeof message === 'string') ? `${message}` : JSON.stringify(message)));
 };
