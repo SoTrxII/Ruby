@@ -1,50 +1,9 @@
 # Ruby
-A discord.js based bot that can be controlled with text and voice.
+A discord.js based weeb-approved bot.
 
-## Summary
-
-  - [Getting started](#getting-started)
-  - [License](#license)
-
-
-## Getting started
-
-### Quick Start
-
-Multiples start options are available :
-- Clone the repository : `git clone https://github.com/SoTrxII/Transcord`
-
-Install the needed dependencies
-```Shell
-npm install
-```
-
-### Usage
-
-```Shell
-gulp concat && node dist/ruby.js
-```
-
-### Commands
-  On the default mode, only the one hosting the bot can talk to it. This can be reversed with the debian tool pavucontrol to pipe the audio out to the audio in. On a dedicated server, this mecanism prevent the bot from listening to itself if it talks (Work in progress).
-  You then have to say
-  ```Shell
-  Command, COMMAND [argument]
-  ```
- - sandwich
-    Display a sandwich image in the chat #Useful
-
- - YouTube audio, musique
-    Display a sandwich image in the chat #Useful
-
- - fin du flux
-    Display a sandwich image in the chat #Useful
-
- - volume, son
-    Display a sandwich image in the chat #Useful
+![Ruby](https://i.pinimg.com/736x/95/6a/72/956a72e128f787f1c7af24b33b485e81--rwby-rose-rwby-fanart.jpg)
 
 
 ##License
 [MIT](http://opensource.org/licenses/MIT)
 
-[⬆ back to top](#summary)

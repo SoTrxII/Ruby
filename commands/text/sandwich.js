@@ -5,7 +5,7 @@ const Promise = require('bluebird');
  @param cmdArg Les arguments de la commande $search
  **/
 let sandwich = (evt, command, cmdArg) => {
-    return Promise.revolve(evt.reply('http://www.brasil-infos.com/medias/images/sandwich.jpg'));
+    return Promise.revolve(evt.reply('http://www.club-sandwich.net/images/photorecettes/parisien.jpg'));
 };
 
 exports.default = {
@@ -13,5 +13,7 @@ exports.default = {
 };
 
 exports.help = {
-    'sandwich': {desc: "Affiche un très beau sandwich"}
+    'sandwich': {
+        desc: "Affiche un très beau sandwich"
+    }
 };
