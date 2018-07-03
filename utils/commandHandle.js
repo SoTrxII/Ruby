@@ -7,6 +7,7 @@ const {
     commands,
     help
 } = require(path.join(global.baseAppDir, 'commands'));
+console.log(help)
 
 /**
  Execute commands.
@@ -18,17 +19,23 @@ exports.parseTextCommand = (message) => {
                     let command = message.content.substring(1).split(' ')[0].toLowerCase();
                     let parameters = message.content.substring(command.length + 2);
 
-                    //Redirect to special command help
-                    if (command === 'help' || command == 'halp') {
-                        let returnString = '';
-                        for (let command of Object.keys(help).sort()) {
-                            returnString += `\n **\`$${command}\`** ${(help[command].parameters) ? '_\`' + (help[command].parameters) + '\`_' : ''}\n\t\
+        //Redirect to special command help
+        console.log(command)
+        if (command === 'help' || command == 'halp') {
+            let returnString = ' ';
+            for (let command of Object.keys(help).sort()) {
+                console.log(command)
+                /*returnString += `\n **\`$${command}\`** ${(help[command].parameters) ? '_\`' + (help[command].parameters) + '\`_' : ''}\n\t\
                 _${help[command].desc}_\
-                ${ help[command].aliases ? "\n\t__Alias__ : " + help[command].aliases.join(', ') : ''}`;
+                ${ help[command].aliases ? "\n\t__Alias__ : " + help[command].aliases.join(', ') : ''}`;*/
+
+                returnString += `\n **\`$${command}\`** ${(help[command].parameters) ? '_\`' + (help[command].parameters) + '\`_' : ''}\n\t\
+                _${help[command].desc}_\ `
+                console.log(returnString)
             }
+            console.log(returnString)
             message.channel.send(returnString);
             resolve();
-            return;
         }
 
         //Check if command exists

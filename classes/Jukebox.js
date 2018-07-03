@@ -60,6 +60,12 @@ class Jukebox extends EventEmitter {
          */
         this.volume = 60;
 
+        /**
+         * @private
+         * @member _regYoutube Regex to recognize youtube links
+         */
+        this._regYoutube = /^((https?\:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.*v=(.[^&]+))(&list=.[^&]+)?.*$/
+
 
     }
     /**
@@ -74,6 +80,7 @@ class Jukebox extends EventEmitter {
         if (!source) {
             return false;
         }
+        
         this._playQueue.push(this._createNewItem(track, source, asker))
         debug(`Ajout de musique, nouvelle longueur de file : ${this._playQueue.length}`)
         return true;
@@ -271,6 +278,7 @@ class Jukebox extends EventEmitter {
              * @event Jukebox#QueueEmpty
              */
             this.emit('QueueEmpty');
+            this.isPlaying = false;
             return false;
         }
         if (this.currentSong) {
@@ -291,9 +299,7 @@ class Jukebox extends EventEmitter {
      * @todo implements dis
      */
     _getSource(track) {
-        const regYoutube = /^(https?\:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.*v=(.[^&]+).*$/
-
-        if (regYoutube.test(track)) {
+        if (this._regYoutube.test(track)) {
             debug(`Source de l'ajout : Youtube`)
             return this._supportedSources.YOUTUBE;
         }
@@ -318,7 +324,7 @@ class Jukebox extends EventEmitter {
     _createNewItem(track, source, asker) {
         switch (source) {
             case this._supportedSources.YOUTUBE:
-                return new JukeboxYoutubeItem(track, this.voiceConnection, asker);
+                return new JukeboxYoutubeItem(track.match(this._regYoutube)[1], this.voiceConnection, asker);
                 break;
             case this._supportedSources.LOCAL:
                 return new JukeboxLocalItem(track, this.voiceConnection, asker);
