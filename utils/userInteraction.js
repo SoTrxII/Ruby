@@ -7,23 +7,23 @@
  * @param {Integer} timeout Reject automatically after a certain time (-1 for infinite)
  * @returns {Promise<String>} Resolve with the message the user sent.
  */
-function waitForMessage(authorId, validation, timeout) {
+function waitForMessage (authorId, validation, timeout) {
     return new Promise((resolve, reject) => {
-        if (timeout != -1) {
-            setTimeout(() => {
+        if(timeout != -1){
+            setTimeout( () => {
                 reject("Timeout")
             }, timeout)
         }
         let func = (message) => {
             if (message.author.id == authorId) {
                 if (validation(message.content, message)) {
-                    global.Velvet.off('message', func);
+                    global.Rin.off('message', func);
                     resolve(message);
                 }
             }
         };
-        global.Velvet.on('message', func);
-    });
+        global.Rin.on('message', func);
+     });
 }
 
 /**
@@ -36,20 +36,18 @@ function waitForMessage(authorId, validation, timeout) {
  * @param {Integer} timeout timeout for the question. (Default is 5') Null is then returned.
  * @returns {Promise<Boolean>} true for yes, false for no, null if timeout
  */
-async function yesNoQuestion(evt, authorId, question, timeout) {
+async function yesNoQuestion(evt, authorId, question, timeout){
     evt.reply(`${question} [O/n]`)
     let message = await waitForMessage(authorId, (message) => {
         const validResponses = ['O', 'o', 'n', 'N', 'Oui', 'Non', 'oui', 'non'];
-        if (validResponses.includes(message)) {
+        if(validResponses.includes(message)){
             return true;
-        } else {
+        }else {
             evt.reply("C'est oui ou non...");
             return false
-        }
+    }
 
-    }, timeout || 5 * 60 * 1000).catch(ex => {
-        return null
-    });
+    },timeout || 5*60*1000).catch(ex => {return null});
     let positiveAnswers = ['O', 'o', 'Oui', 'oui'];
     return positiveAnswers.includes(message.content)
 
@@ -59,27 +57,33 @@ async function yesNoQuestion(evt, authorId, question, timeout) {
  * @param {Discordjs/Message} evt General handle to text channel
  * @param {Object[]} itemList Choices. Each choice has to have a .toString() method
  * @param {String} question Question to ask the user
- * @param {Object} options optional parameters
+ * @param {Object} [options] optional parameters
  * @param {String} options.noItemResponse what to repy itemList is empty (nothing if undefined)
  * @param {Integer} options.timeout timeout for the question. (Default is 5') Null is then returned.
+ * @param {Boolean} [options.displayChoices=true] Whether to display the choices 
  * @returns {Promise<Object>} chosen item or null if no item, stopped or timeout
  */
-async function chooseOneItem(evt, itemList, question, options) {
+async function chooseOneItem(evt, itemList, question, options){
     if (itemList.length == 0) {
-        if (options.noItemResponse) {
+        if(options.noItemResponse){
             evt.reply(options.noItemResponse)
         }
         return null;
-    } else if (itemList.length == 1) {
+    }
+    else if (itemList.length == 1) {
         chosenItem = itemList[0];
         return chosenItem
     } else {
 
         choicestring = `${question} (staph pour annuler) \n`
-        for (let [index, campaign] of itemList.entries()) {
-            choicestring += `\t\t**${index + 1}**)\t-->\t`
-            choicestring += await campaign.toString()
+
+        if (options.displayChoices){
+            for (let [index, campaign] of itemList.entries()) {
+                choicestring += `\t\t**${index + 1}**)\t-->\t`
+                choicestring += await campaign.toString()
+            }
         }
+
         evt.channel.send(choicestring)
         let choice = await waitForMessage(evt.author.id, (message) => {
             if (message == "staph") {
@@ -96,9 +100,7 @@ async function chooseOneItem(evt, itemList, question, options) {
                 return true;
             }
 
-        }, options.timeout || 5 * 60 * 100).catch(ex => {
-            return null
-        });
+        }, options.timeout || 5 * 60 * 100).catch(ex => {return null});
 
         if (choice.content == 'staph') {
             evt.channel.send("Annulé !")
@@ -112,7 +114,7 @@ async function chooseOneItem(evt, itemList, question, options) {
 
 
 module.exports = {
-    waitForMessage: waitForMessage,
+    waitForMessage : waitForMessage,
     chooseOneItem: chooseOneItem,
     yesNoQuestion: yesNoQuestion
 }

@@ -1,6 +1,13 @@
 const JukeboxItem = require('./JukeboxItem');
 const ytdl = require('ytdl-core');
+const utils = require('util');
+const ytAPI = new(require('youtube-node'))();
+
+//SearchPm --> Search with promise
+const searchPm = utils.promisify(ytAPI.search)
 const debug = require('debug')('jukeboxYoutubeItem')
+
+ytAPI.setKey("AIzaSyDLxs-tX86li5_i42cWI0-0kTwR8jBF7V4");
 
 /**
  * @class
@@ -25,6 +32,7 @@ class JukeboxYoutubeItem extends JukeboxItem {
     }
 
     /**
+     * @override 
      * @public
      * Play the source
      */
@@ -66,6 +74,50 @@ class JukeboxYoutubeItem extends JukeboxItem {
     }
 
     /**
+     * @async
+     * @static
+     * @override
+     * @public
+     * Search for item to playback
+     * @param query Whatto search for
+     * @param {Discord/VoiceConnection} voiceConnection voicechannel to play into
+     * @param {Discord/Member} asker 
+     * @param {Integer} [MAX_RESULTS=3]
+     * @return {JukeboxItem[MAX_RESULTS]}
+     */
+    static async search(query, voiceConnection, asker, MAX_RESULTS = 3) {
+        let res = await searchPm(query, MAX_RESULTS).catch( (err) => {
+            console.error(err);
+            return null;
+        });
+
+        if(!res || !res.items || !res.items.length){
+            return null;
+        }
+
+        
+        res = res.items;
+        //Only keep videos (exclude playlist)
+        res = res.filter(item => {
+            return item.id.kind === "youtube#video"
+        });
+
+        //Return urls
+        res = res.map( item => {
+            return new JukeboxYoutubeItem(
+                `https://www.youtube.com/watch?v=${item.id.videoId}`,
+                voiceConnection,
+                asker
+            );
+        })
+
+        return res
+
+    }
+
+    /**
+     * @private
+     * @override
      * @returns Info about the playback
      */
     async _getInfo() {

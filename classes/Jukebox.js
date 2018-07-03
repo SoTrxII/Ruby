@@ -1,10 +1,11 @@
 const EventEmitter = require('events');
+const Promise = require('bluebird');
 const JukeboxItem = require('./JukeboxItem');
 const JukeboxYoutubeItem = require('./JukeboxYoutubeItem');
 const JukeboxLocalItem = require('./JukeboxLocalItem');
+const {chooseOneItem} = require('../utils/userInteraction.js');
 const debug = require('debug')('jukebox')
 
-//youTube.setKey("AIzaSyDLxs-tX86li5_i42cWI0-0kTwR8jBF7V4");
 /**
  * @class
  * @extends EventEmitter
@@ -58,7 +59,7 @@ class Jukebox extends EventEmitter {
          * @public
          * @member volume playback volume
          */
-        this.volume = 60;
+        this.volume = 40;
 
         /**
          * @private
@@ -120,6 +121,7 @@ class Jukebox extends EventEmitter {
             volume: this.volume / 100
         });
         //Loop after song
+        this.currentSong.on('end', () => this.onEnd());
         //setTimeout( () => this.currentSong.on('end', (evt) => this.onEnd(evt), 5000));
         return true;
     }
@@ -127,11 +129,12 @@ class Jukebox extends EventEmitter {
     /**
      * Event handler for @see{@link{JukeboxItem#end}}
      * @summary What to do at the end of a track
-     * @param {Event} evt on end event parameter
      */
-    onEnd(evt) {
+    async onEnd() {
         debug("END")
-        this.currentSong.off('end');
+        this.currentSong.off('end', this.onEnd);
+        this.currentSong.stop();
+        await new Promise( (res, rej) => setTimeout( res(), 5000));
         this.isPlaying = false;
         this.play();
     }
@@ -262,6 +265,97 @@ class Jukebox extends EventEmitter {
      */
     setTextChannel(textChannel) {
         this.textChannel = textChannel;
+    }
+
+    /**
+     * @public
+     * Search on the known sources for musics corresponding to the search query
+     * @param {String} query What to search for
+     * @param {Discord/Message} evt Message leadind to the search
+     */
+    async search(query, evt){
+        let returnString = "Recherche en cours...\n";
+        let displayedResults = await this.textChannel.send(returnString);
+        //Do all the search in parallel
+        let searchPromises = [];
+        searchPromises.push(JukeboxYoutubeItem.search(query, this.voiceConnection, evt.author));
+        searchPromises.push(JukeboxLocalItem.search(query, this.voiceConnection, evt.author));
+
+        //Flag : True if there is at least one result to the query
+        let hasResults = false;
+        let resultIndex = 0;
+        //Results from all sources
+        let globalResults = [];
+        Promise.reduce( searchPromises, async (returnString, results) => {
+            //Called as soon as one promise resolves
+           
+            //Check number of results
+            if (!results) {
+                return returnString;
+            }
+            hasResults = true;
+
+            globalResults = globalResults.concat(results);
+
+            //Display
+            let resultsStrings = await Promise.all(
+                results.map(result => result.toString())
+            );
+            let separator = '';
+            switch (results[0].constructor.name) {
+                case "JukeboxYoutubeItem":
+                    separator = "\n\`\`\`prolog\n YOUTUBE\n\`\`\`\n\t\t"
+                    break;
+                case "JukeboxLocalItem":
+                    separator = "\n\`\`\`yaml\n LOCAL\n\`\`\`\n\t\t"
+                    break;
+                default:
+                    separator = "--------------\n\t\t"
+            }
+            returnString += separator;
+            returnString += resultsStrings.map(resultString => {
+                return `${++resultIndex}) ${resultString}\n\t\t`
+            }).join('');
+            
+            displayedResults.edit(returnString);
+            return returnString;
+        }, returnString)
+        .then( async (returnString) => {
+            //Called when all the promises are resolved
+            returnString = returnString.replace("Recherche en cours...", "Recherche terminée !")
+            //Stop there as there is no results
+            if (!hasResults){
+                returnString += "Aucun résultats"
+                displayedResults.edit(returnString);
+                return;
+            }
+            displayedResults.edit(returnString);
+
+            //Let the user choose the music to add to the list
+            const chosenSong = await chooseOneItem(
+                evt,
+                globalResults,
+                `Quelle musique ajouter à la liste de lecture ?`,
+                {
+                    displayChoices : false,
+                    noItemResponse : "Aucun morceau à ajouter",
+                    timeout : 2*60*1000 //2mins
+                }
+            );
+            //If a choice was made, ad it to the play queue
+            if(chosenSong){
+                this._playQueue.push(chosenSong);
+                evt.channel.send("Musique ajoutée à la liste !");
+                this.displayQueue();
+            }else{{
+                evt.channel.send("Annulé!")
+            }}
+            
+        })
+
+
+
+
     }
 
     /**
