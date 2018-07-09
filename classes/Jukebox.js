@@ -2,6 +2,7 @@ const EventEmitter = require('events');
 const Promise = require('bluebird');
 const JukeboxItem = require('./JukeboxItem');
 const JukeboxYoutubeItem = require('./JukeboxYoutubeItem');
+const JukeboxFanburstItem = require('./JukeboxFanburstItem');
 const JukeboxLocalItem = require('./JukeboxLocalItem');
 const {chooseOneItem} = require('../utils/userInteraction.js');
 const debug = require('debug')('jukebox')
@@ -67,6 +68,11 @@ class Jukebox extends EventEmitter {
          */
         this._regYoutube = /^((https?\:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.*v=(.[^&]+))(&list=.[^&]+)?.*$/
 
+        /**
+         * @private
+         * @member _regFanburst Regex to recognize fanburst links
+         */
+        this._regFanburst = /^https:\/\/api\.fanburst\.com\/tracks\/.+\/stream$/;
 
     }
     /**
@@ -280,6 +286,7 @@ class Jukebox extends EventEmitter {
         let searchPromises = [];
         searchPromises.push(JukeboxYoutubeItem.search(query, this.voiceConnection, evt.author));
         searchPromises.push(JukeboxLocalItem.search(query, this.voiceConnection, evt.author));
+        searchPromises.push(JukeboxFanburstItem.search(query, this.voiceConnection, evt.author));
 
         //Flag : True if there is at least one result to the query
         let hasResults = false;
@@ -308,6 +315,9 @@ class Jukebox extends EventEmitter {
                     break;
                 case "JukeboxLocalItem":
                     separator = "\n\`\`\`yaml\n LOCAL\n\`\`\`\n\t\t"
+                    break;
+                case "JukeboxFanburstItem":
+                    separator = "\n\`\`\`fix\n FANBURST\n\`\`\`\n\t\t"
                     break;
                 default:
                     separator = "--------------\n\t\t"
@@ -397,6 +407,10 @@ class Jukebox extends EventEmitter {
             debug(`Source de l'ajout : Youtube`)
             return this._supportedSources.YOUTUBE;
         }
+        else if (this._regFanburst.test(track)) {
+            debug(`Source de l'ajout : Fanburst`)
+            return this._supportedSources.FANBURST;
+        }
 
         if (JukeboxLocalItem.getLocalSongList().includes(track)) {
             debug(`Source de l'ajout : Local`)
@@ -426,7 +440,10 @@ class Jukebox extends EventEmitter {
             case this._supportedSources.SPOTIFY:
                 break;
             case this._supportedSources.FANBURST:
+                return new JukeboxFanburstItem(track, this.voiceConnection, asker);
                 break;
+            default :
+                throw new Error("Unrecognized source");
         }
     }
 }

@@ -122,10 +122,12 @@ class JukeboxItem extends EventEmitter {
      * @public
      * Search for item to playback
      * @param query Whatto search for
+     * @param {Discord/VoiceConnection} voiceConnection voicechannel to play into
+     * @param {Discord/Member} asker 
      * @param {Integer} [MAX_RESULTS=3]
      * @return {JukeboxItem[MAX_RESULTS]}
      */
-    static async search(query, MAX_RESULTS = 3) {
+    static async search(query, voiceConnection, asker, MAX_RESULTS = 3) {
         throw new Error("This method has to be implemented");
     }
 
