@@ -7,7 +7,7 @@ const ytAPI = new(require('youtube-node'))();
 const searchPm = utils.promisify(ytAPI.search)
 const debug = require('debug')('jukeboxYoutubeItem')
 
-ytAPI.setKey("AIzaSyDLxs-tX86li5_i42cWI0-0kTwR8jBF7V4");
+ytAPI.setKey(global.Config.API.Google.youtubeParser);
 
 /**
  * @class

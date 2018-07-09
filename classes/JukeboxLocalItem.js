@@ -56,7 +56,7 @@ class JukeboxLocalItem extends JukeboxItem {
      * @param {Discord/VoiceConnection} voiceConnection voicechannel to play into
      * @param {Discord/Member} asker 
      * @param {Integer} [MAX_RESULTS=3]
-     * @return {String[]} Found items
+     * @return {JukeboxItem[]} Found items
      */
     static async search(query, voiceConnection, asker, MAX_RESULTS = 3) {
         /**
