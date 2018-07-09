@@ -10,6 +10,7 @@ const {
     basename,
     extname
 } = require('path');
+const fuzzySet = require("fuzzyset.js")
 const debug = require('debug')('jukeboxLocalItem')
 
 /**
@@ -44,6 +45,37 @@ class JukeboxLocalItem extends JukeboxItem {
     static _getLocalStoragePath() {
         return resolve(__dirname, '../sounds/');
     }
+
+    /**
+     * @async
+     * @static
+     * @override
+     * @public
+     * Search for item to playback
+     * @param {String} query What to search for
+     * @param {Discord/VoiceConnection} voiceConnection voicechannel to play into
+     * @param {Discord/Member} asker 
+     * @param {Integer} [MAX_RESULTS=3]
+     * @return {JukeboxItem[]} Found items
+     */
+    static async search(query, voiceConnection, asker, MAX_RESULTS = 3) {
+        /**
+         * Use a fuzzy set to match the query 
+        * @see{@link https://en.wikipedia.org/wiki/Approximate_string_matching}
+        * */
+        const songList = fuzzySet(JukeboxLocalItem.getLocalSongList());
+        let results = songList.get(query);
+        if(!results || !results.length){
+            return null;
+        }
+        if (results.length > MAX_RESULTS){
+            results = results.slice(0, MAX_RESULTS);
+        }
+        return results.map( result => {
+            return new JukeboxLocalItem(result[1], voiceConnection, asker);
+        })
+    }
+
 
     /**
      * @static

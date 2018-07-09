@@ -164,6 +164,20 @@ const setVolume = async (evt, command, cmdArg) => {
   }
 }
 
+/**
+ * @async
+ * @public
+ * Search for a music to play back
+ * @param {Discord/Message} evt Change the volume of the playback
+ * @param {String} command Discord command string (ex : play, add, list)
+ * @param {Integer} cmdArg New volume
+ */
+const search = async (evt, command, cmdArg) => {
+  await _updateJukebox(evt);
+
+  await global.jukebox.search(cmdArg, evt);
+}
+
 
 /**
  * @async
@@ -211,6 +225,9 @@ exports.default = {
   volume: setVolume,
   skip: skip,
   passer: skip,
+  search :search,
+  s :search,
+  q : search,
   son: setVolume,
   stop: stop
 
@@ -250,6 +267,11 @@ exports.help = {
     parameters: "Entier entre 0 et 100",
     desc: "Change le volume de la lecture",
     aliases: "volume"
+  },
+  'search': {
+    parameters: "Quoi chercher",
+    desc: "Cherche sur les sources supportées une musique",
+    aliases: ["s", "q" ]
   },
   'stop': {
     parameters: "",

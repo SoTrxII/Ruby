@@ -115,6 +115,20 @@ class JukeboxItem extends EventEmitter {
         return false;
     }
 
+    /**
+     * @static
+     * @async
+     * @abstract
+     * @public
+     * Search for item to playback
+     * @param query Whatto search for
+     * @param {Integer} [MAX_RESULTS=3]
+     * @return {JukeboxItem[MAX_RESULTS]}
+     */
+    static async search(query, MAX_RESULTS = 3) {
+        throw new Error("This method has to be implemented");
+    }
+
 
     /**
      * @public
