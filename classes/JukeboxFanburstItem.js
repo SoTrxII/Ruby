@@ -1,5 +1,6 @@
 const JukeboxItem = require('./JukeboxItem');
 const request = require("request-promise");
+const {createReadStream} = require("fs");
 const debug = require('debug')('jukeboxFanburstItem')
 
 
@@ -129,7 +130,7 @@ class JukeboxFanburstItem extends JukeboxItem {
         debug(results)
         //Trim results
         if(results.length > MAX_RESULTS){
-            results.slice(0, MAX_RESULTS);
+            results = results.slice(0, MAX_RESULTS);
         }
 
         results = results.map( result => {

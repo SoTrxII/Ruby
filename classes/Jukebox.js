@@ -4,8 +4,9 @@ const JukeboxItem = require('./JukeboxItem');
 const JukeboxYoutubeItem = require('./JukeboxYoutubeItem');
 const JukeboxFanburstItem = require('./JukeboxFanburstItem');
 const JukeboxLocalItem = require('./JukeboxLocalItem');
+const JukeboxOpeningmoeItem = require('./JukeboxOpeningmoeItem');
 const {chooseOneItem} = require('../utils/userInteraction.js');
-const debug = require('debug')('jukebox')
+const debug = require('debug')('jukebox');
 
 /**
  * @class
@@ -41,11 +42,10 @@ class Jukebox extends EventEmitter {
         /**
          * @private
          * @member {Object} _supportedSources Enum of valid sources to play
-         * @todo Implements spotify and fanburst
          */
         this._supportedSources = Object.freeze({
             YOUTUBE: Symbol("youtube"),
-            SPOTIFY: Symbol("spotify"),
+            OPENINGMOE: Symbol("opening.moe"),
             FANBURST: Symbol("fanburst"),
             LOCAL: Symbol("local")
         });
@@ -73,6 +73,12 @@ class Jukebox extends EventEmitter {
          * @member _regFanburst Regex to recognize fanburst links
          */
         this._regFanburst = /^https:\/\/api\.fanburst\.com\/tracks\/.+\/stream$/;
+
+        /**
+         * @private
+         * @member _regOpeningmoe Regex to recognize opening.moe links
+         */
+        this._regOpeningmoe = /^https:\/\/openings\.moe\/\?video=.*$/;
 
     }
     /**
@@ -124,7 +130,8 @@ class Jukebox extends EventEmitter {
 
 
         this.currentSong.play({
-            volume: this.volume / 100
+            volume: this.volume / 100,
+            passes : 2
         });
         //Loop after song
         this.currentSong.on('end', () => this.onEnd());
@@ -285,8 +292,9 @@ class Jukebox extends EventEmitter {
         //Do all the search in parallel
         let searchPromises = [];
         searchPromises.push(JukeboxYoutubeItem.search(query, this.voiceConnection, evt.author));
+        searchPromises.push(JukeboxOpeningmoeItem.search(query, this.voiceConnection, evt.author));
         searchPromises.push(JukeboxLocalItem.search(query, this.voiceConnection, evt.author));
-        searchPromises.push(JukeboxFanburstItem.search(query, this.voiceConnection, evt.author));
+        searchPromises.push(JukeboxFanburstItem.search(query, this.voiceConnection, evt.author, 6));
 
         //Flag : True if there is at least one result to the query
         let hasResults = false;
@@ -318,6 +326,9 @@ class Jukebox extends EventEmitter {
                     break;
                 case "JukeboxFanburstItem":
                     separator = "\n\`\`\`fix\n FANBURST\n\`\`\`\n\t\t"
+                    break;
+                case "JukeboxOpeningmoeItem":
+                    separator = "\n\`\`\`css\n OPENING MOE\n\`\`\`\n\t\t"
                     break;
                 default:
                     separator = "--------------\n\t\t"
@@ -411,6 +422,10 @@ class Jukebox extends EventEmitter {
             debug(`Source de l'ajout : Fanburst`)
             return this._supportedSources.FANBURST;
         }
+        else if (this._regOpeningmoe.test(track)) {
+            debug(`Source de l'ajout : Opening.moe`)
+            return this._supportedSources.OPENINGMOE;
+        }
 
         if (JukeboxLocalItem.getLocalSongList().includes(track)) {
             debug(`Source de l'ajout : Local`)
@@ -437,7 +452,8 @@ class Jukebox extends EventEmitter {
             case this._supportedSources.LOCAL:
                 return new JukeboxLocalItem(track, this.voiceConnection, asker);
                 break;
-            case this._supportedSources.SPOTIFY:
+            case this._supportedSources.OPENINGMOE:
+                return new JukeboxOpeningmoeItem(track, this.voiceConnection, asker)
                 break;
             case this._supportedSources.FANBURST:
                 return new JukeboxFanburstItem(track, this.voiceConnection, asker);

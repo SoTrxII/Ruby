@@ -45,3 +45,6 @@ config_prod.json
 /sftp-config.json
 /deployment-config.json
 .idea/
+
+#Project specific
+animeList.json
