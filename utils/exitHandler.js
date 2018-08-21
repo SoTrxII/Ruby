@@ -2,10 +2,9 @@
 {
     let isExiting = false;
     /**
-     * Handler to clean up remaining processes before exiting
-     * @param  {[Object]} options variables to handle special case while switching off
-     * @param  {[Exception]} err Exception that caused Rin's death
-     * @return {[void]}
+     * @summary Handler to clean up remaining processes before exiting
+     * @param  {Object[]} options variables to handle special case while switching off
+     * @param  {Exception[]} err Exception that caused Rin's death
      */
     exports.exitHandler = (options, err) => {
         if (isExiting) {

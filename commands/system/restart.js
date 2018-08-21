@@ -8,6 +8,7 @@ const {
  * @desc This is a quick fix to dispatcher ending problem
  */
 const restart = async () => {
+    global.Rin.destroy();
     kill(pid);
 }
 

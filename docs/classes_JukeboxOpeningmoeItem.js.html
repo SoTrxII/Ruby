@@ -1,4 +1,32 @@
-const JukeboxItem = require('./JukeboxItem');
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: classes/JukeboxOpeningmoeItem.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: classes/JukeboxOpeningmoeItem.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const JukeboxItem = require('./JukeboxItem');
 const request = require("request-promise");
 const debug = require('debug')('JukeboxOpeningmoeItem')
 const { join } = require("path");
@@ -17,7 +45,7 @@ class JukeboxOpeningmoeItem extends JukeboxItem {
         let resolve, reject;
         /**
          * @public
-         * @member {Promise<Object>} infos Infos about the video
+         * @member {Promise&lt;Object>} infos Infos about the video
          * @desc Uses a deferred promise that resolve when the informations are fetched 
          */
         this.infos = new Promise(function () {
@@ -86,7 +114,7 @@ class JukeboxOpeningmoeItem extends JukeboxItem {
      * @static
      * @async
      * @summary get the opening list, updating it if needed
-     * @returns {FuzzySet<String>} anime list
+     * @returns {FuzzySet&lt;String>} anime list
      */
     static get openingList(){
         if (!JukeboxOpeningmoeItem._openingList ||
@@ -259,7 +287,7 @@ class JukeboxOpeningmoeItem extends JukeboxItem {
 
 }
 /**
- * @member {FuzzySet<String>} openingList List of anime opening to search on
+ * @member {FuzzySet&lt;String>} openingList List of anime opening to search on
  * @static
  * @private
  * 
@@ -279,4 +307,26 @@ JukeboxOpeningmoeItem.openingListUpdateDate = Date.now();
  */
 JukeboxOpeningmoeItem.expiration = 1 * 24 * 3600 * 1000; //1 day
 
-module.exports = JukeboxOpeningmoeItem;
+module.exports = JukeboxOpeningmoeItem;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-parseTextCommand.html">parseTextCommand</a></li></ul><h3>Classes</h3><ul><li><a href="Jukebox.html">Jukebox</a></li><li><a href="JukeboxFanburstItem.html">JukeboxFanburstItem</a></li><li><a href="JukeboxItem.html">JukeboxItem</a></li><li><a href="JukeboxLocalItem.html">JukeboxLocalItem</a></li><li><a href="JukeboxOpeningmoeItem.html">JukeboxOpeningmoeItem</a></li><li><a href="JukeboxYoutubeItem.html">JukeboxYoutubeItem</a></li></ul><h3>Events</h3><ul><li><a href="Jukebox.html#event:QueueEmpty">QueueEmpty</a></li><li><a href="JukeboxFanburstItem.html#event:end">end</a></li><li><a href="JukeboxItem.html#event:end">end</a></li><li><a href="JukeboxLocalItem.html#event:end">end</a></li><li><a href="JukeboxOpeningmoeItem.html#event:end">end</a></li><li><a href="JukeboxYoutubeItem.html#event:end">end</a></li></ul><h3>Global</h3><ul><li><a href="global.html#_supportedSources">_supportedSources</a></li><li><a href="global.html#addToQueue">addToQueue</a></li><li><a href="global.html#asker">asker</a></li><li><a href="global.html#blindTest">blindTest</a></li><li><a href="global.html#chooseOneItem">chooseOneItem</a></li><li><a href="global.html#displayMessage">displayMessage</a></li><li><a href="global.html#exitHandler">exitHandler</a></li><li><a href="global.html">expiration</a></li><li><a href="global.html#getMember">getMember</a></li><li><a href="global.html#hasBegun">hasBegun</a></li><li><a href="global.html#infos">infos</a></li><li><a href="global.html#isBlindTest">isBlindTest</a></li><li><a href="global.html#isPaused">isPaused</a></li><li><a href="global.html#isPlaying">isPlaying</a></li><li><a href="global.html#list">list</a></li><li><a href="global.html">openingListUpdateDate</a></li><li><a href="global.html#pause">pause</a></li><li><a href="global.html#play">play</a></li><li><a href="global.html#replyRandom">replyRandom</a></li><li><a href="global.html#restart">restart</a></li><li><a href="global.html#resume">resume</a></li><li><a href="global.html#sandwich">sandwich</a></li><li><a href="global.html#save">save</a></li><li><a href="global.html#saveConfig">saveConfig</a></li><li><a href="global.html#saveDatabaseConfig">saveDatabaseConfig</a></li><li><a href="global.html#search">search</a></li><li><a href="global.html#setVolume">setVolume</a></li><li><a href="global.html#skip">skip</a></li><li><a href="global.html#stop">stop</a></li><li><a href="global.html#textChannel">textChannel</a></li><li><a href="global.html#track">track</a></li><li><a href="global.html#voiceConnection">voiceConnection</a></li><li><a href="global.html#volume">volume</a></li><li><a href="global.html#waitForMessage">waitForMessage</a></li><li><a href="global.html#yesNoQuestion">yesNoQuestion</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Jul 15 2018 14:20:18 GMT+0200 (GMT+02:00)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

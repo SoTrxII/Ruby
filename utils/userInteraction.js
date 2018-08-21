@@ -1,7 +1,8 @@
 /**
  * @async
  * @public
- * Wait for a user to post a valid message 
+ * @summary Wait
+ for a user to post a valid message
  * @param {String} authorId who are we waiting for ?
  * @param {Function} validation is the given message valid ? Returns True or False
  * @param {Integer} timeout Reject automatically after a certain time (-1 for infinite)
@@ -29,7 +30,7 @@ function waitForMessage (authorId, validation, timeout) {
 /**
  * @async
  * @public
- * Ask a user a yes/no question
+ * @summary Ask a user a yes / no question
  * @param {Discordjs/Message} evt General handle to text channel
  * @param {Discordjs/User_id} authorId Id of the one user that has to answer 
  * @param {String} question question to ask
@@ -53,7 +54,7 @@ async function yesNoQuestion(evt, authorId, question, timeout){
 
 }
 /**
- * Make the user choose between the choices in itemList
+ * @summary Make the user choose between the choices in itemList
  * @param {Discordjs/Message} evt General handle to text channel
  * @param {Object[]} itemList Choices. Each choice has to have a .toString() method
  * @param {String} question Question to ask the user

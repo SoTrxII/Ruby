@@ -3,6 +3,7 @@
   "version": "3.0.0",
   "scripts": {
     "start": "node rin.js",
+    "doc": "jsdoc -d docs -r -c jsdocconf.json .",
     "devstart": "nodemon rin.js",
     "dev": "mv config.json config_prod.json && mv config_dev.json config.json",
     "prod": "mv config.json config_dev.json && mv config_prod.json config.json"
@@ -15,7 +16,6 @@
   "dependencies": {
     "bluebird": "^3.5.1",
     "chalk": "^2.4.1",
-    "dailymotion-sdk": "^0.1.13",
     "debug": "^3.1.0",
     "discord.js": "^11.3.0",
     "fuzzyset.js": "^0.0.5",

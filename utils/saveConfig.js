@@ -4,7 +4,7 @@ const writeFile = Promise.promisify(require("fs").writeFile);
 /**
  * @public
  * @async
- * Save the changes made to config.json
+ * @summary Save the changes made to config.json
  * @returns {Promise<void>} Resolve when done
  */
 exports.saveConfig = () => {
@@ -17,7 +17,7 @@ exports.saveConfig = () => {
 /**
  * @public
  * @async
- * Overwrite databaseConfig with the given Object 
+ * @summary Overwrite databaseConfig with the given Object
  * @param {Object} databaseConfig 
  * @returns {Promise<void>} Resolve when done
  */
@@ -31,7 +31,8 @@ exports.saveDatabaseConfig = (databaseConfig) => {
 /**
  * @public
  * @async
- * Generic save to disk function
+ * @summary Generic save to disk
+ function
  * @param {String} path Where to save
  * @param {Object} object What to save
  * @returns {Promise<void>} Resolve when done

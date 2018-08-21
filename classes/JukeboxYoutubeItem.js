@@ -34,7 +34,7 @@ class JukeboxYoutubeItem extends JukeboxItem {
     /**
      * @override 
      * @public
-     * Play the source
+     * @summary Play the source
      */
     play(options) {
         super.play();
@@ -56,7 +56,7 @@ class JukeboxYoutubeItem extends JukeboxItem {
 
     /**
      * @async
-     * Retrieve the video infos from Youtube and reduce it to what we need.
+     * @summary Retrieve the video infos from Youtube and reduce it to what we need.
      * @param {function} resolve Resolve deferred @see{@link infos} promise
      * @param {function} reject Resolve deferred @see{@link infos} promise
      */
@@ -78,12 +78,12 @@ class JukeboxYoutubeItem extends JukeboxItem {
      * @static
      * @override
      * @public
-     * Search for item to playback
+     * @summary Search for item to playback
      * @param query Whatto search for
      * @param {Discord/VoiceConnection} voiceConnection voicechannel to play into
      * @param {Discord/Member} asker 
      * @param {Integer} [MAX_RESULTS=3]
-     * @return {JukeboxItem[MAX_RESULTS]}
+     * @return {JukeboxItem[]}
      */
     static async search(query, voiceConnection, asker, MAX_RESULTS = 3) {
         let res = await searchPm(query, MAX_RESULTS).catch( (err) => {
