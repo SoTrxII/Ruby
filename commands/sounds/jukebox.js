@@ -75,6 +75,12 @@ const stop = async (evt, command, cmdArg) => {
     return;
   }
 
+  if(global.voiceConnection){
+    evt.channel.send("K thx bye");
+    global.voiceConnection.disconnect();
+  }
+  
+
 
 }
 
@@ -230,6 +236,10 @@ const _updateJukebox = async (evt) => {
 
   if (!global.jukebox) {
     global.jukebox = new Jukebox(global.voiceConnection, evt.channel);
+    global.jukebox.on("QueueEmpty", () => {
+      evt.channel.send("Liste de lecture vide! Mon travail ici est terminé !");
+      global.voiceConnection.disconnect();
+    })
   }
 
   if (global.jukebox.textChannel.id != evt.channel.id) {

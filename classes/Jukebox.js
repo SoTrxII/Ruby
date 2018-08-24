@@ -128,6 +128,7 @@ class Jukebox extends EventEmitter {
      * @param {Boolean} [displaySong=true] Send details about the song in the text channel before playing
      * @param {Integer} [stopAfter=-1] If positive stops the song after a ceratin time (seconds)
      * @returns false if could not play
+     * @fires Jukebox#QueueEmpty
      * @listens JukeboxItem#end for relooping
      */
     play(displaySong=true, stopAfter=-1) {
@@ -137,6 +138,11 @@ class Jukebox extends EventEmitter {
         }
 
         if (!this._nextSong()) {
+            /**
+             * Emitted when there are no more songs to play.
+             * @event Jukebox#QueueEmpty
+             */
+            this.emit("QueueEmpty");
             return false;
         }
 
@@ -503,17 +509,12 @@ class Jukebox extends EventEmitter {
     /**
      * @private
      * @summary Take the next song in queue
-     * @fires Jukebox#QueueEmpty
      * @returns False if could not get next song
      */
     _nextSong() {
         debug(`Longueur de la file : ${this._playQueue.length}`);
         if (!this._playQueue.length) {
-            /**
-             * Emitted when there are no more songs to play.
-             * @event Jukebox#QueueEmpty
-             */
-            this.emit('QueueEmpty');
+
             this.isPlaying = false;
             return false;
         }
