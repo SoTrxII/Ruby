@@ -78,6 +78,7 @@ const stop = async (evt, command, cmdArg) => {
   if(global.voiceConnection){
     evt.channel.send("K thx bye");
     global.voiceConnection.disconnect();
+    global.voiceConnection = null;
   }
   
 
@@ -232,6 +233,8 @@ const _updateJukebox = async (evt) => {
   //Join user voicechannel
   if (!global.voiceConnection || global.voiceConnection.id != voiceChannel.id) {
     global.voiceConnection = await voiceChannel.join()
+    if(global.jukebox)
+      global.jukebox.voiceConnection = global.voiceConnection;
   }
 
   if (!global.jukebox) {
@@ -239,6 +242,8 @@ const _updateJukebox = async (evt) => {
     global.jukebox.on("QueueEmpty", () => {
       evt.channel.send("Liste de lecture vide! Mon travail ici est terminé !");
       global.voiceConnection.disconnect();
+      //Not really required actually, but helps GC cleaning the mess up
+      global.voiceConnection = null;
     })
   }
 

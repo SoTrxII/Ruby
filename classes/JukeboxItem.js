@@ -60,6 +60,10 @@ class JukeboxItem extends EventEmitter {
          */
         this._dispatcher = null;
     }
+
+    set voiceConnection(vc){
+        this._voiceConnection = vc;
+    }
     /**
      * @public
      * @abstract

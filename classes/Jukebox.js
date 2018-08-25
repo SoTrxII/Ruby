@@ -22,10 +22,10 @@ class Jukebox extends EventEmitter {
         }
 
         /**
-         * @public
+         * @private
          * @member {Discord/voiceConnection} voiceConnection Discord connection to a voice channel
          */
-        this.voiceConnection = voiceConnection;
+        this._voiceConnection = voiceConnection;
 
         /**
          * @public
@@ -97,6 +97,20 @@ class Jukebox extends EventEmitter {
          */
         this._regOpeningmoe = /^https:\/\/openings\.moe\/\?video=.*$/;
 
+    }
+
+    /**
+     * @summary Change the vocie connection to stream into
+     * @param {Discord/VoiceConnection} vc new voice connections
+     */
+    set voiceConnection(vc){
+        this._voiceConnection = vc;
+
+        //Also update every item in the playlist
+        //as they were constructed with the old voice connection 
+        this._playQueue.forEach(item => {
+            item.voiceConnection = vc;
+        });
     }
     /**
      * @public
@@ -199,7 +213,7 @@ class Jukebox extends EventEmitter {
         debug("END")
         this.currentSong.off('end', this.onEnd);
         //this.currentSong.stop();
-        await new Promise( (res, rej) => setTimeout( res(), 5000));
+        //await new Promise( (res, rej) => setTimeout( res(), 5000));
         this.isPlaying = false;
         this.play(displaySong, stopAfter);
     }
@@ -362,8 +376,8 @@ class Jukebox extends EventEmitter {
                 case this.blindTestCategories.ANIME:
                     debug("Category : ANIME")
                     return JukeboxOpeningmoeItem.getRandom(categories[chosenCategory],
-                         this.voiceConnection,
-                         this.voiceConnection.client.user);
+                         this._voiceConnection,
+                         this._voiceConnection.client.user);
                     break;
                 case this.blindTestCategories.TRENDING:
                     debug("Category : TRENDING");
@@ -418,10 +432,10 @@ class Jukebox extends EventEmitter {
         let displayedResults = await this.textChannel.send(returnString);
         //Do all the search in parallel
         let searchPromises = [];
-        searchPromises.push(JukeboxYoutubeItem.search(query, this.voiceConnection, evt.author));
-        searchPromises.push(JukeboxOpeningmoeItem.search(query, this.voiceConnection, evt.author));
-        searchPromises.push(JukeboxLocalItem.search(query, this.voiceConnection, evt.author));
-        searchPromises.push(JukeboxFanburstItem.search(query, this.voiceConnection, evt.author, 6));
+        searchPromises.push(JukeboxYoutubeItem.search(query, this._voiceConnection, evt.author));
+        searchPromises.push(JukeboxOpeningmoeItem.search(query, this._voiceConnection, evt.author));
+        searchPromises.push(JukeboxLocalItem.search(query, this._voiceConnection, evt.author));
+        searchPromises.push(JukeboxFanburstItem.search(query, this._voiceConnection, evt.author, 6));
 
         //Flag : True if there is at least one result to the query
         let hasResults = false;
@@ -569,16 +583,16 @@ class Jukebox extends EventEmitter {
     _createNewItem(track, source, asker) {
         switch (source) {
             case this._supportedSources.YOUTUBE:
-                return new JukeboxYoutubeItem(track.match(this._regYoutube)[1], this.voiceConnection, asker);
+                return new JukeboxYoutubeItem(track.match(this._regYoutube)[1], this._voiceConnection, asker);
                 break;
             case this._supportedSources.LOCAL:
-                return new JukeboxLocalItem(track, this.voiceConnection, asker);
+                return new JukeboxLocalItem(track, this._voiceConnection, asker);
                 break;
             case this._supportedSources.OPENINGMOE:
-                return new JukeboxOpeningmoeItem(track, this.voiceConnection, asker)
+                return new JukeboxOpeningmoeItem(track, this._voiceConnection, asker)
                 break;
             case this._supportedSources.FANBURST:
-                return new JukeboxFanburstItem(track, this.voiceConnection, asker);
+                return new JukeboxFanburstItem(track, this._voiceConnection, asker);
                 break;
             default :
                 throw new Error("Unrecognized source");
