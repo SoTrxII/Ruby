@@ -37,6 +37,7 @@ class JukeboxYoutubeItem extends JukeboxItem {
      * @summary Play the source
      */
     play(options) {
+        console.log(this.track)
         super.play();
         this._dispatcher = this._voiceConnection.playStream(
             ytdl(this.track, {

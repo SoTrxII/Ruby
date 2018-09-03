@@ -83,7 +83,7 @@ class Jukebox extends EventEmitter {
          * @private
          * @member _regYoutube Regex to recognize youtube links
          */
-        this._regYoutube = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
+        this._regYoutube = /^(.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*)/;
 
         /**
          * @private
@@ -583,7 +583,7 @@ class Jukebox extends EventEmitter {
     _createNewItem(track, source, asker) {
         switch (source) {
             case this._supportedSources.YOUTUBE:
-                return new JukeboxYoutubeItem(track.match(this._regYoutube)[7], this._voiceConnection, asker);
+                return new JukeboxYoutubeItem(track.match(this._regYoutube)[1], this._voiceConnection, asker);
                 break;
             case this._supportedSources.LOCAL:
                 return new JukeboxLocalItem(track, this._voiceConnection, asker);
