@@ -62,7 +62,7 @@ class JukeboxYoutubeItem extends JukeboxItem {
      * @param {function} reject Resolve deferred @see{@link infos} promise
      */
     async _retrieveInfo(resolve, reject) {
-        const data = await ytdl.getInfo(this.track).catch(reject);
+         const data = await ytdl.getInfo(this.track).catch(reject);
 
         resolve({
             title: data.title,
