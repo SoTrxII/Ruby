@@ -175,7 +175,7 @@ class Jukebox extends EventEmitter {
             })
             const user = this._voiceConnection.client.user;
             this.currentSong.toString().then( async (str) => {
-                user.setActivity(songName, {
+                user.setActivity(str, {
                     type: 'STREAMING'
                 });
             });
