@@ -173,6 +173,10 @@ class Jukebox extends EventEmitter {
                     embed
                 });
             })
+            const songName = await this.currentSong.toString();
+            this.voiceConnection.client.user.setActivity(songName, {
+                type: 'STREAMING'
+            });
         }
 
         this.currentSong.play({

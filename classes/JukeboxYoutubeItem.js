@@ -41,7 +41,8 @@ class JukeboxYoutubeItem extends JukeboxItem {
         super.play();
         this._dispatcher = this._voiceConnection.playStream(
             ytdl(this.track, {
-                highWaterMark: 1024 * 1024 * 10 //Give the song a 10Mb buffer size (default : 16kb)
+                quality: 'highest',
+                highWaterMark: 1024 * 1024 * 50 //Give the song a 50Mb buffer size (default : 16kb)
             }),
             options
         )
