@@ -77,7 +77,7 @@ class Jukebox extends EventEmitter {
          * @public
          * @member volume playback volume
          */
-        this.volume = 40;
+        this.volume = 10;
 
         /**
          * @private
@@ -173,8 +173,9 @@ class Jukebox extends EventEmitter {
                     embed
                 });
             })
+            const user = this._voiceConnection.client.user;
             this.currentSong.toString().then( async (str) => {
-                this._voiceConnection.client.user.setActivity(songName, {
+                user.setActivity(songName, {
                     type: 'STREAMING'
                 });
             });
