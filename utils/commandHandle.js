@@ -16,8 +16,13 @@ console.log(help)
  **/
 exports.parseTextCommand = (message) => {
         return new Promise((resolve, reject) => {
-                    let command = message.content.substring(1).split(' ')[0].toLowerCase();
-                    let parameters = message.content.substring(command.length + 2);
+        //Accept command with or without spacing. Ex $v rc
+        let prefixLenght = message.content.split(' ')[0].toLowerCase().endsWith(global.CommandPrefix) ?
+            global.CommandPrefix.length + 1 :
+            global.CommandPrefix.length;
+
+        let command = message.content.substring(prefixLenght).split(' ')[0].toLowerCase();
+        let parameters = message.content.substring(command.length + prefixLenght);
 
         //Redirect to special command help
         console.log(command)

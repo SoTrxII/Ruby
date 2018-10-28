@@ -12,7 +12,7 @@ global.baseAppDir = __dirname;
 //Constants
 global.Rin = new Discord.Client();
 const Rin = global.Rin; //Convenient alias
-const CommandPrefix = '$';
+const CommandPrefix = '$r';
 
 //Internal Libraries
 const Log = require("./utils/logger.js");
