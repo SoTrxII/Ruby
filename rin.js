@@ -12,7 +12,7 @@ global.baseAppDir = __dirname;
 //Constants
 global.Rin = new Discord.Client();
 const Rin = global.Rin; //Convenient alias
-const CommandPrefix = '$r';
+const CommandPrefix = '$';
 
 //Internal Libraries
 const Log = require("./utils/logger.js");
@@ -46,6 +46,7 @@ Rin.on('message', message => {
 
     //Handle bot command
     if (isCommand) {
+        console.log("command")
         //Commands goes here
         parseTextCommand(message).catch(Log.error);
 

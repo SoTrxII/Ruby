@@ -16,31 +16,20 @@ console.log(help)
  **/
 exports.parseTextCommand = (message) => {
         return new Promise((resolve, reject) => {
-        //Accept command with or without spacing. Ex $v rc
-        let prefixLenght = message.content.split(' ')[0].toLowerCase().endsWith(global.CommandPrefix) ?
-            global.CommandPrefix.length + 1 :
-            global.CommandPrefix.length;
+            let command = message.content.substring(1).split(' ')[0].toLowerCase();
+            let parameters = message.content.substring(command.length + 2);
 
-        let command = message.content.substring(prefixLenght).split(' ')[0].toLowerCase();
-        let parameters = message.content.substring(command.length + prefixLenght);
-
-        //Redirect to special command help
-        console.log(command)
-        if (command === 'help' || command == 'halp') {
-            let returnString = ' ';
-            for (let command of Object.keys(help).sort()) {
-                console.log(command)
-                /*returnString += `\n **\`$${command}\`** ${(help[command].parameters) ? '_\`' + (help[command].parameters) + '\`_' : ''}\n\t\
+                    //Redirect to special command help
+                    if (command === 'help' || command == 'halp') {
+                        let returnString = '';
+                        for (let command of Object.keys(help).sort()) {
+                            returnString += `\n **\`$${command}\`** ${(help[command].parameters) ? '_\`' + (help[command].parameters) + '\`_' : ''}\n\t\
                 _${help[command].desc}_\
-                ${ help[command].aliases ? "\n\t__Alias__ : " + help[command].aliases.join(', ') : ''}`;*/
-
-                returnString += `\n **\`$${command}\`** ${(help[command].parameters) ? '_\`' + (help[command].parameters) + '\`_' : ''}\n\t\
-                _${help[command].desc}_\ `
-                console.log(returnString)
+                ${ help[command].aliases ? "\n\t__Alias__ : " + help[command].aliases.join(', ') : ''}`;
             }
-            console.log(returnString)
             message.channel.send(returnString);
             resolve();
+            return;
         }
 
         //Check if command exists
