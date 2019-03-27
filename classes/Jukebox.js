@@ -2,7 +2,6 @@ const EventEmitter = require('events');
 const Promise = require('bluebird');
 const JukeboxItem = require('./JukeboxItem');
 const JukeboxYoutubeItem = require('./JukeboxYoutubeItem');
-const JukeboxFanburstItem = require('./JukeboxFanburstItem');
 const JukeboxLocalItem = require('./JukeboxLocalItem');
 const JukeboxOpeningmoeItem = require('./JukeboxOpeningmoeItem');
 const {chooseOneItem} = require('../utils/userInteraction.js');
@@ -46,7 +45,6 @@ class Jukebox extends EventEmitter {
         this._supportedSources = Object.freeze({
             YOUTUBE: Symbol("youtube"),
             OPENINGMOE: Symbol("opening.moe"),
-            FANBURST: Symbol("fanburst"),
             LOCAL: Symbol("local")
         });
 
@@ -84,12 +82,6 @@ class Jukebox extends EventEmitter {
          * @member _regYoutube Regex to recognize youtube links
          */
         this._regYoutube = /^(.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*)/;
-
-        /**
-         * @private
-         * @member _regFanburst Regex to recognize fanburst links
-         */
-        this._regFanburst = /^https:\/\/api\.fanburst\.com\/tracks\/.+\/stream$/;
 
         /**
          * @private
@@ -459,7 +451,6 @@ class Jukebox extends EventEmitter {
         searchPromises.push(JukeboxYoutubeItem.search(query, this._voiceConnection, evt.author));
         searchPromises.push(JukeboxOpeningmoeItem.search(query, this._voiceConnection, evt.author));
         searchPromises.push(JukeboxLocalItem.search(query, this._voiceConnection, evt.author));
-        searchPromises.push(JukeboxFanburstItem.search(query, this._voiceConnection, evt.author, 6));
 
         //Flag : True if there is at least one result to the query
         let hasResults = false;
@@ -488,9 +479,6 @@ class Jukebox extends EventEmitter {
                     break;
                 case "JukeboxLocalItem":
                     separator = "\n\`\`\`yaml\n LOCAL\n\`\`\`\n\t\t"
-                    break;
-                case "JukeboxFanburstItem":
-                    separator = "\n\`\`\`fix\n FANBURST\n\`\`\`\n\t\t"
                     break;
                 case "JukeboxOpeningmoeItem":
                     separator = "\n\`\`\`css\n OPENING MOE\n\`\`\`\n\t\t"
@@ -578,10 +566,6 @@ class Jukebox extends EventEmitter {
             debug(`Source de l'ajout : Youtube`)
             return this._supportedSources.YOUTUBE;
         }
-        else if (this._regFanburst.test(track)) {
-            debug(`Source de l'ajout : Fanburst`)
-            return this._supportedSources.FANBURST;
-        }
         else if (this._regOpeningmoe.test(track)) {
             debug(`Source de l'ajout : Opening.moe`)
             return this._supportedSources.OPENINGMOE;
@@ -614,9 +598,6 @@ class Jukebox extends EventEmitter {
                 break;
             case this._supportedSources.OPENINGMOE:
                 return new JukeboxOpeningmoeItem(track, this._voiceConnection, asker)
-                break;
-            case this._supportedSources.FANBURST:
-                return new JukeboxFanburstItem(track, this._voiceConnection, asker);
                 break;
             default :
                 throw new Error("Unrecognized source");

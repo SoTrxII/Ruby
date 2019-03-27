@@ -24,11 +24,9 @@
     "ramda": "^0.25.0",
     "request": "^2.87.0",
     "request-promise": "^4.2.2",
-    "socket.io": "^2.2.0",
-    "socket.io-stream": "^0.9.1",
     "sodium": "^3.0.2",
     "uws": "^10.148.0",
     "youtube-node": "^1.3.2",
-    "ytdl-core": "^0.25.2"
+    "ytdl-core": "^0.29.1"
   }
 }

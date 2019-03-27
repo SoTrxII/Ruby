@@ -48,7 +48,7 @@ class JukeboxOpeningmoeItem extends JukeboxItem {
     /**
      * @static
      * @private
-     * @returns {Object} Fanburst request template
+     * @returns {Object} Opening.moe request template
      */
     static _getRequestTemplate() {
         return {
@@ -228,7 +228,7 @@ class JukeboxOpeningmoeItem extends JukeboxItem {
     /**
      * @async
      * @private
-     * @summary Retrieve the video infos from Fanburst and reduce it to what we need.
+     * @summary Retrieve the video infos from Opening.moe and reduce it to what we need.
      * @param {function} resolve Resolve deferred @see{@link infos} promise
      * @param {function} reject Resolve deferred @see{@link infos} promise
      */

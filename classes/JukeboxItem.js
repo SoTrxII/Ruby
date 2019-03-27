@@ -216,10 +216,6 @@ class JukeboxItem extends EventEmitter {
                 em.setThumbnail("https://d29fhpw069ctt2.cloudfront.net/icon/image/38714/preview.svg");
                 em.setColor('#1ED760');
                 break;
-            case 'JukeboxFanburstItem':
-                em.setThumbnail("https://son.gg/wp-content/themes/songg/assets/img/fanburst-icon.png")
-                em.setColor('#090909');
-                break;
             case 'JukeboxOpeningmoeItem':
                 em.setThumbnail("https://res.cloudinary.com/teepublic/image/private/s--7npRdgKh--/t_Preview/b_rgb:484849,c_limit,f_jpg,h_630,q_90,w_630/v1483979138/production/designs/1083137_1.jpg")
                 em.setColor('#FF69B4');
