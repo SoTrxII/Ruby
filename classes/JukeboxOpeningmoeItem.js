@@ -221,7 +221,8 @@ class JukeboxOpeningmoeItem extends JukeboxItem {
             results = results.slice(0, MAX_RESULTS);
         }
         return results.map(result => {
-            return new JukeboxOpeningmoeItem(result[1], voiceConnection, asker);
+            //Trim the extension before searching
+            return new JukeboxOpeningmoeItem(result[1].replace(/\.[^/.]+$/, ""), voiceConnection, asker);
         })
     }
 
@@ -237,7 +238,6 @@ class JukeboxOpeningmoeItem extends JukeboxItem {
             url: JukeboxOpeningmoeItem._getOpeningmoeEndpoints().track(this.track)
         })
         let data = await request(requestOpt).catch(reject);
-
         resolve({
             title: `${data.source} - ${data.title}`,
             author: (data.song) ? `${data.song.artist} - ${data.song.title}` : 'inconnu',
