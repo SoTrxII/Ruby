@@ -48,3 +48,6 @@ config_prod.json
 
 #Project specific
 animeList.json
+*.wav
+*.ogg
+*.pcm
