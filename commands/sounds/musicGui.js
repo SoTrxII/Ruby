@@ -26,13 +26,14 @@ const listen = async (evt) => {
         "pulse"
     );
 
+    //const id = gui.addSong("https://www.youtube.com/watch?v=y_FfrgoVoLk")
     const id = gui.addSong("https://www.youtube.com/watch?v=lAIGb1lfpBw");
-    console.log("Id : " + id);
-    gui.playSong(id, "0:45");
-    const id2 = gui.addSong("https://www.youtube.com/watch?v=X0XHYyedRCo");
-    console.log("Id : " + id2);
+    //console.log("Id : " + id);
+    gui.playSong(id);
+    const id2 = gui.addSong("https://www.youtube.com/watch?v=y_FfrgoVoLk");
+    //console.log("Id : " + id2);
     gui.playSong(id2);
-    gui.setSongVolume(id2, 20);
+    //gui.setSongVolume(id2, 20);
 
     //gui.stopSong(id);
 
@@ -53,15 +54,15 @@ const listen = async (evt) => {
     }, 10000);*/
 
     //test volume
-    /*setTimeout(() => {
+    setTimeout(() => {
         gui.setSongVolume(id, 20);
         setTimeout(() => {
             gui.setSongVolume(id, 80);
         }, 10000);
-    }, 10000);*/
+    }, 10000);
 
     //test time fetch
-    setTimeout(() => {
+    /*setTimeout(() => {
         //gui.setSongVolume(id, 20);
         gui.fetchTime(id, "0:00");
         console.log("FETCH2");
@@ -70,7 +71,7 @@ const listen = async (evt) => {
             gui.fetchTime(id, "0:40");
             console.log("FETCH3");
         }, 20000);
-    }, 10000);
+    }, 10000);*/
 
 
 }

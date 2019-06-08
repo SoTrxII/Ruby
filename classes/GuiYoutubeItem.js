@@ -2,6 +2,7 @@ const EventEmitter = require('events');
 const debug = require('debug')('guiYoutubeItem');
 const ytdl = require('ytdl-core');
 const GuiItem = require("./GuiItem");
+const {createReadStream} = require("fs");
 
 /**
  * @class
@@ -20,9 +21,11 @@ class GuiYoutubeItem extends GuiItem {
      */
     createStream(){
         this.stream = ytdl(this.track, {
-            quality: 'highest',
-            highWaterMark: 1024 * 1024 * 50 //Give the song a 50Mb buffer size (default : 16kb)
+            //filter: 'audioonly',
+            //highWaterMark: 1024 * 1024 * 50 //Give the song a 50Mb buffer size (default : 16kb)
         });
+
+        //this.stream = createReadStream("f.wav");
     }
 
 

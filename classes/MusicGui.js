@@ -6,6 +6,9 @@ const GuiItemFactory = require("./GuiItemFactory.js");
 const GuiItem = require("./GuiItem.js");
 const Speaker = require("speaker");
 const Volume = require("pcm-volume");
+const AudioRecorder = require("node-audiorecorder");
+const {PassThrough, pipeline} = require('stream')
+const fs = require('fs')
 
 /**
  * @class
@@ -40,6 +43,19 @@ class MusicGui extends EventEmitter {
 
         const inCard = this._findCard("pulse");
         //const outCard = this._findCard("hdmi");
+        
+        const options = {
+            program: `arecord`,     // Which program to use, either `arecord`, `rec`, or `sox`.
+            device: 'hw:0,1',       // Recording device to use.
+            channels: 2,        // Channel count.
+            format: `S16_LE`,   // Encoding type. (only for `arecord`)
+            rate: 48000,        // Sample rate.
+            //type: `wav`,        // Format type.
+        };
+        const logger = console;
+
+        this.audioRecorder = new AudioRecorder(options, logger);
+        var rs = fs.createWriteStream('./steam_48000.wav');
 
 
         /*this.cardLinkOut = new portAudio.AudioIO({
@@ -49,18 +65,64 @@ class MusicGui extends EventEmitter {
                   sampleRate: 44100,
                   deviceId: outCard.id // Use -1 or omit the deviceId to select the default device
               }
-        });*/
+            });*/
+        
+        
+        this.audioLoop = new PassThrough();
+        //this.audioRecorder.start().stream().pipe(this.audioLoop);
+      this.audioCommand = ffmpeg()
+            .on('start', function (commandLine) {
+                console.log('Spawned Ffmpeg with command: ' + commandLine);
+            })
+            .once("progress", () => {
+                this.startLink();
+            })
+            .on("progress", (progress) => {
+                //console.log(progress);
+            })
+            //.input(`hw:0,1`)
+            //.inputFormat('alsa')
+            //.addInputOption("-re")
+            //.addInputOption("-thread_queue_size 512")
+            //.addOption("-async 2")
+            //.addOption("-preset ultrafast")
+            //.audioChannels("1")
+            .input("0")
+            .inputFormat("pulse")
+            .outputFormat("s16le")
+            .audioCodec("pcm_s16le")
+            //.audioR
+            .audioBitrate("48k")
+            .output(this.audioLoop, {end : false})
+            .run();
+        /*this.audioCommand = ffmpeg("f.wav")
+            .on('start', function (commandLine) {
+                console.log('Spawned Ffmpeg with command: ' + commandLine);
+            })
+            //.input(`hw:0,1`)
+            //.inputFormat('alsa')
+            //.input("default")
+            //.inputFormat("pulse")
+            .outputFormat("s16le")
+            .audioCodec("pcm_s16le")
+            .output(this.audioLoop, {end : false})
+            .run();*/
 
-        this.cardLink = new portAudio.AudioIO({
+        //this.audioCommand.on("command", (command) => console.log(command));
+
+
+        /*this.cardLink = new portAudio.AudioIO({
                 inOptions: {
                     channelCount: 2,
                     sampleFormat: portAudio.SampleFormat16Bit,
                     sampleRate: 44100,
-                    deviceId: inCard.id // Use -1 or omit the deviceId to select the default device
+                    deviceId: 1 // Use -1 or omit the deviceId to select the default device
                 }
         });
-
-        this.startLink();
+        */
+        //this.cardLink.start();
+        //var rs = fs.createWriteStream('./steam_48000.wav');
+        //this.cardLink.pipe(rs);
 
     }
 
@@ -90,16 +152,71 @@ class MusicGui extends EventEmitter {
      * @param {String} startTime Offset to begin stream
      * @returns FFmpeg command
      */
-    _buildFfmpegCommand(input, startTime){
-        const command = 
-            ffmpeg(input)
-                .noVideo()
-                .outputFormat("s16le")
-                .audioCodec("pcm_s16le");
-        if(startTime){
-            command.seekInput(startTime);
-        }
-        return command;
+    _buildFfmpegCommand(input, startTime, outStream){
+            const command =
+                ffmpeg(input)
+                    .on('start', function (commandLine) {
+                        console.log('Spawned video Ffmpeg with command: ' + commandLine);
+                    })
+                    .on('error', function (commandLine) {
+                        console.log('Spawned video Ffmpeg with error: ' + commandLine);
+                    })
+                    .on("progress", (progress) => {
+                        console.log(progress);
+                        //es(command);
+                    })
+                    .audioCodec('pcm_s16le')
+                    .format('s16le')
+                    .addOption('-map 0:a')
+                    .addOption("-strict -2")
+                    //.preset("ultrafast")
+                    .audioFrequency("48k")
+                    .audioBitrate("64k");
+                    //.output(outStream, {end : true})
+            //.outputFormat("s16le")
+            //.audioCodec("pcm_s16le")
+            //.addInputOption("-re")
+            if (startTime) {
+                command.seekInput(startTime);
+            }
+            command.stream(outStream, {
+                //highWaterMark : 20 * 1024 * 1024
+            })
+
+            //command.run();
+            return command;
+        // return new Promise( (res, rej) => {
+        //     const command =
+        //         ffmpeg(input)
+        //             .on('start', function (commandLine) {
+        //                 console.log('Spawned video Ffmpeg with command: ' + commandLine);
+        //             })
+        //             .on('error', function (commandLine) {
+        //                 console.log('Spawned video Ffmpeg with error: ' + commandLine);
+        //             })
+        //             .once("progress", (progress) => {
+        //                 console.log(progress);
+        //                 res(command);
+        //             })
+        //             .audioCodec('pcm_s16le')
+        //             .format('s16le')
+        //             .addOption('-map 0:a')
+        //             .addOption("-strict -2")
+        //             //.preset("ultrafast")
+        //             .audioBitrate("132k")
+        //             .output(outStream, {end : true})
+        //     //.outputFormat("s16le")
+        //     //.audioCodec("pcm_s16le")
+        //     //.audioFrequency("48k")
+        //     //.addInputOption("-re")
+        //     if (startTime) {
+        //         command.seekInput(startTime);
+        //     }
+
+        //     command.run();
+        //     return command;
+        // });
+
     }
 
     /**
@@ -123,12 +240,38 @@ class MusicGui extends EventEmitter {
                 channels: 2,
                 bitDepth: 16,
                 sampleRate: 48000,
-                samplesPerFrame: 200,
+                //samplesPerFrame: 200,
                 device: 'pulse' //this._config.hardwareOutput || `hw:0,0,1`
             });
-            song.ffmpeg = this._buildFfmpegCommand(song.stream, startTime);
+            const musicStream = new PassThrough();
+            song.ffmpeg = this._buildFfmpegCommand(song.stream, startTime, musicStream);
+            //song.ffmpeg = this._buildFfmpegCommand(fs.createReadStream("f.wav"), startTime);
             song.volumeStream = new Volume();
-            song.ffmpeg.pipe(song.volumeStream).pipe(song.speaker);
+            setTimeout( () => {
+                pipeline(
+                    musicStream,
+                    //fs.createReadStream("test.pcm"),
+                    //song.ffmpeg,
+                    //song.ffmpeg,
+                    song.volumeStream,
+                    song.speaker
+                );
+            }, 4000)
+
+            //fs.createReadStream("f.pcm")
+            /*song.ffmpeg.then( () => {
+                pipeline(
+                    musicStream,
+                    //fs.createReadStream("test.pcm"),
+                    //song.ffmpeg,
+                    //song.ffmpeg,
+                    song.volumeStream,
+                    song.speaker
+                );
+            }) */
+
+            //song.ffmpeg.pipe(song.speaker, {end : false});
+            //song.ffmpeg.pipe(song.volumeStream).pipe(song.speaker);
             song.state = GuiItem.STATE.PLAYING
         }else{
             return false;
@@ -234,15 +377,20 @@ class MusicGui extends EventEmitter {
      * Start to link the audio card output to discord input
      */
     startLink(){
-        this.cardLink.start();
         
-        this._voiceConnection.playConvertedStream(this.cardLink);
+        //this._voiceConnection.playConvertedStream(this.cardLink);
+        //this._voiceConnection.playConvertedStream(this.audioLoop, {
+        this._voiceConnection.playConvertedStream(this.audioLoop, {
+            bitrate : 48000,
+            passes : 1
+        });
     }
 
     /**
      * Stops to link the audio card output to discord input
      */
     stopLink(){
+        //this.audioCommand.kill();
         this.cardLink.stop();
     }
 

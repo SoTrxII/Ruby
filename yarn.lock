@@ -568,6 +568,11 @@ node-addon-api@^1.1.0:
   resolved "https://registry.yarnpkg.com/node-addon-api/-/node-addon-api-1.6.3.tgz#3998d4593e2dca2ea82114670a4eb003386a9fe1"
   integrity sha512-FXWH6mqjWgU8ewuahp4spec8LkroFZK2NicOv6bNwZC3kcwZUI8LeZdG80UzTSLLhK4T7MsgNwlYDVRlDdfTDg==
 
+node-audiorecorder@^1.4.1:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/node-audiorecorder/-/node-audiorecorder-1.4.1.tgz#e0de85e1644b22ea8f27b780f211ec3f9ca0b13a"
+  integrity sha512-8NCgj/tHyTTOL9jiuluBt3JDQXGca7gnSNziPjLeCMSYmMqYunskYwTmSxdXi4exNkk6ZBe6iVRI/axT04Nm0g==
+
 node-opus@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/node-opus/-/node-opus-0.3.0.tgz#d84a96ead8599084cd5a9899f096ce4576980a09"
