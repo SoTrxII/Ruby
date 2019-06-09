@@ -65,6 +65,25 @@ class MusicGui extends EventEmitter {
             .output(this.audioLoop, {end : false})
             .run();
 
+
+        this.on("songEnd", this._endHandler);
+
+    }
+
+    /**
+     * Trigerred each time a song end, check if the song
+     * has to be 
+     * @param {String} id 
+     */
+    _endHandler(id){
+        const song = this.songs.get(id);
+        if(song == null){
+            console.error("[WTF] The song that just ended doesn't exists ?");
+        }
+        if(song.isLooping){
+            song.stopSong(id).catch(console.error);
+            song.playSong(id);
+        }
     }
 
     /**
@@ -87,13 +106,40 @@ class MusicGui extends EventEmitter {
     }
 
     /**
+     * Set a song in a looping state, playing it until it's stopped
+     * @param {String} id id of the song to play
+     */
+    loopSong(id){
+        const song = this.songs.get(id);
+        if (song == null) {
+            return false;
+        }
+        song.isLooping = true;
+        return true;
+    }
+
+    
+    /**
+     * Remove the song looping state
+     * @param {String} id id of the song to play
+     */
+    unloopSong(id){
+        const song = this.songs.get(id);
+        if (song == null) {
+            return false;
+        }
+        song.isLooping = false;
+        return true;
+    }
+
+    /**
      * Build the command to transform any
      * readable stream into a pure PCM stream
      * @param {ReadableStream} input Base stream to process
      * @param {String} startTime Offset to begin stream
      * @returns FFmpeg command
      */
-    _buildFfmpegCommand(input, startTime, outStream){
+    _buildFfmpegCommand(input, startTime, outStream, id){
             const command =
                 ffmpeg(input)
                     .on('start', function (commandLine) {
@@ -105,6 +151,9 @@ class MusicGui extends EventEmitter {
                     .on("progress", (progress) => {
                         console.log(progress);
                         //es(command);
+                    })
+                    .on("end", () => {
+                        this.emit("songEnd", id)
                     })
                     .audioCodec('pcm_s16le')
                     .format('s16le')
@@ -148,7 +197,7 @@ class MusicGui extends EventEmitter {
                 device: 'pulse' //this._config.hardwareOutput || `hw:0,0,1`
             });
             const musicStream = new PassThrough();
-            song.ffmpeg = this._buildFfmpegCommand(song.stream, startTime, musicStream);
+            song.ffmpeg = this._buildFfmpegCommand(song.stream, startTime, musicStream, id);
             song.volumeStream = new Volume();
             setTimeout( () => {
                 pipeline(

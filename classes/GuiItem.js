@@ -16,8 +16,7 @@ class GuiItem extends EventEmitter {
         this.ffmpeg = null;
         this.volumeStream = null;
         this._state = GuiItem.STATE.STOPPED;
-
-
+        this.islooping = false;
     }
 
     /**

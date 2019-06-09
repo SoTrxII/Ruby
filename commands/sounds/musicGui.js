@@ -120,6 +120,28 @@ const tListen = async (evt) => {
             }
         });
 
+        io.on("loop", (id) => {
+            debug(`trying to loop song with id : ${id}`);
+            const played = gui.loopSong(id);
+            if(!played){
+                io.emit("loopError", id);
+                debug(`Could not loop song with id: ${id}`);
+            }else{
+                debug(`Now looping song with id: ${id}`);
+            }
+        });
+
+        io.on("unloop", (id) => {
+            debug(`trying to unloop song with id : ${id}`);
+            const played = gui.loopSong(id);
+            if(!played){
+                io.emit("unloopError", id);
+                debug(`Could not unloop song with id: ${id}`);
+            }else{
+                debug(`Now unlooping song with id: ${id}`);
+            }
+        });
+
         io.on("pause", (id) => {
             debug(`trying to pause song with id : ${id}`);
             const paused = gui.pauseSong(id);
