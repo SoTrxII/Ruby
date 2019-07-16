@@ -144,7 +144,7 @@ class Jukebox extends EventEmitter {
             throw new Error("The jukebox is already playing !")
         }
 
-        if (this.currentSong && !this.currentSong.isLooping && !this._nextSong()) {
+        if (!this._nextSong()) {
             /**
              * Emitted when there are no more songs to play.
              * @event Jukebox#QueueEmpty
@@ -552,6 +552,11 @@ class Jukebox extends EventEmitter {
      */
     _nextSong() {
         debug(`Longueur de la file : ${this._playQueue.length}`);
+        
+        if(this.currentSong && this.currentSong.isLooping){
+            return true;
+        }
+        
         if (!this._playQueue.length) {
 
             this.isPlaying = false;
