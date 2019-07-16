@@ -125,6 +125,7 @@ class Jukebox extends EventEmitter {
         
         this._playQueue.push(this._createNewItem(track, source, asker))
         debug(`Ajout de musique, nouvelle longueur de file : ${this._playQueue.length}`)
+
         return true;
     }
 
@@ -143,7 +144,7 @@ class Jukebox extends EventEmitter {
             throw new Error("The jukebox is already playing !")
         }
 
-        if (!this._nextSong()) {
+        if (!this.currentSong.isLooping && !this._nextSong()) {
             /**
              * Emitted when there are no more songs to play.
              * @event Jukebox#QueueEmpty
@@ -155,7 +156,7 @@ class Jukebox extends EventEmitter {
         this.isPlaying = true;
 
         debug(this.currentSong);
-
+        displaySong = displaySong && !this.currentSong.isLooping;
         if (displaySong){
             //Send details about the song (async,
             //as we don't really need to wait for it to resolve)
@@ -185,7 +186,7 @@ class Jukebox extends EventEmitter {
             }, stopAfter * 1000)
         }
         //Loop after song
-        this.currentSong.on('end', () => {
+        this.currentSong.once('end', () => {
             //If the event triggers before the timeout, clear it
             if(timeout){
                 clearTimeout(timeout);
@@ -212,7 +213,6 @@ class Jukebox extends EventEmitter {
         debug("END")
         const user = this._voiceConnection.client.user;
         user.setActivity(null);
-        this.currentSong.off('end', this.onEnd);
         //this.currentSong.stop();
         //await new Promise( (res, rej) => setTimeout( res(), 5000));
         this.isPlaying = false;
@@ -302,6 +302,7 @@ class Jukebox extends EventEmitter {
         }
         this.currentSong.stop();
     }
+
     /**
      * @public
      * @summary Stop current song playback
@@ -319,6 +320,18 @@ class Jukebox extends EventEmitter {
             user.setActivity(null);
         }
         return hasWorked;
+    }
+
+    /**
+     * @summary Make the player loop the current song
+     * @param {Boolean} islooping 
+     */
+    setLoop(islooping){
+        if(!this.isPlaying){
+            this.textChannel.send("Pas de chansons en cours de lecture ! ");
+            return;
+        }
+        this.currentSong.isLooping = islooping;
     }
 
     async fadeOutStop(fadeTime, startNext=true) {

@@ -22,6 +22,9 @@ const addToQueue = async (evt, command, cmdArg) => {
   }
   await evt.channel.send(`Chansons à venir :`);
   global.jukebox.displayQueue();
+  if(!global.jukebox.isPlaying){
+    play(evt, command, cmdArg);
+  }
 
 }
 
@@ -83,6 +86,40 @@ const stop = async (evt, command, cmdArg) => {
   
 
 
+}
+
+/**
+ * @async
+ * @public
+ * @summary loop the current song
+ * @param {Discord/Message} evt Discord message Event
+ * @param {String} command Discord command string (ex : play, add, list)
+ * @param {String} cmdArg Ignored
+ */
+const loop = async (evt, command, cmdArg) => {
+  await _updateJukebox(evt);
+  if (!global.jukebox.isPlaying) {
+    evt.channel.send(`Il n'y a pas de musique en cours de lecture !`);
+    return;
+  }
+  global.jukebox.setLoop(true);
+}
+
+/**
+ * @async
+ * @public
+ * @summary stoops looping the current song
+ * @param {Discord/Message} evt Discord message Event
+ * @param {String} command Discord command string (ex : play, add, list)
+ * @param {String} cmdArg Ignored
+ */
+const unloop = async (evt, command, cmdArg) => {
+  await _updateJukebox(evt);
+  if (!global.jukebox.isPlaying) {
+    evt.channel.send(`Il n'y a pas de musique en cours de lecture !`);
+    return;
+  }
+  global.jukebox.setLoop(false);
 }
 
 /**
@@ -273,8 +310,9 @@ exports.default = {
   q : search,
   son: setVolume,
   stop: stop,
-  blindtest : blindTest
-
+  blindtest : blindTest,
+  loop : loop,
+  unloop : unloop
 }
 
 exports.help = {
