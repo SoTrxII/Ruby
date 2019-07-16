@@ -103,6 +103,7 @@ const loop = async (evt, command, cmdArg) => {
     return;
   }
   global.jukebox.setLoop(true);
+  evt.channel.send(`Musique bouclée`);
 }
 
 /**
@@ -120,6 +121,7 @@ const unloop = async (evt, command, cmdArg) => {
     return;
   }
   global.jukebox.setLoop(false);
+  evt.channel.send(`Arrêt de la boucle`);
 }
 
 /**
