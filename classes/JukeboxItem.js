@@ -59,6 +59,11 @@ class JukeboxItem extends EventEmitter {
          * @member {Discord/StreamDispatcher} _dispatcher Song playback dispatcher
          */
         this._dispatcher = null;
+
+        /**
+         * @public
+         * @member {Boolean} isLooping True if the song has to be looped in the player 
+         */
     }
 
     set voiceConnection(vc) {
