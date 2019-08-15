@@ -2,7 +2,7 @@ const EventEmitter = require('events');
 const {
     RichEmbed
 } = require('discord.js');
-const debug = require('debug')('jukeboxItem')
+const debug = require('debug')('jukeboxItem');
 
 /**
  * @class
@@ -61,9 +61,26 @@ class JukeboxItem extends EventEmitter {
         this._dispatcher = null;
     }
 
-    set voiceConnection(vc){
+    set voiceConnection(vc) {
         this._voiceConnection = vc;
     }
+
+    /**
+     * @static
+     * @async
+     * @abstract
+     * @public
+     * @summary Search for item to playback
+     * @param query Whatto search for
+     * @param {Discord/VoiceConnection} voiceConnection voicechannel to play into
+     * @param {Discord/Member} asker
+     * @param {Integer} [MAX_RESULTS=3]
+     * @return {JukeboxItem[]}
+     */
+    static async search(query, voiceConnection, asker, MAX_RESULTS = 3) {
+        throw new Error("This method has to be implemented");
+    }
+
     /**
      * @public
      * @abstract
@@ -96,7 +113,7 @@ class JukeboxItem extends EventEmitter {
      * @returns {Boolean} True if the playback was paused, false otherwise
      */
     pause() {
-        debug(this.hasBegun)
+        debug(this.hasBegun);
         if (this._dispatcher && this.hasBegun && !this.isPaused) {
             this._dispatcher.pause();
             this.isPaused = true;
@@ -120,26 +137,9 @@ class JukeboxItem extends EventEmitter {
     }
 
     /**
-     * @static
-     * @async
-     * @abstract
-     * @public
-     * @summary Search for item to playback
-     * @param query Whatto search for
-     * @param {Discord/VoiceConnection} voiceConnection voicechannel to play into
-     * @param {Discord/Member} asker 
-     * @param {Integer} [MAX_RESULTS=3]
-     * @return {JukeboxItem[]}
-     */
-    static async search(query, voiceConnection, asker, MAX_RESULTS = 3) {
-        throw new Error("This method has to be implemented");
-    }
-
-
-    /**
      * @public
      * @summary Change the playback volume
-     * 
+     *
      */
     setVolume(volume) {
         this._dispatcher.setVolume(volume)
@@ -148,7 +148,7 @@ class JukeboxItem extends EventEmitter {
     /**
      * @public
      * @summary Change the playback Log volume
-     * 
+     *
      */
     setLogVolume(volume) {
         this._dispatcher.setVolumeLogarithmic(volume)
@@ -163,7 +163,7 @@ class JukeboxItem extends EventEmitter {
      * @return {Object} data gathered
      */
     async _getInfo() {
-        debug(this)
+        debug(this);
         throw new Error("This method has to be implemented !")
     }
 
@@ -179,7 +179,7 @@ class JukeboxItem extends EventEmitter {
     }
 
     /**
-     * @async 
+     * @async
      * @public
      * @summary return an embed corresponding to current playback
      * @returns {Discord/RichEmbed} embed
@@ -187,16 +187,16 @@ class JukeboxItem extends EventEmitter {
     async toEmbed() {
         const data = await this._getInfo();
         const em = new RichEmbed();
-        const DESC_LIMIT = 100
+        const DESC_LIMIT = 100;
 
         //Song-dependant parameters
         em.setTitle(data.title || 'Inconnu');
-        em.addField('Auteur', data.author || 'Inconnu')
+        em.addField('Auteur', data.author || 'Inconnu');
         // 2048 -> desc limit in embed
         let description;
         if (data.description) {
             if (data.description.length > DESC_LIMIT - 1) {
-                description = `${data.description.substring(0, DESC_LIMIT - 4 )}...`;
+                description = `${data.description.substring(0, DESC_LIMIT - 4)}...`;
             } else {
                 description = data.description;
             }
@@ -206,7 +206,7 @@ class JukeboxItem extends EventEmitter {
         em.setURL(data.url || '');
 
         //Item dependant parameters
-        debug(this.constructor.name)
+        debug(this.constructor.name);
         switch (this.constructor.name) {
             case 'JukeboxYoutubeItem':
                 em.setThumbnail("https://upload.wikimedia.org/wikipedia/commons/2/2c/Logo_youtube_ios.jpg");
@@ -217,7 +217,7 @@ class JukeboxItem extends EventEmitter {
                 em.setColor('#1ED760');
                 break;
             case 'JukeboxOpeningmoeItem':
-                em.setThumbnail("https://res.cloudinary.com/teepublic/image/private/s--7npRdgKh--/t_Preview/b_rgb:484849,c_limit,f_jpg,h_630,q_90,w_630/v1483979138/production/designs/1083137_1.jpg")
+                em.setThumbnail("https://res.cloudinary.com/teepublic/image/private/s--7npRdgKh--/t_Preview/b_rgb:484849,c_limit,f_jpg,h_630,q_90,w_630/v1483979138/production/designs/1083137_1.jpg");
                 em.setColor('#FF69B4');
                 break;
             default:

@@ -5,8 +5,8 @@ const GuiItemFactory = require("./GuiItemFactory.js");
 const GuiItem = require("./GuiItem.js");
 const Speaker = require("speaker");
 const Volume = require("pcm-volume");
-const {PassThrough, pipeline} = require('stream')
-const fs = require('fs')
+const {PassThrough, pipeline} = require('stream');
+const fs = require('fs');
 
 /**
  * @class
@@ -31,21 +31,21 @@ class MusicGui extends EventEmitter {
          * @public
          * @member {Discord/Channel} textChannel Discod channel to post update in
          */
-        this.textChannel = textChannel
+        this.textChannel = textChannel;
 
         /**
          * @private
          * @member {Map<String, GuiItem>} songs List of music that can be played
          */
         this.songs = new Map();
-        
+
         /**
          * @private
          * @member {Stream} audioLoop audio stream coming from the main audio card
          */
         this.audioLoop = new PassThrough();
 
-
+        this.timemark = null;
         /**
          * @private
          * @member audioCommand Command extracting audio samples from the main audio card
@@ -60,9 +60,10 @@ class MusicGui extends EventEmitter {
             .input("0")
             .inputFormat("pulse")
             .outputFormat("s16le")
+            .addOption("-analyzeduration 0")
             .audioCodec("pcm_s16le")
             .audioBitrate("64k")
-            .output(this.audioLoop, {end : false})
+            .output(this.audioLoop, {end: false})
             .run();
 
 
@@ -70,32 +71,65 @@ class MusicGui extends EventEmitter {
 
     }
 
+    get allTracks() {
+        return Array.from(this.songs.values()).map(s => s.track);
+    }
+
     /**
      * Trigerred each time a song end, check if the song
-     * has to be 
-     * @param {String} id 
+     * has to be relooped
+     * @param {String} id
      */
-    _endHandler(id){
+    _endHandler(id) {
         const song = this.songs.get(id);
-        if(song == null){
+        if (song == null) {
             console.error("[WTF] The song that just ended doesn't exists ?");
+            return;
         }
-        if(song.isLooping){
-            song.stopSong(id).catch(console.error);
-            song.playSong(id);
+        if (song.isLooping) {
+            this.stopSong(id);
+            this.playSong(id);
         }
     }
 
     /**
-     * Add a song to the available list 
+     * Return the tim in seconds
+     * @param id
+     * @returns {number|null|*|undefined}
+     */
+    getCurrentTimeInSeconds(id) {
+        const song = this.songs.get(id);
+        if (song == null) {
+            return undefined;
+        }
+        if (song.state == GuiItem.STATE.STOPPED) {
+            return 0;
+        }
+        return this.hmsToSecondsOnly(this.timemark) + this.hmsToSecondsOnly(this.song.startTime);
+    }
+
+    hmsToSecondsOnly(str) {
+        var p = str.split(':'),
+            s = 0, m = 1;
+
+        while (p.length > 0) {
+            s += m * parseInt(p.pop(), 10);
+            m *= 60;
+        }
+
+        return s;
+    }
+
+    /**
+     * Add a song to the available list
      * @param {String} link Link of music to play
      * @return {String?} id of the song or null the song couldn't be added
      */
-    addSong(link){
+    addSong(link) {
         const id = this._generateId();
         const item = GuiItemFactory.createItem(link);
-        //Item fitting the link couldn't be found 
-        if(item == null){
+        //Item fitting the link couldn't be found
+        if (item == null) {
             return null;
         }
         this.songs.set(
@@ -109,7 +143,7 @@ class MusicGui extends EventEmitter {
      * Set a song in a looping state, playing it until it's stopped
      * @param {String} id id of the song to play
      */
-    loopSong(id){
+    loopSong(id) {
         const song = this.songs.get(id);
         if (song == null) {
             return false;
@@ -118,12 +152,11 @@ class MusicGui extends EventEmitter {
         return true;
     }
 
-    
     /**
      * Remove the song looping state
      * @param {String} id id of the song to play
      */
-    unloopSong(id){
+    unloopSong(id) {
         const song = this.songs.get(id);
         if (song == null) {
             return false;
@@ -139,37 +172,40 @@ class MusicGui extends EventEmitter {
      * @param {String} startTime Offset to begin stream
      * @returns FFmpeg command
      */
-    _buildFfmpegCommand(input, startTime, outStream, id){
-            const command =
-                ffmpeg(input)
-                    .on('start', function (commandLine) {
-                        console.log('Spawned video Ffmpeg with command: ' + commandLine);
-                    })
-                    .on('error', function (commandLine) {
-                        console.log('Spawned video Ffmpeg with error: ' + commandLine);
-                    })
-                    .on("progress", (progress) => {
-                        console.log(progress);
-                        //es(command);
-                    })
-                    .on("end", () => {
-                        this.emit("songEnd", id)
-                    })
-                    .audioCodec('pcm_s16le')
-                    .format('s16le')
-                    .addOption('-map 0:a')
-                    .addOption("-strict -2")
-                    //.preset("ultrafast")
-                    .audioFrequency("48k")
-                    .audioBitrate("64k");
-            if (startTime) {
-                command.seekInput(startTime);
-            }
-            command.stream(outStream, {
-                //highWaterMark : 20 * 1024 * 1024
-            })
+    _buildFfmpegCommand(input, startTime, outStream, id) {
+        const command =
+            ffmpeg(input)
+                .on('start', function (commandLine) {
+                    console.log('Spawned video Ffmpeg with command: ' + commandLine);
+                })
+                .on('error', function (commandLine) {
+                    console.log('Spawned video Ffmpeg with error: ' + commandLine);
+                })
+                .on("progress", (progress) => {
+                    console.log(progress);
+                    this.timemark = progress.timemark;
+                    this.emit(`songProgress${id}`);
+                    //es(command);
+                })
+                .on("end", () => {
+                    this.emit("songEnd", id)
+                })
+                .audioCodec('pcm_s16le')
+                .format('s16le')
+                .addOption('-map 0:a')
+                .addOption("-strict -2")
+                .addOption("-analyzeduration 0")
+                //.preset("ultrafast")
+                .audioFrequency("48k")
+                .audioBitrate("64k");
+        if (startTime) {
+            command.seekInput(startTime);
+        }
+        command.stream(outStream, {
+            //highWaterMark : 20 * 1024 * 1024
+        });
 
-            return command;
+        return command;
     }
 
     /**
@@ -177,37 +213,39 @@ class MusicGui extends EventEmitter {
      * @param {String} id Song's id
      * @param {String} startTime Offset to start with
      */
-    playSong(id, startTime){
+    playSong(id, startTime, volume = 1) {
         const song = this.songs.get(id);
-        if(song == null){
+        if (song == null) {
             return false;
         }
-        if(song.state == GuiItem.STATE.PAUSED){
+        if (song.state == GuiItem.STATE.PAUSED) {
+            song.unmute();
             // Make process continue
             song.ffmpeg.kill("SIGCONT");
             song.state = GuiItem.STATE.PLAYING;
-        }
-        else if(song.state == GuiItem.STATE.STOPPED){
-            console.log(song);
+        } else if (song.state == GuiItem.STATE.STOPPED) {
             song.speaker = new Speaker({
                 channels: 2,
                 bitDepth: 16,
                 sampleRate: 48000,
+                signed: true,
                 //samplesPerFrame: 1024,
                 device: 'pulse' //this._config.hardwareOutput || `hw:0,0,1`
             });
+            song.speaker.on("error", (err) => {
+                debug(err);
+            });
             const musicStream = new PassThrough();
+            song.startTime = startTime;
             song.ffmpeg = this._buildFfmpegCommand(song.stream, startTime, musicStream, id);
-            song.volumeStream = new Volume();
-            setTimeout( () => {
-                pipeline(
-                    musicStream,
-                    song.volumeStream,
-                    song.speaker
-                );
-            }, 5000)
+            song.volumeStream = new Volume(volume);
+            pipeline(
+                musicStream,
+                song.volumeStream,
+                song.speaker
+            );
             song.state = GuiItem.STATE.PLAYING
-        }else{
+        } else {
             return false;
         }
 
@@ -215,17 +253,23 @@ class MusicGui extends EventEmitter {
 
     /**
      * Stops the song from playing and clean up the mess
-     * @param {String} id 
+     * @param {String} id
      */
-    stopSong(id){
+    stopSong(id) {
         const song = this.songs.get(id);
         if (song == null || song.state == GuiItem.STATE.STOPPED) {
             debug("Song already stopped !");
             return false;
         }
+        try {
+            song.speaker.close();
+        } catch (e) {
+            //
+        }
+
         song.ffmpeg.kill();
         song.ffmpeg.on("error", () => {
-            debug("FFMPEG for song " + id + "has been succesfully killed");            
+            debug("FFMPEG for song " + id + "has been succesfully killed");
         });
         song.ffmpeg = null;
         song.speaker = null;
@@ -233,91 +277,112 @@ class MusicGui extends EventEmitter {
         //Regenerate stream
         song.createStream();
         song.state = GuiItem.STATE.STOPPED;
+        return true;
     }
 
     /**
      * Forward the song to a specific time
      */
-    fetchTime(id, time){
+    async fetchTime(id, time) {
         const song = this.songs.get(id);
         if (song == null) {
             return false;
         }
-        if(song.state != GuiItem.STATE.STOPPED){
+        const oldVolume = song.volume;
+        if (song.state != GuiItem.STATE.STOPPED) {
             this.stopSong(id);
         }
-        this.playSong(id, time);
-
+        const that = this;
+        const progressProm = new Promise((res, rej) => {
+            that.on(`songProgress${id}`, () => {
+                res(true);
+            });
+        });
+        this.playSong(id, time, oldVolume);
+        return await progressProm;
     }
 
     /**
      * Set a specific song loudness
      * @param {String} id song's if
      * @param {String | Integer} volume loudness in %
-     * @returns false if song doesn't exists 
+     * @returns false if song doesn't exists
      */
-    setSongVolume(id, volume){
+    setSongVolume(id, volume) {
         const song = this.songs.get(id);
         if (song == null) {
             return false;
         }
-        try{
+        try {
             song.volume = volume;
-        }catch(err){
+        } catch (err) {
             debug("Invalid volume");
             return false;
         }
         return true;
-        
+
     }
 
     /**
      * Pause a currently playing song
-     * @param {String} id Song id 
+     * @param {String} id Song id
      */
-    pauseSong(id){
+    pauseSong(id) {
         const song = this.songs.get(id);
         if (song == null || song.state != GuiItem.STATE.PLAYING) {
-            debug("Cannot pause a song that isn't playing !")
+            debug("Cannot pause a song that isn't playing !");
             return false;
         }
+        //Suspending the process takes actually
+        //quite a lot of time (a few seconds), so we mute the stream before
+        //so the user can obtain the same result
+        song.mute();
         // equiv CTRL-Z, suspend process
         song.ffmpeg.kill("SIGSTOP");
         song.state = GuiItem.STATE.PAUSED;
+        return true;
     }
 
-
-
     /**
-     * 
+     *
      * @param {String} id Song identifier
      * @returns {Boolean} True if deleted, false if not found
      */
-    removeSong(id){
-        return this.songs.delete(id);
+    removeSong(id) {
+        const song = this.songs.has(id);
+        if (!song) {
+            return false;
+        }
+        this.stopSong(id);
+        this.songs.delete(id);
     }
 
     /**
      * Generate a random id
      */
-    _generateId(){
+    _generateId() {
         return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
     }
 
     /**
      * Start to link the audio card output to discord input
      */
-    startLink(){
+    startLink() {
         this._voiceConnection.playConvertedStream(this.audioLoop, {
-            bitrate : 48000,
-            passes : 1
+            bitrate: 48000,
+            passes: 1
         });
+    }
+
+    reset() {
+        Array.from(this.songs.keys()).forEach(id => this.stopSong(id));
+        this.songs = new Map();
     }
 
     /**
      * Stops to link the audio card output to discord input
      */
-    stopLink(){
+    stopLink() {
         //this.audioCommand.kill();
         this.cardLink.stop();
     }

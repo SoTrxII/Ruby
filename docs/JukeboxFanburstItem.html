@@ -4,13 +4,13 @@
     <meta charset="utf-8">
     <title>JSDoc: Class: JukeboxFanburstItem</title>
 
-    <script src="scripts/prettify/prettify.js"> </script>
-    <script src="scripts/prettify/lang-css.js"> </script>
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
     <!--[if lt IE 9]>
-      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
-    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+    <link href="styles/prettify-tomorrow.css" rel="stylesheet" type="text/css">
+    <link href="styles/jsdoc-default.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
@@ -19,1350 +19,737 @@
 
     <h1 class="page-title">Class: JukeboxFanburstItem</h1>
 
-    
 
+    <section>
 
+        <header>
 
+            <h2><span class="attribs"><span class="type-signature"></span></span>JukeboxFanburstItem<span
+                    class="signature">()</span><span class="type-signature"></span></h2>
 
-<section>
 
-<header>
-    
-        <h2><span class="attribs"><span class="type-signature"></span></span>JukeboxFanburstItem<span class="signature">()</span><span class="type-signature"></span></h2>
-        
-    
-</header>
+        </header>
 
-<article>
-    <div class="container-overview">
-    
-        
+        <article>
+            <div class="container-overview">
 
-    
 
-    
-    <h4 class="name" id="JukeboxFanburstItem"><span class="type-signature"></span>new JukeboxFanburstItem<span class="signature">()</span><span class="type-signature"></span></h4>
-    
+                <h4 class="name" id="JukeboxFanburstItem"><span class="type-signature"></span>new
+                    JukeboxFanburstItem<span class="signature">()</span><span class="type-signature"></span></h4>
 
-    
 
+                <dl class="details">
 
 
+                    <dt class="tag-source">Source:</dt>
+                    <dd class="tag-source">
+                        <ul class="dummy">
+                            <li>
+                                <a href="classes_JukeboxFanburstItem.js.html">classes/JukeboxFanburstItem.js</a>, <a
+                                    href="classes_JukeboxFanburstItem.js.html#line10">line 10</a>
+                            </li>
+                        </ul>
+                    </dd>
 
 
+                </dl>
 
 
+            </div>
 
 
+            <h3 class="subsection-title">Extends</h3>
 
 
+            <ul>
+                <li><a href="JukeboxItem.html">JukeboxItem</a></li>
+            </ul>
 
 
+            <h3 class="subsection-title">Methods</h3>
 
 
-<dl class="details">
+            <h4 class="name" id=".search"><span class="type-signature">(async, static) </span>search<span
+                    class="signature">(query, voiceConnection, asker, MAX_RESULTS<span
+                    class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Array.&lt;<a
+                    href="JukeboxItem.html">JukeboxItem</a>>}</span></h4>
 
-    
 
-    
+            <p class="summary">Search for item to playback</p>
 
-    
 
-    
+            <h5>Parameters:</h5>
 
-    
 
-    
+            <table class="params">
+                <thead>
+                <tr>
 
-    
+                    <th>Name</th>
 
-    
 
-    
+                    <th>Type</th>
 
-    
 
-    
+                    <th>Attributes</th>
 
-    
 
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="classes_JukeboxFanburstItem.js.html">classes/JukeboxFanburstItem.js</a>, <a href="classes_JukeboxFanburstItem.js.html#line10">line 10</a>
-    </li></ul></dd>
-    
+                    <th>Default</th>
 
-    
 
-    
+                    <th class="last">Description</th>
+                </tr>
+                </thead>
 
-    
-</dl>
+                <tbody>
 
 
+                <tr>
 
+                    <td class="name"><code>query</code></td>
 
 
+                    <td class="type">
 
 
+                        <span class="param-type">String</span>
 
 
+                    </td>
 
 
+                    <td class="attributes">
 
 
+                    </td>
 
 
+                    <td class="default">
 
+                    </td>
 
 
-    
-    </div>
+                    <td class="description last">What to search for</td>
+                </tr>
 
-    
-        <h3 class="subsection-title">Extends</h3>
 
-        
+                <tr>
 
+                    <td class="name"><code>voiceConnection</code></td>
 
-    <ul>
-        <li><a href="JukeboxItem.html">JukeboxItem</a></li>
-    </ul>
 
+                    <td class="type">
 
-    
 
-    
+                        <span class="param-type">Discord/VoiceConnection</span>
 
-    
 
-    
+                    </td>
 
-    
 
-    
+                    <td class="attributes">
 
-    
 
-    
-        <h3 class="subsection-title">Methods</h3>
+                    </td>
 
-        
-            
 
-    
+                    <td class="default">
 
-    
-    <h4 class="name" id=".search"><span class="type-signature">(async, static) </span>search<span class="signature">(query, voiceConnection, asker, MAX_RESULTS<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Array.&lt;<a href="JukeboxItem.html">JukeboxItem</a>>}</span></h4>
-    
+                    </td>
 
-    
-    <p class="summary">Search for item to playback</p>
-    
 
+                    <td class="description last">voicechannel to play into</td>
+                </tr>
 
 
+                <tr>
 
+                    <td class="name"><code>asker</code></td>
 
 
+                    <td class="type">
 
 
+                        <span class="param-type">Discord/Member</span>
 
 
+                    </td>
 
-    <h5>Parameters:</h5>
-    
 
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
+                    <td class="attributes">
 
-        <th>Type</th>
 
-        
-        <th>Attributes</th>
-        
+                    </td>
 
-        
-        <th>Default</th>
-        
 
-        <th class="last">Description</th>
-    </tr>
-    </thead>
+                    <td class="default">
 
-    <tbody>
-    
+                    </td>
 
-        <tr>
-            
-                <td class="name"><code>query</code></td>
-            
 
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
+                    <td class="description last"></td>
+                </tr>
 
 
-            
-            </td>
+                <tr>
 
-            
-                <td class="attributes">
-                
+                    <td class="name"><code>MAX_RESULTS</code></td>
 
-                
 
-                
-                </td>
-            
+                    <td class="type">
 
-            
-                <td class="default">
-                
-                </td>
-            
 
-            <td class="description last">What to search for</td>
-        </tr>
+                        <span class="param-type">Integer</span>
 
-    
 
-        <tr>
-            
-                <td class="name"><code>voiceConnection</code></td>
-            
+                    </td>
 
-            <td class="type">
-            
-                
-<span class="param-type">Discord/VoiceConnection</span>
 
+                    <td class="attributes">
 
-            
-            </td>
+                        &lt;optional><br>
 
-            
-                <td class="attributes">
-                
 
-                
+                    </td>
 
-                
-                </td>
-            
 
-            
-                <td class="default">
-                
-                </td>
-            
+                    <td class="default">
 
-            <td class="description last">voicechannel to play into</td>
-        </tr>
+                        3
 
-    
+                    </td>
 
-        <tr>
-            
-                <td class="name"><code>asker</code></td>
-            
 
-            <td class="type">
-            
-                
-<span class="param-type">Discord/Member</span>
+                    <td class="description last"></td>
+                </tr>
 
 
-            
-            </td>
+                </tbody>
+            </table>
 
-            
-                <td class="attributes">
-                
 
-                
+            <dl class="details">
 
-                
-                </td>
-            
 
-            
-                <td class="default">
-                
-                </td>
-            
+                <dt class="tag-source">Source:</dt>
+                <dd class="tag-source">
+                    <ul class="dummy">
+                        <li>
+                            <a href="classes_JukeboxFanburstItem.js.html">classes/JukeboxFanburstItem.js</a>, <a
+                                href="classes_JukeboxFanburstItem.js.html#line115">line 115</a>
+                        </li>
+                    </ul>
+                </dd>
 
-            <td class="description last"></td>
-        </tr>
 
-    
+            </dl>
 
-        <tr>
-            
-                <td class="name"><code>MAX_RESULTS</code></td>
-            
 
-            <td class="type">
-            
-                
-<span class="param-type">Integer</span>
+            <h5>Returns:</h5>
 
 
-            
-            </td>
+            <dl>
+                <dt>
+                    Type
+                </dt>
+                <dd>
 
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
+                    <span class="param-type">Array.&lt;<a href="JukeboxItem.html">JukeboxItem</a>></span>
 
-                
 
-                
-                </td>
-            
+                </dd>
+            </dl>
 
-            
-                <td class="default">
-                
-                    3
-                
-                </td>
-            
 
-            <td class="description last"></td>
-        </tr>
+            <h4 class="name" id="pause"><span class="type-signature"></span>pause<span class="signature">()</span><span
+                    class="type-signature"> &rarr; {Boolean}</span></h4>
 
-    
-    </tbody>
-</table>
 
+            <p class="summary">Pause the playback of the song if possible</p>
 
 
+            <dl class="details">
 
 
+                <dt class="inherited-from">Inherited From:</dt>
+                <dd class="inherited-from">
+                    <ul class="dummy">
+                        <li>
+                            <a href="JukeboxItem.html#pause">JukeboxItem#pause</a>
+                        </li>
+                    </ul>
+                </dd>
 
-<dl class="details">
 
-    
+                <dt class="tag-source">Source:</dt>
+                <dd class="tag-source">
+                    <ul class="dummy">
+                        <li>
+                            <a href="classes_JukeboxItem.js.html">classes/JukeboxItem.js</a>, <a
+                                href="classes_JukeboxItem.js.html#line94">line 94</a>
+                        </li>
+                    </ul>
+                </dd>
 
-    
 
-    
+            </dl>
 
-    
 
-    
+            <h5>Returns:</h5>
 
-    
 
-    
+            <div class="param-desc">
+                True if the playback was paused, false otherwise
+            </div>
 
-    
 
-    
+            <dl>
+                <dt>
+                    Type
+                </dt>
+                <dd>
 
-    
+                    <span class="param-type">Boolean</span>
 
-    
 
-    
+                </dd>
+            </dl>
 
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="classes_JukeboxFanburstItem.js.html">classes/JukeboxFanburstItem.js</a>, <a href="classes_JukeboxFanburstItem.js.html#line115">line 115</a>
-    </li></ul></dd>
-    
 
-    
+            <h4 class="name" id="play"><span class="type-signature"></span>play<span class="signature">()</span><span
+                    class="type-signature"></span></h4>
 
-    
 
-    
-</dl>
+            <p class="summary">Play the source</p>
 
 
+            <dl class="details">
 
 
+                <dt class="tag-overrides">Overrides:</dt>
+                <dd class="tag-overrides">
+                    <ul class="dummy">
+                        <li>
+                            <a href="JukeboxItem.html#play">JukeboxItem#play</a>
+                        </li>
+                    </ul>
+                </dd>
 
 
+                <dt class="tag-source">Source:</dt>
+                <dd class="tag-source">
+                    <ul class="dummy">
+                        <li>
+                            <a href="classes_JukeboxItem.js.html">classes/JukeboxItem.js</a>, <a
+                                href="classes_JukeboxItem.js.html#line68">line 68</a>
+                        </li>
+                    </ul>
+                </dd>
 
 
+            </dl>
 
 
+            <h4 class="name" id="resume"><span class="type-signature"></span>resume<span
+                    class="signature">()</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
 
 
+            <p class="summary">Resume the playback of the song if possible</p>
 
-<h5>Returns:</h5>
 
-        
+            <dl class="details">
 
 
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Array.&lt;<a href="JukeboxItem.html">JukeboxItem</a>></span>
+                <dt class="inherited-from">Inherited From:</dt>
+                <dd class="inherited-from">
+                    <ul class="dummy">
+                        <li>
+                            <a href="JukeboxItem.html#resume">JukeboxItem#resume</a>
+                        </li>
+                    </ul>
+                </dd>
 
 
-    </dd>
-</dl>
+                <dt class="tag-source">Source:</dt>
+                <dd class="tag-source">
+                    <ul class="dummy">
+                        <li>
+                            <a href="classes_JukeboxItem.js.html">classes/JukeboxItem.js</a>, <a
+                                href="classes_JukeboxItem.js.html#line80">line 80</a>
+                        </li>
+                    </ul>
+                </dd>
 
-    
 
+            </dl>
 
 
+            <h5>Returns:</h5>
 
 
-        
-            
+            <div class="param-desc">
+                True if playback was resumed, false otherwise
+            </div>
 
-    
 
-    
-    <h4 class="name" id="pause"><span class="type-signature"></span>pause<span class="signature">()</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
-    
+            <dl>
+                <dt>
+                    Type
+                </dt>
+                <dd>
 
-    
-    <p class="summary">Pause the playback of the song if possible</p>
-    
+                    <span class="param-type">Boolean</span>
 
 
+                </dd>
+            </dl>
 
 
+            <h4 class="name" id="setLogVolume"><span class="type-signature"></span>setLogVolume<span class="signature">()</span><span
+                    class="type-signature"></span></h4>
 
 
+            <p class="summary">Change the playback Log volume</p>
 
 
+            <dl class="details">
 
 
+                <dt class="inherited-from">Inherited From:</dt>
+                <dd class="inherited-from">
+                    <ul class="dummy">
+                        <li>
+                            <a href="JukeboxItem.html#setLogVolume">JukeboxItem#setLogVolume</a>
+                        </li>
+                    </ul>
+                </dd>
 
 
+                <dt class="tag-source">Source:</dt>
+                <dd class="tag-source">
+                    <ul class="dummy">
+                        <li>
+                            <a href="classes_JukeboxItem.js.html">classes/JukeboxItem.js</a>, <a
+                                href="classes_JukeboxItem.js.html#line149">line 149</a>
+                        </li>
+                    </ul>
+                </dd>
 
 
+            </dl>
 
-<dl class="details">
 
-    
+            <h4 class="name" id="setVolume"><span class="type-signature"></span>setVolume<span
+                    class="signature">()</span><span class="type-signature"></span></h4>
 
-    
 
-    
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="JukeboxItem.html#pause">JukeboxItem#pause</a>
-    </li></ul></dd>
-    
+            <p class="summary">Change the playback volume</p>
 
-    
 
-    
+            <dl class="details">
 
-    
 
-    
+                <dt class="inherited-from">Inherited From:</dt>
+                <dd class="inherited-from">
+                    <ul class="dummy">
+                        <li>
+                            <a href="JukeboxItem.html#setVolume">JukeboxItem#setVolume</a>
+                        </li>
+                    </ul>
+                </dd>
 
-    
 
-    
+                <dt class="tag-source">Source:</dt>
+                <dd class="tag-source">
+                    <ul class="dummy">
+                        <li>
+                            <a href="classes_JukeboxItem.js.html">classes/JukeboxItem.js</a>, <a
+                                href="classes_JukeboxItem.js.html#line140">line 140</a>
+                        </li>
+                    </ul>
+                </dd>
 
-    
 
-    
+            </dl>
 
-    
 
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="classes_JukeboxItem.js.html">classes/JukeboxItem.js</a>, <a href="classes_JukeboxItem.js.html#line94">line 94</a>
-    </li></ul></dd>
-    
+            <h4 class="name" id="stop"><span class="type-signature"></span>stop<span class="signature">()</span><span
+                    class="type-signature"> &rarr; {Boolean}</span></h4>
 
-    
 
-    
+            <p class="summary">Stops the playback of the song if possible</p>
 
-    
-</dl>
 
+            <dl class="details">
 
 
+                <dt class="inherited-from">Inherited From:</dt>
+                <dd class="inherited-from">
+                    <ul class="dummy">
+                        <li>
+                            <a href="JukeboxItem.html#stop">JukeboxItem#stop</a>
+                        </li>
+                    </ul>
+                </dd>
 
 
+                <dt class="tag-source">Source:</dt>
+                <dd class="tag-source">
+                    <ul class="dummy">
+                        <li>
+                            <a href="classes_JukeboxItem.js.html">classes/JukeboxItem.js</a>, <a
+                                href="classes_JukeboxItem.js.html#line110">line 110</a>
+                        </li>
+                    </ul>
+                </dd>
 
 
+            </dl>
 
 
+            <h5>Returns:</h5>
 
 
+            <div class="param-desc">
+                True if the playback was stopped
+            </div>
 
 
-<h5>Returns:</h5>
+            <dl>
+                <dt>
+                    Type
+                </dt>
+                <dd>
 
-        
-<div class="param-desc">
-    True if the playback was paused, false otherwise
-</div>
+                    <span class="param-type">Boolean</span>
 
 
+                </dd>
+            </dl>
 
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Boolean</span>
 
+            <h4 class="name" id="toEmbed"><span class="type-signature">(async) </span>toEmbed<span
+                    class="signature">()</span><span class="type-signature"> &rarr; {Discord/RichEmbed}</span></h4>
 
-    </dd>
-</dl>
 
-    
+            <p class="summary">return an embed corresponding to current playback</p>
 
 
+            <dl class="details">
 
 
+                <dt class="inherited-from">Inherited From:</dt>
+                <dd class="inherited-from">
+                    <ul class="dummy">
+                        <li>
+                            <a href="JukeboxItem.html#toEmbed">JukeboxItem#toEmbed</a>
+                        </li>
+                    </ul>
+                </dd>
 
-        
-            
 
-    
+                <dt class="tag-source">Source:</dt>
+                <dd class="tag-source">
+                    <ul class="dummy">
+                        <li>
+                            <a href="classes_JukeboxItem.js.html">classes/JukeboxItem.js</a>, <a
+                                href="classes_JukeboxItem.js.html#line183">line 183</a>
+                        </li>
+                    </ul>
+                </dd>
 
-    
-    <h4 class="name" id="play"><span class="type-signature"></span>play<span class="signature">()</span><span class="type-signature"></span></h4>
-    
 
-    
-    <p class="summary">Play the source</p>
-    
+            </dl>
 
 
+            <h5>Returns:</h5>
 
 
+            <div class="param-desc">
+                embed
+            </div>
 
 
+            <dl>
+                <dt>
+                    Type
+                </dt>
+                <dd>
 
+                    <span class="param-type">Discord/RichEmbed</span>
 
 
+                </dd>
+            </dl>
 
 
+            <h4 class="name" id="toString"><span class="type-signature">(async) </span>toString<span class="signature">()</span><span
+                    class="type-signature"> &rarr; {String}</span></h4>
 
 
+            <p class="summary">return a string containing the minimum info about the track</p>
 
 
-<dl class="details">
+            <dl class="details">
 
-    
 
-    
+                <dt class="inherited-from">Inherited From:</dt>
+                <dd class="inherited-from">
+                    <ul class="dummy">
+                        <li>
+                            <a href="JukeboxItem.html#toString">JukeboxItem#toString</a>
+                        </li>
+                    </ul>
+                </dd>
 
-    
 
-    
-    <dt class="tag-overrides">Overrides:</dt>
-    <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="JukeboxItem.html#play">JukeboxItem#play</a>
-    </li></ul></dd>
-    
+                <dt class="tag-source">Source:</dt>
+                <dd class="tag-source">
+                    <ul class="dummy">
+                        <li>
+                            <a href="classes_JukeboxItem.js.html">classes/JukeboxItem.js</a>, <a
+                                href="classes_JukeboxItem.js.html#line172">line 172</a>
+                        </li>
+                    </ul>
+                </dd>
 
-    
 
-    
+            </dl>
 
-    
 
-    
+            <h5>Returns:</h5>
 
-    
 
-    
+            <dl>
+                <dt>
+                    Type
+                </dt>
+                <dd>
 
-    
+                    <span class="param-type">String</span>
 
-    
 
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="classes_JukeboxItem.js.html">classes/JukeboxItem.js</a>, <a href="classes_JukeboxItem.js.html#line68">line 68</a>
-    </li></ul></dd>
-    
+                </dd>
+            </dl>
 
-    
 
-    
+            <h3 class="subsection-title">Events</h3>
 
-    
-</dl>
 
+            <h4 class="name" id="event:end">end</h4>
 
 
+            <div class="description">
+                Emitted when an item stops playing
+            </div>
 
 
+            <dl class="details">
 
 
+                <dt class="tag-overrides">Overrides:</dt>
+                <dd class="tag-overrides">
+                    <ul class="dummy">
+                        <li>
+                            <a href="JukeboxItem.html#event:end">JukeboxItem#event:end</a>
+                        </li>
+                    </ul>
+                </dd>
 
 
+                <dt class="tag-source">Source:</dt>
+                <dd class="tag-source">
+                    <ul class="dummy">
+                        <li>
+                            <a href="classes_JukeboxFanburstItem.js.html">classes/JukeboxFanburstItem.js</a>, <a
+                                href="classes_JukeboxFanburstItem.js.html#line95">line 95</a>
+                        </li>
+                    </ul>
+                </dd>
 
 
+            </dl>
 
 
+        </article>
 
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="resume"><span class="type-signature"></span>resume<span class="signature">()</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
-    
-
-    
-    <p class="summary">Resume the playback of the song if possible</p>
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="JukeboxItem.html#resume">JukeboxItem#resume</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="classes_JukeboxItem.js.html">classes/JukeboxItem.js</a>, <a href="classes_JukeboxItem.js.html#line80">line 80</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    True if playback was resumed, false otherwise
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Boolean</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="setLogVolume"><span class="type-signature"></span>setLogVolume<span class="signature">()</span><span class="type-signature"></span></h4>
-    
-
-    
-    <p class="summary">Change the playback Log volume</p>
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="JukeboxItem.html#setLogVolume">JukeboxItem#setLogVolume</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="classes_JukeboxItem.js.html">classes/JukeboxItem.js</a>, <a href="classes_JukeboxItem.js.html#line149">line 149</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="setVolume"><span class="type-signature"></span>setVolume<span class="signature">()</span><span class="type-signature"></span></h4>
-    
-
-    
-    <p class="summary">Change the playback volume</p>
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="JukeboxItem.html#setVolume">JukeboxItem#setVolume</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="classes_JukeboxItem.js.html">classes/JukeboxItem.js</a>, <a href="classes_JukeboxItem.js.html#line140">line 140</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="stop"><span class="type-signature"></span>stop<span class="signature">()</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
-    
-
-    
-    <p class="summary">Stops the playback of the song if possible</p>
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="JukeboxItem.html#stop">JukeboxItem#stop</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="classes_JukeboxItem.js.html">classes/JukeboxItem.js</a>, <a href="classes_JukeboxItem.js.html#line110">line 110</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    True if the playback was stopped
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Boolean</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="toEmbed"><span class="type-signature">(async) </span>toEmbed<span class="signature">()</span><span class="type-signature"> &rarr; {Discord/RichEmbed}</span></h4>
-    
-
-    
-    <p class="summary">return an embed corresponding to current playback</p>
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="JukeboxItem.html#toEmbed">JukeboxItem#toEmbed</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="classes_JukeboxItem.js.html">classes/JukeboxItem.js</a>, <a href="classes_JukeboxItem.js.html#line183">line 183</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    embed
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Discord/RichEmbed</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="toString"><span class="type-signature">(async) </span>toString<span class="signature">()</span><span class="type-signature"> &rarr; {String}</span></h4>
-    
-
-    
-    <p class="summary">return a string containing the minimum info about the track</p>
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-    <dt class="inherited-from">Inherited From:</dt>
-    <dd class="inherited-from"><ul class="dummy"><li>
-        <a href="JukeboxItem.html#toString">JukeboxItem#toString</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="classes_JukeboxItem.js.html">classes/JukeboxItem.js</a>, <a href="classes_JukeboxItem.js.html#line172">line 172</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">String</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-
-        
-    
-
-    
-
-    
-        <h3 class="subsection-title">Events</h3>
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="event:end">end</h4>
-    
-
-    
-
-
-
-<div class="description">
-    Emitted when an item stops playing
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-overrides">Overrides:</dt>
-    <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="JukeboxItem.html#event:end">JukeboxItem#event:end</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="classes_JukeboxFanburstItem.js.html">classes/JukeboxFanburstItem.js</a>, <a href="classes_JukeboxFanburstItem.js.html#line95">line 95</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-    
-</article>
-
-</section>
-
-
+    </section>
 
 
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-parseTextCommand.html">parseTextCommand</a></li></ul><h3>Classes</h3><ul><li><a href="Jukebox.html">Jukebox</a></li><li><a href="JukeboxFanburstItem.html">JukeboxFanburstItem</a></li><li><a href="JukeboxItem.html">JukeboxItem</a></li><li><a href="JukeboxLocalItem.html">JukeboxLocalItem</a></li><li><a href="JukeboxOpeningmoeItem.html">JukeboxOpeningmoeItem</a></li><li><a href="JukeboxYoutubeItem.html">JukeboxYoutubeItem</a></li></ul><h3>Events</h3><ul><li><a href="Jukebox.html#event:QueueEmpty">QueueEmpty</a></li><li><a href="JukeboxFanburstItem.html#event:end">end</a></li><li><a href="JukeboxItem.html#event:end">end</a></li><li><a href="JukeboxLocalItem.html#event:end">end</a></li><li><a href="JukeboxOpeningmoeItem.html#event:end">end</a></li><li><a href="JukeboxYoutubeItem.html#event:end">end</a></li></ul><h3>Global</h3><ul><li><a href="global.html#_supportedSources">_supportedSources</a></li><li><a href="global.html#addToQueue">addToQueue</a></li><li><a href="global.html#asker">asker</a></li><li><a href="global.html#blindTest">blindTest</a></li><li><a href="global.html#chooseOneItem">chooseOneItem</a></li><li><a href="global.html#displayMessage">displayMessage</a></li><li><a href="global.html#exitHandler">exitHandler</a></li><li><a href="global.html">expiration</a></li><li><a href="global.html#getMember">getMember</a></li><li><a href="global.html#hasBegun">hasBegun</a></li><li><a href="global.html#infos">infos</a></li><li><a href="global.html#isBlindTest">isBlindTest</a></li><li><a href="global.html#isPaused">isPaused</a></li><li><a href="global.html#isPlaying">isPlaying</a></li><li><a href="global.html#list">list</a></li><li><a href="global.html">openingListUpdateDate</a></li><li><a href="global.html#pause">pause</a></li><li><a href="global.html#play">play</a></li><li><a href="global.html#replyRandom">replyRandom</a></li><li><a href="global.html#restart">restart</a></li><li><a href="global.html#resume">resume</a></li><li><a href="global.html#sandwich">sandwich</a></li><li><a href="global.html#save">save</a></li><li><a href="global.html#saveConfig">saveConfig</a></li><li><a href="global.html#saveDatabaseConfig">saveDatabaseConfig</a></li><li><a href="global.html#search">search</a></li><li><a href="global.html#setVolume">setVolume</a></li><li><a href="global.html#skip">skip</a></li><li><a href="global.html#stop">stop</a></li><li><a href="global.html#textChannel">textChannel</a></li><li><a href="global.html#track">track</a></li><li><a href="global.html#voiceConnection">voiceConnection</a></li><li><a href="global.html#volume">volume</a></li><li><a href="global.html#waitForMessage">waitForMessage</a></li><li><a href="global.html#yesNoQuestion">yesNoQuestion</a></li></ul>
+    <h2><a href="index.html">Home</a></h2>
+    <h3>Modules</h3>
+    <ul>
+        <li><a href="module-parseTextCommand.html">parseTextCommand</a></li>
+    </ul>
+    <h3>Classes</h3>
+    <ul>
+        <li><a href="Jukebox.html">Jukebox</a></li>
+        <li><a href="JukeboxFanburstItem.html">JukeboxFanburstItem</a></li>
+        <li><a href="JukeboxItem.html">JukeboxItem</a></li>
+        <li><a href="JukeboxLocalItem.html">JukeboxLocalItem</a></li>
+        <li><a href="JukeboxOpeningmoeItem.html">JukeboxOpeningmoeItem</a></li>
+        <li><a href="JukeboxYoutubeItem.html">JukeboxYoutubeItem</a></li>
+    </ul>
+    <h3>Events</h3>
+    <ul>
+        <li><a href="Jukebox.html#event:QueueEmpty">QueueEmpty</a></li>
+        <li><a href="JukeboxFanburstItem.html#event:end">end</a></li>
+        <li><a href="JukeboxItem.html#event:end">end</a></li>
+        <li><a href="JukeboxLocalItem.html#event:end">end</a></li>
+        <li><a href="JukeboxOpeningmoeItem.html#event:end">end</a></li>
+        <li><a href="JukeboxYoutubeItem.html#event:end">end</a></li>
+    </ul>
+    <h3>Global</h3>
+    <ul>
+        <li><a href="global.html#_supportedSources">_supportedSources</a></li>
+        <li><a href="global.html#addToQueue">addToQueue</a></li>
+        <li><a href="global.html#asker">asker</a></li>
+        <li><a href="global.html#blindTest">blindTest</a></li>
+        <li><a href="global.html#chooseOneItem">chooseOneItem</a></li>
+        <li><a href="global.html#displayMessage">displayMessage</a></li>
+        <li><a href="global.html#exitHandler">exitHandler</a></li>
+        <li><a href="global.html">expiration</a></li>
+        <li><a href="global.html#getMember">getMember</a></li>
+        <li><a href="global.html#hasBegun">hasBegun</a></li>
+        <li><a href="global.html#infos">infos</a></li>
+        <li><a href="global.html#isBlindTest">isBlindTest</a></li>
+        <li><a href="global.html#isPaused">isPaused</a></li>
+        <li><a href="global.html#isPlaying">isPlaying</a></li>
+        <li><a href="global.html#list">list</a></li>
+        <li><a href="global.html">openingListUpdateDate</a></li>
+        <li><a href="global.html#pause">pause</a></li>
+        <li><a href="global.html#play">play</a></li>
+        <li><a href="global.html#replyRandom">replyRandom</a></li>
+        <li><a href="global.html#restart">restart</a></li>
+        <li><a href="global.html#resume">resume</a></li>
+        <li><a href="global.html#sandwich">sandwich</a></li>
+        <li><a href="global.html#save">save</a></li>
+        <li><a href="global.html#saveConfig">saveConfig</a></li>
+        <li><a href="global.html#saveDatabaseConfig">saveDatabaseConfig</a></li>
+        <li><a href="global.html#search">search</a></li>
+        <li><a href="global.html#setVolume">setVolume</a></li>
+        <li><a href="global.html#skip">skip</a></li>
+        <li><a href="global.html#stop">stop</a></li>
+        <li><a href="global.html#textChannel">textChannel</a></li>
+        <li><a href="global.html#track">track</a></li>
+        <li><a href="global.html#voiceConnection">voiceConnection</a></li>
+        <li><a href="global.html#volume">volume</a></li>
+        <li><a href="global.html#waitForMessage">waitForMessage</a></li>
+        <li><a href="global.html#yesNoQuestion">yesNoQuestion</a></li>
+    </ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Jul 15 2018 14:20:18 GMT+0200 (GMT+02:00)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Jul 15 2018 14:20:18
+    GMT+0200 (GMT+02:00)
 </footer>
 
 <script> prettyPrint(); </script>
-<script src="scripts/linenumber.js"> </script>
+<script src="scripts/linenumber.js"></script>
 </body>
 </html>

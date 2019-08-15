@@ -15,17 +15,17 @@ console.log(help)
  @return {Promise<void>} Resolve if a command was executed
  **/
 exports.parseTextCommand = (message) => {
-        return new Promise((resolve, reject) => {
-            let command = message.content.substring(1).split(' ')[0].toLowerCase();
-            let parameters = message.content.substring(command.length + 2);
+    return new Promise((resolve, reject) => {
+        let command = message.content.substring(1).split(' ')[0].toLowerCase();
+        let parameters = message.content.substring(command.length + 2);
 
-                    //Redirect to special command help
-                    if (command === 'help' || command == 'halp') {
-                        let returnString = '';
-                        for (let command of Object.keys(help).sort()) {
-                            returnString += `\n **\`$${command}\`** ${(help[command].parameters) ? '_\`' + (help[command].parameters) + '\`_' : ''}\n\t\
+        //Redirect to special command help
+        if (command === 'help' || command == 'halp') {
+            let returnString = '';
+            for (let command of Object.keys(help).sort()) {
+                returnString += `\n **\`$${command}\`** ${(help[command].parameters) ? '_\`' + (help[command].parameters) + '\`_' : ''}\n\t\
                 _${help[command].desc}_\
-                ${ help[command].aliases ? "\n\t__Alias__ : " + help[command].aliases.join(', ') : ''}`;
+                ${help[command].aliases ? "\n\t__Alias__ : " + help[command].aliases.join(', ') : ''}`;
             }
             message.channel.send(returnString);
             resolve();

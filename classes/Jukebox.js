@@ -30,7 +30,7 @@ class Jukebox extends EventEmitter {
          * @public
          * @member {Discord/Channel} textChannel Discod channel to post update in
          */
-        this.textChannel = textChannel
+        this.textChannel = textChannel;
 
         /**
          * @private
@@ -95,7 +95,7 @@ class Jukebox extends EventEmitter {
      * @summary Change the vocie connection to stream into
      * @param {Discord/VoiceConnection} vc new voice connections
      */
-    set voiceConnection(vc){
+    set voiceConnection(vc) {
         this._voiceConnection = vc;
 
         //Also update every item in the playlist
@@ -104,6 +104,7 @@ class Jukebox extends EventEmitter {
             item.voiceConnection = vc;
         });
     }
+
     /**
      * @public
      * @param {String} track Source track to add to the playlist
@@ -113,8 +114,8 @@ class Jukebox extends EventEmitter {
     addMusic(track, asker) {
 
         //You can't add music during a blind test, as it s BLIND
-        if(this.isBlindTest){
-            this.textChannel.send("Ajouter des musiques à un BLIND test ? Vraiment ?")
+        if (this.isBlindTest) {
+            this.textChannel.send("Ajouter des musiques à un BLIND test ? Vraiment ?");
             return false;
         }
 
@@ -122,9 +123,9 @@ class Jukebox extends EventEmitter {
         if (!source) {
             return false;
         }
-        
-        this._playQueue.push(this._createNewItem(track, source, asker))
-        debug(`Ajout de musique, nouvelle longueur de file : ${this._playQueue.length}`)
+
+        this._playQueue.push(this._createNewItem(track, source, asker));
+        debug(`Ajout de musique, nouvelle longueur de file : ${this._playQueue.length}`);
         return true;
     }
 
@@ -137,7 +138,7 @@ class Jukebox extends EventEmitter {
      * @fires Jukebox#QueueEmpty
      * @listens JukeboxItem#end for relooping
      */
-    play(displaySong=true, stopAfter=-1) {
+    play(displaySong = true, stopAfter = -1) {
 
         if (this.isPlaying) {
             throw new Error("The jukebox is already playing !")
@@ -156,17 +157,17 @@ class Jukebox extends EventEmitter {
 
         debug(this.currentSong);
 
-        if (displaySong){
+        if (displaySong) {
             //Send details about the song (async,
             //as we don't really need to wait for it to resolve)
             this.currentSong.toEmbed().then(async (embed) => {
-                await this.textChannel.send("Chanson en cours : ")
+                await this.textChannel.send("Chanson en cours : ");
                 this.textChannel.send({
                     embed
                 });
-            })
+            });
             const user = this._voiceConnection.client.user;
-            this.currentSong.toString().then( async (str) => {
+            this.currentSong.toString().then(async (str) => {
                 user.setActivity(str, {
                     type: 'STREAMING'
                 });
@@ -176,10 +177,10 @@ class Jukebox extends EventEmitter {
 
         this.currentSong.play({
             volume: this.volume / 100,
-            passes : 2
+            passes: 2
         });
         let timeout;
-        if(stopAfter !== -1){
+        if (stopAfter !== -1) {
             timeout = setTimeout(() => {
                 this.fadeOutStop(2500);
             }, stopAfter * 1000)
@@ -187,17 +188,17 @@ class Jukebox extends EventEmitter {
         //Loop after song
         this.currentSong.on('end', () => {
             //If the event triggers before the timeout, clear it
-            if(timeout){
+            if (timeout) {
                 clearTimeout(timeout);
             }
-            if(this.isBlindTest){
+            if (this.isBlindTest) {
                 this.currentSong.toEmbed().then(async (embed) => {
-                    await this.textChannel.send("La chanson était : ")
+                    await this.textChannel.send("La chanson était : ");
                     this.textChannel.send({
                         embed
                     });
                 });
-            }      
+            }
             this.onEnd(displaySong, stopAfter)
         });
         //setTimeout( () => this.currentSong.on('end', (evt) => this.onEnd(evt), 5000));
@@ -209,7 +210,7 @@ class Jukebox extends EventEmitter {
      * @summary What to do at the end of a track
      */
     async onEnd(displaySong, stopAfter) {
-        debug("END")
+        debug("END");
         const user = this._voiceConnection.client.user;
         user.setActivity(null);
         this.currentSong.off('end', this.onEnd);
@@ -221,18 +222,18 @@ class Jukebox extends EventEmitter {
 
     /**
      * @async
-     * @public 
+     * @public
      * @summary Display the playing queue into the discord channel
      */
     async displayQueue() {
 
-        if(this.isBlindTest){
+        if (this.isBlindTest) {
             this.textChannel.send("Non");
             return;
         }
 
         if (this._playQueue.length == 0) {
-            this.textChannel.send("Liste vide !")
+            this.textChannel.send("Liste vide !");
             return;
         }
         let index = 0;
@@ -246,7 +247,7 @@ class Jukebox extends EventEmitter {
     /**
      * @public
      * @summary Change playback volume
-     * @param {Integer} newVolume 
+     * @param {Integer} newVolume
      * @return False if parameters is invalid, false otherwise
      */
     setVolume(newVolume) {
@@ -268,25 +269,25 @@ class Jukebox extends EventEmitter {
      * @returns False if there is no next song
      */
     skip() {
-        if(this.isBlindTest){
+        if (this.isBlindTest) {
             this.textChannel.send("Pas de skip durant un blind test !");
             return false;
         }
 
-        this.currentSong.stop()
+        this.currentSong.stop();
         return true;
     }
 
     /**
      * @public
      * @summary Jump to n-th element in the queue
-     * @param {Integer} songIndex 
+     * @param {Integer} songIndex
      * @throws If index is not valid
-     * 
+     *
      */
     skipTo(songIndex) {
 
-        if(this.isBlindTest){
+        if (this.isBlindTest) {
             this.textChannel.send("Pas de skip durant un blind test !");
             return;
         }
@@ -294,7 +295,7 @@ class Jukebox extends EventEmitter {
         if (songIndex < 0 || this._playQueue.lenght < songIndex + 1) {
             throw new Error("Invalid song index");
         }
-        debug(songIndex)
+        debug(songIndex);
 
         //Skip songs, skipTo(0) should be an alias to skip()
         if (songIndex > 0) {
@@ -302,17 +303,18 @@ class Jukebox extends EventEmitter {
         }
         this.currentSong.stop();
     }
+
     /**
      * @public
      * @summary Stop current song playback
      * @param {Boolean} [startNext=true] Wether to start the next song in the list
      * @returns True if stopped
      */
-    stop(startNext=true) {
-        if(!startNext){
+    stop(startNext = true) {
+        if (!startNext) {
             this.currentSong.removeAllListeners('end');
         }
-        let hasWorked = this.currentSong.stop()
+        let hasWorked = this.currentSong.stop();
         if (hasWorked) {
             this.isPlaying = false;
             const user = this._voiceConnection.client.user;
@@ -321,12 +323,12 @@ class Jukebox extends EventEmitter {
         return hasWorked;
     }
 
-    async fadeOutStop(fadeTime, startNext=true) {
+    async fadeOutStop(fadeTime, startNext = true) {
 
         let numberofStep = 5;
         let fadeStep = fadeTime / numberofStep;
         for (let i = numberofStep; i > 0; i--) {
-            this.currentSong.setLogVolume(0.5)
+            this.currentSong.setLogVolume(0.5);
             await (new Promise((res, rej) => setTimeout(res()), fadeStep));
         }
 
@@ -352,7 +354,7 @@ class Jukebox extends EventEmitter {
         if (this.currentSong.pause()) {
             const user = this._voiceConnection.client.user;
             this.currentSong.toString().then(async (str) => {
-                user.setActivity( "[PAUSED]" + str , {
+                user.setActivity("[PAUSED]" + str, {
                     type: 'STREAMING'
                 });
             });
@@ -362,6 +364,7 @@ class Jukebox extends EventEmitter {
         return false;
 
     }
+
     /**
      * @private
      * @param {Integer} max Upper limit
@@ -370,24 +373,24 @@ class Jukebox extends EventEmitter {
         return Math.floor(Math.random() * Math.floor(max));
     }
 
-    async blindTest(number, categories){
+    async blindTest(number, categories) {
 
         //Cats : anime, film, dessin-animé, chanson populaires
 
         //Categories to choose from for each song
         const allowedCategories = Object.getOwnPropertySymbols(categories);
-        debug(allowedCategories)
+        debug(allowedCategories);
         let blindTestPlaylist = Array(number).fill(0);
         //Fill the blindtest playlist in parallel
         blindTestPlaylist = blindTestPlaylist.map(() => {
             const chosenCategory = allowedCategories[this._getRandomInt(allowedCategories.length)];
-            debug(`chosenCategory : ${chosenCategory.toString()}`)
+            debug(`chosenCategory : ${chosenCategory.toString()}`);
             switch (chosenCategory) {
                 case this.blindTestCategories.ANIME:
-                    debug("Category : ANIME")
+                    debug("Category : ANIME");
                     return JukeboxOpeningmoeItem.getRandom(categories[chosenCategory],
-                         this._voiceConnection,
-                         this._voiceConnection.client.user);
+                        this._voiceConnection,
+                        this._voiceConnection.client.user);
                     break;
                 case this.blindTestCategories.TRENDING:
                     debug("Category : TRENDING");
@@ -400,14 +403,14 @@ class Jukebox extends EventEmitter {
         blindTestPlaylist = await Promise.all(blindTestPlaylist);
         blindTestPlaylist.map(song => {
             debug(song.track)
-        })
+        });
 
         //debug(blindTestPlaylist);
 
         this.isBlindTest = true;
         this._playQueue = blindTestPlaylist;
         this.play(false, 30);
-        
+
     }
 
     /**
@@ -430,7 +433,7 @@ class Jukebox extends EventEmitter {
 
     /**
      * @public
-     * @param {Discord/textChannel} textChannel 
+     * @param {Discord/textChannel} textChannel
      */
     setTextChannel(textChannel) {
         this.textChannel = textChannel;
@@ -443,7 +446,7 @@ class Jukebox extends EventEmitter {
      * @param {String} query What to search for
      * @param {Discord/Message} evt Message leadind to the search
      */
-    async search(query, evt){
+    async search(query, evt) {
         let returnString = "Recherche en cours...\n";
         let displayedResults = await this.textChannel.send(returnString);
         //Do all the search in parallel
@@ -457,9 +460,9 @@ class Jukebox extends EventEmitter {
         let resultIndex = 0;
         //Results from all sources
         let globalResults = [];
-        Promise.reduce( searchPromises, async (returnString, results) => {
+        Promise.reduce(searchPromises, async (returnString, results) => {
             //Called as soon as one promise resolves
-           
+
             //Check number of results
             if (!results || !results.length) {
                 return returnString;
@@ -475,13 +478,13 @@ class Jukebox extends EventEmitter {
             let separator = '';
             switch (results[0].constructor.name) {
                 case "JukeboxYoutubeItem":
-                    separator = "\n\`\`\`prolog\n YOUTUBE\n\`\`\`\n\t\t"
+                    separator = "\n\`\`\`prolog\n YOUTUBE\n\`\`\`\n\t\t";
                     break;
                 case "JukeboxLocalItem":
-                    separator = "\n\`\`\`yaml\n LOCAL\n\`\`\`\n\t\t"
+                    separator = "\n\`\`\`yaml\n LOCAL\n\`\`\`\n\t\t";
                     break;
                 case "JukeboxOpeningmoeItem":
-                    separator = "\n\`\`\`css\n OPENING MOE\n\`\`\`\n\t\t"
+                    separator = "\n\`\`\`css\n OPENING MOE\n\`\`\`\n\t\t";
                     break;
                 default:
                     separator = "--------------\n\t\t"
@@ -490,44 +493,44 @@ class Jukebox extends EventEmitter {
             returnString += resultsStrings.map(resultString => {
                 return `${++resultIndex}) ${resultString}\n\t\t`
             }).join('');
-            
+
             displayedResults.edit(returnString);
             return returnString;
         }, returnString)
-        .then( async (returnString) => {
-            //Called when all the promises are resolved
-            returnString = returnString.replace("Recherche en cours...", "Recherche terminée !")
-            //Stop there as there is no results
-            if (!hasResults){
-                returnString += "Aucun résultats"
-                displayedResults.edit(returnString);
-                return;
-            }
-            displayedResults.edit(returnString);
-
-            //Let the user choose the music to add to the list
-            const chosenSong = await chooseOneItem(
-                evt,
-                globalResults,
-                `Quelle musique ajouter à la liste de lecture ?`,
-                {
-                    displayChoices : false,
-                    noItemResponse : "Aucun morceau à ajouter",
-                    timeout : 2*60*1000 //2mins
+            .then(async (returnString) => {
+                //Called when all the promises are resolved
+                returnString = returnString.replace("Recherche en cours...", "Recherche terminée !");
+                //Stop there as there is no results
+                if (!hasResults) {
+                    returnString += "Aucun résultats";
+                    displayedResults.edit(returnString);
+                    return;
                 }
-            );
-            //If a choice was made, ad it to the play queue
-            if(chosenSong){
-                this._playQueue.push(chosenSong);
-                evt.channel.send("Musique ajoutée à la liste !");
-                this.displayQueue();
-            }else{{
-                evt.channel.send("Annulé!")
-            }}
-            
-        })
+                displayedResults.edit(returnString);
 
+                //Let the user choose the music to add to the list
+                const chosenSong = await chooseOneItem(
+                    evt,
+                    globalResults,
+                    `Quelle musique ajouter à la liste de lecture ?`,
+                    {
+                        displayChoices: false,
+                        noItemResponse: "Aucun morceau à ajouter",
+                        timeout: 2 * 60 * 1000 //2mins
+                    }
+                );
+                //If a choice was made, ad it to the play queue
+                if (chosenSong) {
+                    this._playQueue.push(chosenSong);
+                    evt.channel.send("Musique ajoutée à la liste !");
+                    this.displayQueue();
+                } else {
+                    {
+                        evt.channel.send("Annulé!")
+                    }
+                }
 
+            })
 
 
     }
@@ -558,25 +561,24 @@ class Jukebox extends EventEmitter {
      * @private
      * @param {String} track source to check
      * @returns {(Symbol | Boolean)} Source or false if not found
-     * 
+     *
      * @todo implements dis
      */
     _getSource(track) {
         if (this._regYoutube.test(track)) {
-            debug(`Source de l'ajout : Youtube`)
+            debug(`Source de l'ajout : Youtube`);
             return this._supportedSources.YOUTUBE;
-        }
-        else if (this._regOpeningmoe.test(track)) {
-            debug(`Source de l'ajout : Opening.moe`)
+        } else if (this._regOpeningmoe.test(track)) {
+            debug(`Source de l'ajout : Opening.moe`);
             return this._supportedSources.OPENINGMOE;
         }
 
         if (JukeboxLocalItem.getLocalSongList().includes(track)) {
-            debug(`Source de l'ajout : Local`)
+            debug(`Source de l'ajout : Local`);
             return this._supportedSources.LOCAL;
         }
 
-        debug(`Source de l'ajout : Non reconnue`)
+        debug(`Source de l'ajout : Non reconnue`);
         return false
     }
 
@@ -597,7 +599,7 @@ class Jukebox extends EventEmitter {
                 return new JukeboxLocalItem(track, this._voiceConnection, asker);
                 break;
             case this._supportedSources.OPENINGMOE:
-                return new JukeboxOpeningmoeItem(track, this._voiceConnection, asker)
+                return new JukeboxOpeningmoeItem(track, this._voiceConnection, asker);
                 break;
             default :
                 throw new Error("Unrecognized source");

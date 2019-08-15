@@ -18,7 +18,7 @@ exports.saveConfig = () => {
  * @public
  * @async
  * @summary Overwrite databaseConfig with the given Object
- * @param {Object} databaseConfig 
+ * @param {Object} databaseConfig
  * @returns {Promise<void>} Resolve when done
  */
 exports.saveDatabaseConfig = (databaseConfig) => {

@@ -13,8 +13,8 @@ class GuiItemFactory extends EventEmitter {
 
     }
 
-    static createItem(link){
-        if (GuiItemFactory.YOUTUBE.test(link)){
+    static createItem(link) {
+        if (GuiItemFactory.YOUTUBE.test(link)) {
             return new GuiYoutubeItem(link);
         }
 

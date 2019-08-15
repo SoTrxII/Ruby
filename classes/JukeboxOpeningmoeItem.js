@@ -1,9 +1,10 @@
 const JukeboxItem = require('./JukeboxItem');
 const request = require("request-promise");
-const debug = require('debug')('JukeboxOpeningmoeItem')
-const { join } = require("path");
+const debug = require('debug')('JukeboxOpeningmoeItem');
+const {join} = require("path");
 const {save} = require(join(global.baseAppDir, 'utils', 'saveConfig.js'));
-const fuzzySet = require("fuzzyset.js")
+const fuzzySet = require("fuzzyset.js");
+
 /**
  * @class
  * @extends JukeboxItem
@@ -18,7 +19,7 @@ class JukeboxOpeningmoeItem extends JukeboxItem {
         /**
          * @public
          * @member {Promise<Object>} infos Infos about the video
-         * @desc Uses a deferred promise that resolve when the informations are fetched 
+         * @desc Uses a deferred promise that resolve when the informations are fetched
          */
         this.infos = new Promise(function () {
             resolve = arguments[0];
@@ -28,13 +29,35 @@ class JukeboxOpeningmoeItem extends JukeboxItem {
 
 
     }
+
+    /**
+     * @static
+     * @async
+     * @summary get the opening list, updating it if needed
+     * @returns {FuzzySet<String>} anime list
+     */
+    static get openingList() {
+        if (!JukeboxOpeningmoeItem._openingList ||
+            JukeboxOpeningmoeItem.openingListUpdateDate - Date.now() > JukeboxOpeningmoeItem.expiration) {
+            debug("Update de la liste d'anime");
+            return JukeboxOpeningmoeItem._updateOpeningList().then(() => {
+                return JukeboxOpeningmoeItem._openingList
+            })
+        } else {
+            debug("Pas d'update Liste anime");
+            return JukeboxOpeningmoeItem._openingList
+        }
+
+
+    }
+
     /**
      * @static
      * @private
      * @returns {Function} All opening.moe API endpoints
      */
     static _getOpeningmoeEndpoints() {
-        return new(function () {
+        return new (function () {
             this.root = 'https://openings.moe';
             this.list = () => `${this.root}/api/list.php`; //List of all animes openings
             this.listFilenames = () => `${this.root}/api/list.php?filenames`; //List of all animes openings with only filenames
@@ -68,39 +91,18 @@ class JukeboxOpeningmoeItem extends JukeboxItem {
      * @static
      * @summary Update the anime list
      */
-    static async _updateOpeningList(){
+    static async _updateOpeningList() {
         const requestOpt = Object.assign(JukeboxOpeningmoeItem._getRequestTemplate(), {
             url: JukeboxOpeningmoeItem._getOpeningmoeEndpoints().listFilenames()
-        })
+        });
         let results = await request(requestOpt).catch((err) => {
             console.error(err);
             return null;
         });
-        if(!results || !results.length){
+        if (!results || !results.length) {
             return null;
         }
         JukeboxOpeningmoeItem._openingList = fuzzySet(results);
-    }
-
-    /**
-     * @static
-     * @async
-     * @summary get the opening list, updating it if needed
-     * @returns {FuzzySet<String>} anime list
-     */
-    static get openingList(){
-        if (!JukeboxOpeningmoeItem._openingList ||
-            JukeboxOpeningmoeItem.openingListUpdateDate - Date.now() > JukeboxOpeningmoeItem.expiration) {
-                debug("Update de la liste d'anime")
-                return JukeboxOpeningmoeItem._updateOpeningList().then(() => {
-                    return JukeboxOpeningmoeItem._openingList
-                })
-        }else{
-            debug("Pas d'update Liste anime")
-            return JukeboxOpeningmoeItem._openingList
-        }
-        
-
     }
 
     /**
@@ -110,12 +112,12 @@ class JukeboxOpeningmoeItem extends JukeboxItem {
      * @summary Get a random song from the list with or without constraints
      * @param {Object} contraints Object of possible constraint restraining the "randomness" of the choice
      * @returns {JukeboxOpeningmoeItem} Instanciated object of the random song
-     * 
+     *
      */
     static async getRandom(contraints, voiceConnection, asker) {
         const requestOpt = Object.assign(JukeboxOpeningmoeItem._getRequestTemplate(), {
             url: JukeboxOpeningmoeItem._getOpeningmoeEndpoints().listShuffled()
-        })
+        });
 
         let results = await request(requestOpt).catch((err) => {
             console.error(err);
@@ -128,7 +130,7 @@ class JukeboxOpeningmoeItem extends JukeboxItem {
 
         let filter;
         Object.getOwnPropertyNames(contraints).forEach(constraint => {
-            switch(constraint){
+            switch (constraint) {
                 //Could be either opening or ending
                 case "type":
                     filter = (contraints[constraint] === "Opening") ? "isOpening" : "isEnding";
@@ -136,17 +138,17 @@ class JukeboxOpeningmoeItem extends JukeboxItem {
                 default:
                     break;
             }
-        })
+        });
         //Reshuffling the array, as the shuffling of opeing.moe is time based and very close request will break it
         let shuffledResults = results.map((a) => [Math.random(), a]).sort((a, b) => a[0] - b[0]).map((a) => a[1]);
         results = null;
-        const chosenItem = 
-            (filter) ? 
-            shuffledResults.find(song => {
-                //Abuse string interpolation to execute the filter string as a function on the song
-                return `${`JukeboxOpeningmoeItem._${filter}(${song})`}`
-            }) :
-            shuffledResults[0]
+        const chosenItem =
+            (filter) ?
+                shuffledResults.find(song => {
+                    //Abuse string interpolation to execute the filter string as a function on the song
+                    return `${`JukeboxOpeningmoeItem._${filter}(${song})`}`
+                }) :
+                shuffledResults[0]
         ;
         shuffledResults = null;
         //debug(chosenItem);
@@ -163,7 +165,7 @@ class JukeboxOpeningmoeItem extends JukeboxItem {
      * @param {Object} songDetails Song Object as returned by the opening.moe API
      * @return true if the song is an opening
      */
-    static _isOpening(songDetails){
+    static _isOpening(songDetails) {
         return songDetails.title.includes("Opening") || songDetails.title.includes("opening");
     }
 
@@ -173,29 +175,8 @@ class JukeboxOpeningmoeItem extends JukeboxItem {
      * @param {Object} songDetails Song Object as returned by the opening.moe API
      * @return true if the song is an ending
      */
-    static _isEnding(songDetails){
+    static _isEnding(songDetails) {
         return songDetails.title.includes("Ending") || songDetails.title.includes("ending");
-    }
-
-    /**
-     * @override 
-     * @public
-     * @summary Play the source
-     */
-    play(options) {
-        super.play();
-        
-        this._dispatcher = this._voiceConnection.playStream(
-            JukeboxOpeningmoeItem._getOpeningmoeEndpoints().streamTrack(this.track),
-            options
-        )
-        this._dispatcher.on('end', (evt) => {
-            /**
-             * Emitted when an item stops playing
-             * @event JukeboxItem#end
-             */
-            this.emit('end');
-        })
     }
 
     /**
@@ -206,7 +187,7 @@ class JukeboxOpeningmoeItem extends JukeboxItem {
      * @summary Search for item to playback
      * @param {String} query What to search for
      * @param {Discord/VoiceConnection} voiceConnection voicechannel to play into
-     * @param {Discord/Member} asker 
+     * @param {Discord/Member} asker
      * @param {Integer} [MAX_RESULTS=3]
      * @return {JukeboxItem[]}
      */
@@ -227,6 +208,27 @@ class JukeboxOpeningmoeItem extends JukeboxItem {
     }
 
     /**
+     * @override
+     * @public
+     * @summary Play the source
+     */
+    play(options) {
+        super.play();
+
+        this._dispatcher = this._voiceConnection.playStream(
+            JukeboxOpeningmoeItem._getOpeningmoeEndpoints().streamTrack(this.track),
+            options
+        );
+        this._dispatcher.on('end', (evt) => {
+            /**
+             * Emitted when an item stops playing
+             * @event JukeboxItem#end
+             */
+            this.emit('end');
+        })
+    }
+
+    /**
      * @async
      * @private
      * @summary Retrieve the video infos from Opening.moe and reduce it to what we need.
@@ -236,7 +238,7 @@ class JukeboxOpeningmoeItem extends JukeboxItem {
     async _retrieveInfo(resolve, reject) {
         const requestOpt = Object.assign(JukeboxOpeningmoeItem._getRequestTemplate(), {
             url: JukeboxOpeningmoeItem._getOpeningmoeEndpoints().track(this.track)
-        })
+        });
         let data = await request(requestOpt).catch(reject);
         resolve({
             title: `${data.source} - ${data.title}`,
@@ -258,11 +260,12 @@ class JukeboxOpeningmoeItem extends JukeboxItem {
     }
 
 }
+
 /**
  * @member {FuzzySet<String>} openingList List of anime opening to search on
  * @static
  * @private
- * 
+ *
  */
 JukeboxOpeningmoeItem._openingList = null;
 /**
@@ -274,7 +277,7 @@ JukeboxOpeningmoeItem.openingListUpdateDate = Date.now();
 /**
  * @member {Integer} expiration Expiration date of the anime list
  * @static
- * @description 1 day means refresh the whole list after 1 day of usage 
+ * @description 1 day means refresh the whole list after 1 day of usage
  * @public
  */
 JukeboxOpeningmoeItem.expiration = 1 * 24 * 3600 * 1000; //1 day

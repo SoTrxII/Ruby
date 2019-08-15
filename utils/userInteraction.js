@@ -8,10 +8,10 @@
  * @param {Integer} timeout Reject automatically after a certain time (-1 for infinite)
  * @returns {Promise<String>} Resolve with the message the user sent.
  */
-function waitForMessage (authorId, validation, timeout) {
+function waitForMessage(authorId, validation, timeout) {
     return new Promise((resolve, reject) => {
-        if(timeout != -1){
-            setTimeout( () => {
+        if (timeout != -1) {
+            setTimeout(() => {
                 reject("Timeout")
             }, timeout)
         }
@@ -24,7 +24,7 @@ function waitForMessage (authorId, validation, timeout) {
             }
         };
         global.Rin.on('message', func);
-     });
+    });
 }
 
 /**
@@ -32,27 +32,30 @@ function waitForMessage (authorId, validation, timeout) {
  * @public
  * @summary Ask a user a yes / no question
  * @param {Discordjs/Message} evt General handle to text channel
- * @param {Discordjs/User_id} authorId Id of the one user that has to answer 
+ * @param {Discordjs/User_id} authorId Id of the one user that has to answer
  * @param {String} question question to ask
  * @param {Integer} timeout timeout for the question. (Default is 5') Null is then returned.
  * @returns {Promise<Boolean>} true for yes, false for no, null if timeout
  */
-async function yesNoQuestion(evt, authorId, question, timeout){
+async function yesNoQuestion(evt, authorId, question, timeout) {
     evt.reply(`${question} [O/n]`)
     let message = await waitForMessage(authorId, (message) => {
         const validResponses = ['O', 'o', 'n', 'N', 'Oui', 'Non', 'oui', 'non'];
-        if(validResponses.includes(message)){
+        if (validResponses.includes(message)) {
             return true;
-        }else {
+        } else {
             evt.reply("C'est oui ou non...");
             return false
-    }
+        }
 
-    },timeout || 5*60*1000).catch(ex => {return null});
+    }, timeout || 5 * 60 * 1000).catch(ex => {
+        return null
+    });
     let positiveAnswers = ['O', 'o', 'Oui', 'oui'];
     return positiveAnswers.includes(message.content)
 
 }
+
 /**
  * @summary Make the user choose between the choices in itemList
  * @param {Discordjs/Message} evt General handle to text channel
@@ -61,24 +64,23 @@ async function yesNoQuestion(evt, authorId, question, timeout){
  * @param {Object} [options] optional parameters
  * @param {String} options.noItemResponse what to repy itemList is empty (nothing if undefined)
  * @param {Integer} options.timeout timeout for the question. (Default is 5') Null is then returned.
- * @param {Boolean} [options.displayChoices=true] Whether to display the choices 
+ * @param {Boolean} [options.displayChoices=true] Whether to display the choices
  * @returns {Promise<Object>} chosen item or null if no item, stopped or timeout
  */
-async function chooseOneItem(evt, itemList, question, options){
+async function chooseOneItem(evt, itemList, question, options) {
     if (itemList.length == 0) {
-        if(options.noItemResponse){
+        if (options.noItemResponse) {
             evt.reply(options.noItemResponse)
         }
         return null;
-    }
-    else if (itemList.length == 1) {
+    } else if (itemList.length == 1) {
         chosenItem = itemList[0];
         return chosenItem
     } else {
 
         choicestring = `${question} (staph pour annuler) \n`
 
-        if (options.displayChoices){
+        if (options.displayChoices) {
             for (let [index, campaign] of itemList.entries()) {
                 choicestring += `\t\t**${index + 1}**)\t-->\t`
                 choicestring += await campaign.toString()
@@ -101,7 +103,9 @@ async function chooseOneItem(evt, itemList, question, options){
                 return true;
             }
 
-        }, options.timeout || 5 * 60 * 100).catch(ex => {return null});
+        }, options.timeout || 5 * 60 * 100).catch(ex => {
+            return null
+        });
 
         if (choice.content == 'staph') {
             evt.channel.send("Annulé !")
@@ -115,7 +119,7 @@ async function chooseOneItem(evt, itemList, question, options){
 
 
 module.exports = {
-    waitForMessage : waitForMessage,
+    waitForMessage: waitForMessage,
     chooseOneItem: chooseOneItem,
     yesNoQuestion: yesNoQuestion
 }

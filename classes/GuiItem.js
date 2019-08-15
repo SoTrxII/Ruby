@@ -17,6 +17,35 @@ class GuiItem extends EventEmitter {
         this.volumeStream = null;
         this._state = GuiItem.STATE.STOPPED;
         this.islooping = false;
+        this.startTime = 0;
+        //Set by mute function, backup volume to restore after mute
+        this.volumeBackup = undefined;
+    }
+
+    get state() {
+        return this._state;
+    }
+
+    set state(state) {
+        if (GuiItem.STATE.hasOwnProperty(state)) {
+            throw new Error(state + "is not a valid song state !")
+        }
+        this._state = state;
+
+    }
+
+    get volume() {
+        return this.volumeStream.volume;
+    }
+
+    set volume(volume) {
+        const vol = parseInt(volume);
+
+        if (isNaN(vol) || vol < 0 || vol > 100) {
+            throw new Error(volume + " is not a valid volume !");
+        }
+        console.log(vol);
+        this.volumeStream.setVolume(vol / 100);
     }
 
     /**
@@ -27,33 +56,25 @@ class GuiItem extends EventEmitter {
         throw new Error("abtract method");
     }
 
-    set state(state){
-        if(GuiItem.STATE.hasOwnProperty(state)){
-            throw new Error(state + "is not a valid song state !")
+    mute() {
+        if (this.volumeBackup !== undefined) {
+            return false;
         }
-        this._state = state;
-        
+        this.volumeBackup = this.volume;
+        this.volume = 0;
     }
 
-    get state(){
-        return this._state;
-    }
-
-    set volume(volume){
-        const vol = parseInt(volume);
-        if(isNaN(vol) || vol < 0 || vol > 100){
-            throw new Error(volume + " is not a valid volume !");
+    unmute() {
+        if (this.volumeBackup === undefined) {
+            return false;
         }
-        this.volumeStream.setVolume(vol / 100);
+        this.volume = this.volumeBackup * 100;
+        this.volumeBackup = undefined;
     }
-
-    get volume(){
-        return this.volumeStream.getVolume();
-    }
-
 
 
 }
+
 GuiItem.STATE = Object.freeze({
     STOPPED: "stopped",
     PLAYING: "playing",

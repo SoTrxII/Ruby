@@ -10,8 +10,8 @@ const {
     basename,
     extname
 } = require('path');
-const fuzzySet = require("fuzzyset.js")
-const debug = require('debug')('jukeboxLocalItem')
+const fuzzySet = require("fuzzyset.js");
+const debug = require('debug')('jukeboxLocalItem');
 
 /**
  * @class
@@ -32,15 +32,11 @@ class JukeboxLocalItem extends JukeboxItem {
 
     }
 
-    async _getTrueTrackName(resolve, reject) {
-        const filename = await this._getFileFromAlias(this.track).catch(reject);
-        resolve(filename);
-    }
     /**
      * @static
      * @private
      * @summary Return where on the disk are the song files
-     * @returns {String} Dir path 
+     * @returns {String} Dir path
      */
     static _getLocalStoragePath() {
         return resolve(__dirname, '../sounds/');
@@ -54,28 +50,27 @@ class JukeboxLocalItem extends JukeboxItem {
      * @summary Search for item to playback
      * @param {String} query What to search for
      * @param {Discord/VoiceConnection} voiceConnection voicechannel to play into
-     * @param {Discord/Member} asker 
+     * @param {Discord/Member} asker
      * @param {Integer} [MAX_RESULTS=3]
      * @return {JukeboxItem[]} Found items
      */
     static async search(query, voiceConnection, asker, MAX_RESULTS = 3) {
         /**
-         * Use a fuzzy set to match the query 
-        * @see{@link https://en.wikipedia.org/wiki/Approximate_string_matching}
-        * */
+         * Use a fuzzy set to match the query
+         * @see{@link https://en.wikipedia.org/wiki/Approximate_string_matching}
+         * */
         const songList = fuzzySet(JukeboxLocalItem.getLocalSongList());
         let results = songList.get(query);
-        if(!results || !results.length){
+        if (!results || !results.length) {
             return null;
         }
-        if (results.length > MAX_RESULTS){
+        if (results.length > MAX_RESULTS) {
             results = results.slice(0, MAX_RESULTS);
         }
-        return results.map( result => {
+        return results.map(result => {
             return new JukeboxLocalItem(result[1], voiceConnection, asker);
         })
     }
-
 
     /**
      * @static
@@ -93,9 +88,7 @@ class JukeboxLocalItem extends JukeboxItem {
             'inception': [
                 'dooom'
             ],
-            'yeah': [
-
-            ]
+            'yeah': []
         }
     }
 
@@ -108,8 +101,8 @@ class JukeboxLocalItem extends JukeboxItem {
 
         const aliases = JukeboxLocalItem.getAliases();
 
-        const files = readdirSync(JukeboxLocalItem._getLocalStoragePath())
-        let results = []
+        const files = readdirSync(JukeboxLocalItem._getLocalStoragePath());
+        let results = [];
         files.map(file => {
             let filename = basename(file, extname(file));
             results.push(filename);
@@ -117,15 +110,20 @@ class JukeboxLocalItem extends JukeboxItem {
             if (aliases.hasOwnProperty(filename)) {
                 results = results.concat(aliases[filename]);
             }
-        })
+        });
         return results;
+    }
+
+    async _getTrueTrackName(resolve, reject) {
+        const filename = await this._getFileFromAlias(this.track).catch(reject);
+        resolve(filename);
     }
 
     /**
      * @async
      * @private
      * @summary Take a file alias as parameter and returns the true name of the file with it 's extension.
-     * @param {String} alias 
+     * @param {String} alias
      * @return {String} File true name
      */
     async _getFileFromAlias(alias) {
@@ -135,18 +133,18 @@ class JukeboxLocalItem extends JukeboxItem {
         for (const key of Object.keys(aliases)) {
             const matches = aliases[key].filter((fileAlias) => {
                 return fileAlias == alias;
-            })
+            });
             if (matches.length || key == alias) {
-                filename = key
+                filename = key;
                 break;
             }
         }
         // await files;
         //debug(files)
-        let files = await readdir(JukeboxLocalItem._getLocalStoragePath())
+        let files = await readdir(JukeboxLocalItem._getLocalStoragePath());
         const filenameWithExtension = files.filter(file => {
             return filename == basename(file, extname(file));
-        })
+        });
 
         debug(filenameWithExtension);
 
@@ -163,9 +161,9 @@ class JukeboxLocalItem extends JukeboxItem {
         super.play();
         this.trueTrack.then(async () => {
             let tt = await this.trueTrack;
-            debug(tt)
+            debug(tt);
             let path = resolve(this.localStorageDir, `./${tt}`);
-            debug(path)
+            debug(path);
             this._dispatcher = this._voiceConnection.playFile(path, options);
 
             this._dispatcher.on('end', (evt) => {

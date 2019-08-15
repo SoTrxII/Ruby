@@ -1,11 +1,11 @@
 const JukeboxItem = require('./JukeboxItem');
 const ytdl = require('ytdl-core');
 const utils = require('util');
-const ytAPI = new(require('youtube-node'))();
+const ytAPI = new (require('youtube-node'))();
 
 //SearchPm --> Search with promise
-const searchPm = utils.promisify(ytAPI.search)
-const debug = require('debug')('jukeboxYoutubeItem')
+const searchPm = utils.promisify(ytAPI.search);
+const debug = require('debug')('jukeboxYoutubeItem');
 
 ytAPI.setKey(global.Config.API.Google.youtubeParser);
 
@@ -22,7 +22,7 @@ class JukeboxYoutubeItem extends JukeboxItem {
         /**
          * @public
          * @member {Promise<Object>} infos Infos about the video
-         * @desc Uses a deferred promise that resolve when the informations are fetched 
+         * @desc Uses a deferred promise that resolve when the informations are fetched
          */
         this.infos = new Promise(function () {
             resolve = arguments[0];
@@ -32,12 +32,54 @@ class JukeboxYoutubeItem extends JukeboxItem {
     }
 
     /**
-     * @override 
+     * @async
+     * @static
+     * @override
+     * @public
+     * @summary Search for item to playback
+     * @param query Whatto search for
+     * @param {Discord/VoiceConnection} voiceConnection voicechannel to play into
+     * @param {Discord/Member} asker
+     * @param {Integer} [MAX_RESULTS=3]
+     * @return {JukeboxItem[]}
+     */
+    static async search(query, voiceConnection, asker, MAX_RESULTS = 3) {
+        let res = await searchPm(query, MAX_RESULTS).catch((err) => {
+            console.error(err);
+            return null;
+        });
+
+        if (!res || !res.items || !res.items.length) {
+            return null;
+        }
+
+
+        res = res.items;
+        //Only keep videos (exclude playlist)
+        res = res.filter(item => {
+            return item.id.kind === "youtube#video"
+        });
+
+        //Return urls
+        res = res.map(item => {
+            return new JukeboxYoutubeItem(
+                `https://www.youtube.com/watch?v=${item.id.videoId}`,
+                voiceConnection,
+                asker
+            );
+        });
+
+        return res
+
+    }
+
+    /**
+     * @override
      * @public
      * @summary Play the source
      */
     play(options) {
-        console.log(this.track)
+        console.log(this.track);
         super.play();
         this._dispatcher = this._voiceConnection.playStream(
             ytdl(this.track, {
@@ -45,7 +87,7 @@ class JukeboxYoutubeItem extends JukeboxItem {
                 highWaterMark: 1024 * 1024 * 50 //Give the song a 50Mb buffer size (default : 16kb)
             }),
             options
-        )
+        );
         this._dispatcher.on('end', (evt) => {
             /**
              * Emitted when an item stops playing
@@ -62,7 +104,7 @@ class JukeboxYoutubeItem extends JukeboxItem {
      * @param {function} reject Resolve deferred @see{@link infos} promise
      */
     async _retrieveInfo(resolve, reject) {
-         const data = await ytdl.getInfo(this.track).catch(reject);
+        const data = await ytdl.getInfo(this.track).catch(reject);
 
         resolve({
             title: data.title,
@@ -71,48 +113,6 @@ class JukeboxYoutubeItem extends JukeboxItem {
             image: `https://img.youtube.com/vi/${data.video_id}/0.jpg`,
             url: this.track
         });
-
-    }
-
-    /**
-     * @async
-     * @static
-     * @override
-     * @public
-     * @summary Search for item to playback
-     * @param query Whatto search for
-     * @param {Discord/VoiceConnection} voiceConnection voicechannel to play into
-     * @param {Discord/Member} asker 
-     * @param {Integer} [MAX_RESULTS=3]
-     * @return {JukeboxItem[]}
-     */
-    static async search(query, voiceConnection, asker, MAX_RESULTS = 3) {
-        let res = await searchPm(query, MAX_RESULTS).catch( (err) => {
-            console.error(err);
-            return null;
-        });
-
-        if(!res || !res.items || !res.items.length){
-            return null;
-        }
-
-        
-        res = res.items;
-        //Only keep videos (exclude playlist)
-        res = res.filter(item => {
-            return item.id.kind === "youtube#video"
-        });
-
-        //Return urls
-        res = res.map( item => {
-            return new JukeboxYoutubeItem(
-                `https://www.youtube.com/watch?v=${item.id.videoId}`,
-                voiceConnection,
-                asker
-            );
-        })
-
-        return res
 
     }
 

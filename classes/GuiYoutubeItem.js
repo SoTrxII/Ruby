@@ -19,15 +19,15 @@ class GuiYoutubeItem extends GuiItem {
      * Returns a readable stream that can be played right away
      * @returns {ReadableStream}
      */
-    createStream(){
+    createStream() {
         this.stream = ytdl(this.track, {
-            //filter: 'audioonly',
+            filter: 'audio',
             //highWaterMark: 1024 * 1024 * 50 //Give the song a 50Mb buffer size (default : 16kb)
         });
 
+
         //this.stream = createReadStream("f.wav");
     }
-
 
 
 }

@@ -8,7 +8,6 @@ global.Config = require('./config.json');
 global.baseAppDir = __dirname;
 
 
-
 //Constants
 global.Rin = new Discord.Client();
 const Rin = global.Rin; //Convenient alias
