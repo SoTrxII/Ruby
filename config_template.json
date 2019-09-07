@@ -10,10 +10,5 @@
     "Google": {
       "youtubeParser": "YOUR_TOKEN"
     }
-  },
-  "Commands": {
-    "allowPrivate": false,
-    "denyList": {
-    }
   }
 }

@@ -1,36 +1,56 @@
 {
   "name": "Rin",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "scripts": {
-    "start": "node rin.js",
+    "start": "node src/rin.ts",
     "doc": "jsdoc -d docs -r -c jsdocconf.json .",
-    "devstart": "nodemon rin.js",
+    "devstart": "nodemon src/rin.ts",
     "dev": "mv config.json config_prod.json && mv config_dev.json config.json",
     "prod": "mv config.json config_dev.json && mv config_prod.json config.json"
   },
   "description": "Ruby",
-  "main": "rin.js",
+  "main": "src/rin.ts",
   "repository": "https://github.com/Soulcramer/Rin.git",
   "author": "Soulcramer, SoTrx",
   "license": "MIT",
   "dependencies": {
-    "bluebird": "^3.5.2",
-    "chalk": "^2.4.1",
     "debug": "^4.0.1",
     "discord.js": "^11.4.2",
     "fluent-ffmpeg": "^2.1.2",
-    "fuzzyset.js": "^0.0.5",
     "glob": "^7.1.2",
     "node-opus": "^0.3.0",
     "pcm-volume": "^1.0.0",
-    "ramda": "^0.25.0",
-    "request": "^2.87.0",
-    "request-promise": "^4.2.2",
+    "ramda": "^0.26.1",
     "socket.io": "^2.2.0",
     "sodium": "^3.0.2",
     "speaker": "^0.4.2",
-    "uws": "^10.148.0",
+    "uws": "^100.0.1",
     "youtube-node": "^1.3.2",
-    "ytdl-core": "^0.29.5"
+    "ytdl-core": "^0.29.6"
+  },
+  "devDependencies": {
+    "@types/debug": "^4.1.5",
+    "@types/fluent-ffmpeg": "^2.1.10",
+    "@types/glob": "^7.1.1",
+    "@types/node": "^12.7.4",
+    "@types/ramda": "^0.26.21",
+    "@typescript-eslint/eslint-plugin": "^2.1.0",
+    "@typescript-eslint/parser": "^2.1.0",
+    "eslint": "^6.3.0",
+    "eslint-config-prettier": "^6.2.0",
+    "eslint-plugin-prettier": "^3.1.0",
+    "prettier": "^1.18.2",
+    "typescript": "^3.6.2"
+  },
+  "eslintConfig": {
+    "parser": "@typescript-eslint/parser",
+    "plugins": [
+      "@typescript-eslint"
+    ],
+    "extends": [
+      "plugin:@typescript-eslint/recommended",
+      "prettier/@typescript-eslint",
+      "plugin:prettier/recommended"
+    ]
   }
 }

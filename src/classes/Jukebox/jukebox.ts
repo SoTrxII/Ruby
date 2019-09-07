@@ -1,0 +1,323 @@
+import { EventEmitter } from "events";
+import { TextChannel, VoiceConnection } from "discord.js";
+import { JukeboxItem } from "./jukebox-item";
+import { JukeboxItemFactory } from "./jukebox-item-factory";
+
+import { chooseOneItem } from "../../utils/user-interaction.js";
+
+import debug0 from "debug";
+const debug = debug0("jukebox");
+
+export class Jukebox extends EventEmitter {
+  /**
+   * List of music to be played
+   */
+  private _playQueue: JukeboxItem[] = [];
+  /**
+   * Is the Jukebox playing right now ?
+   */
+  isPlaying = false;
+  /**
+   * playback volume
+   */
+  volume = 10;
+
+  /**
+   * What's being being played
+   */
+  currentSong: JukeboxItem;
+  private islooping: boolean;
+
+  constructor(
+    private _voiceConnection: VoiceConnection,
+    public textChannel: TextChannel
+  ) {
+    super();
+  }
+
+  /**
+   * @summary Change the vocie connection to stream into
+   * @param {Discord/VoiceConnection} vc new voice connections
+   */
+  set voiceConnection(vc: VoiceConnection) {
+    this._voiceConnection = vc;
+
+    // Also update every item in the playlist
+    // as they were constructed with the old voice connection
+    this._playQueue.forEach(item => {
+      item.voiceConnection = vc;
+    });
+  }
+
+  /**
+   * @param track Source track to add to the playlist
+   * @param asker Who's aking to add it
+   * @returns True if the track was added
+   */
+  addMusic(track, asker): boolean {
+    const newItem = JukeboxItemFactory.createItem(
+      track,
+      this._voiceConnection,
+      asker
+    );
+    if (newItem === undefined) {
+      return false;
+    }
+    this._playQueue.push(newItem);
+    debug(
+      `Ajout de musique, nouvelle longueur de file : ${this._playQueue.length}`
+    );
+    return true;
+  }
+
+  /**
+   * @public
+   * @summary Begin playing the songs in the queue
+   * @param {Boolean} [displaySong=true] Send details about the song in the text channel before playing
+   * @param {Integer} [stopAfter=-1] If positive stops the song after a ceratin time (seconds)
+   * @returns false if could not play
+   * @fires Jukebox#QueueEmpty
+   * @listens JukeboxItem#end for relooping
+   */
+  play(displaySong = true, stopAfter = -1): boolean {
+    if (this.isPlaying) {
+      throw new Error("The jukebox is already playing !");
+    }
+
+    if (!this._nextSong()) {
+      /**
+       * Emitted when there are no more songs to play.
+       * @event Jukebox#QueueEmpty
+       */
+      this.emit("QueueEmpty");
+      return false;
+    }
+
+    this.isPlaying = true;
+
+    debug(this.currentSong);
+
+    if (displaySong) {
+      // Send details about the song (async,
+      // as we don't really need to wait for it to resolve)
+      this.currentSong.toEmbed().then(async embed => {
+        await this.textChannel.send("Chanson en cours : ");
+        this.textChannel.send({
+          embed
+        });
+      });
+      const user = this._voiceConnection.client.user;
+      this.currentSong.toString().then(async str => {
+        user.setActivity(str, {
+          type: "STREAMING"
+        });
+      });
+    }
+
+    this.currentSong.play({
+      volume: this.volume / 100,
+      passes: 2
+    });
+    let timeout;
+    // Loop after song
+    this.currentSong.on("end", () => {
+      // If the event triggers before the timeout, clear it
+      if (timeout) {
+        clearTimeout(timeout);
+      }
+      this.onEnd(displaySong, stopAfter);
+    });
+    // setTimeout( () => this.currentSong.on('end', (evt) => this.onEnd(evt), 5000));
+    return true;
+  }
+
+  /**
+   * Event handler for @see{@link{JukeboxItem#end}}
+   * @summary What to do at the end of a track
+   */
+  async onEnd(displaySong, stopAfter) {
+    debug("END");
+    const user = this._voiceConnection.client.user;
+    user.setActivity(null);
+    this.currentSong.off("end", this.onEnd);
+    // this.currentSong.stop();
+    // await new Promise( (res, rej) => setTimeout( res(), 5000));
+    this.isPlaying = false;
+    this.play(displaySong, stopAfter);
+  }
+
+  /**
+   * @async
+   * @public
+   * @summary Display the playing queue into the discord channel
+   */
+  async displayQueue() {
+    if (this._playQueue.length === 0) {
+      this.textChannel.send("Liste vide !");
+      return;
+    }
+    let index = 0;
+    let string = ``;
+    for (const item of this._playQueue) {
+      string += `${++index})  ${await item.toString()}\n`;
+    }
+    this.textChannel.send(string);
+  }
+
+  /**
+   * @public
+   * @summary Change playback volume
+   * @param {Integer} newVolume
+   * @return False if parameters is invalid, false otherwise
+   */
+  setVolume(newVolume) {
+    if (
+      !parseInt(newVolume) ||
+      !isFinite(newVolume) ||
+      isNaN(newVolume) ||
+      newVolume < 0 ||
+      newVolume > 100
+    ) {
+      return false;
+    }
+
+    this.volume = newVolume;
+    if (this.isPlaying) {
+      this.currentSong.setVolume(newVolume / 100);
+    }
+    return true;
+  }
+
+  /**
+   * @public
+   * @summary Skip current song and go to the next one
+   * @returns False if there is no next song
+   */
+  skip() {
+    this.currentSong.stop();
+    return true;
+  }
+
+  /**
+   * @public
+   * @summary Jump to n-th element in the queue
+   * @param {Integer} songIndex
+   * @throws If index is not valid
+   *
+   */
+  skipTo(songIndex) {
+    if (songIndex < 0 || this._playQueue.length < songIndex + 1) {
+      throw new Error("Invalid song index");
+    }
+    debug(songIndex);
+
+    // Skip songs, skipTo(0) should be an alias to skip()
+    if (songIndex > 0) {
+      this._playQueue.splice(0, songIndex);
+    }
+    this.currentSong.stop();
+  }
+
+  /**
+   * @public
+   * @summary Stop current song playback
+   * @param {Boolean} [startNext=true] Wether to start the next song in the list
+   * @returns True if stopped
+   */
+  stop(startNext = true) {
+    if (!startNext) {
+      this.currentSong.removeAllListeners("end");
+    }
+    const hasWorked = this.currentSong.stop();
+    if (hasWorked) {
+      this.isPlaying = false;
+      const user = this._voiceConnection.client.user;
+      user.setActivity(null);
+    }
+    return hasWorked;
+  }
+
+  /**
+   * @summary Check if the jukebox is paused
+   * @returns {Boolean}
+   */
+  isPaused(): boolean {
+    return this.currentSong && this.currentSong.isPaused;
+  }
+
+  /**
+   * @summary Pause the playback
+   * @returns false if could not pause the playback
+   */
+  pause(): boolean {
+    if (this.currentSong.pause()) {
+      const user = this._voiceConnection.client.user;
+      this.currentSong.toString().then(async str => {
+        user.setActivity("[PAUSED]" + str, {
+          type: "STREAMING"
+        });
+      });
+
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * @private
+   * @param max Upper limit
+   */
+  private _getRandomInt(max): number {
+    return Math.floor(Math.random() * Math.floor(max));
+  }
+
+  /**
+   * @summary Resume the playback
+   * @returns false if could not resume the playback
+   */
+  resume(): boolean {
+    if (this.currentSong.resume()) {
+      const user = this._voiceConnection.client.user;
+      this.currentSong.toString().then(async str => {
+        user.setActivity(str, {
+          type: "STREAMING"
+        });
+      });
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * @public
+   * @param {Discord/textChannel} textChannel
+   */
+  setTextChannel(textChannel) {
+    this.textChannel = textChannel;
+  }
+
+  /**
+   * Take the next song in queue
+   * @returns False if could not get next song
+   */
+  private _nextSong(): boolean {
+    debug(`Longueur de la file : ${this._playQueue.length}`);
+    if (!this.islooping && !this._playQueue.length) {
+      this.isPlaying = false;
+      return false;
+    }
+    if (this.currentSong) {
+      this.currentSong.stop();
+      this.isPlaying = false;
+    }
+    if (!this.islooping) {
+      this.currentSong = this._playQueue.shift();
+    }
+
+    return true;
+  }
+
+  setLoop(b: boolean) {
+    this.islooping = b;
+  }
+}

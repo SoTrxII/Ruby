@@ -51,3 +51,4 @@ animeList.json
 *.wav
 *.ogg
 *.pcm
+dist/
