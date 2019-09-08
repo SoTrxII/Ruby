@@ -9,7 +9,6 @@ jobs:
     strategy:
       matrix:
         node-version: [10.x, 12.x]
-
     steps:
     - uses: actions/checkout@v1
     - name: Use Node.js ${{ matrix.node-version }}
@@ -26,7 +25,7 @@ jobs:
         yarn install
         yarn build --if-present
         yarn test
-    - name : create release 
+    - name: create release
       - uses: actions/checkout@v1
       - uses: ncipollo/release-action@v1
         with:
