@@ -3,7 +3,7 @@ import { JukeboxItem } from "./jukebox-item";
 import { JukeboxYoutubeItem } from "./jukebox-youtube-item";
 
 export class JukeboxItemFactory {
-  private static YOUTUBE = /^(.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*)/;
+  private static YOUTUBE = /^(http(s)?:\/\/)?((w){3}.)?(music\.)?(m\.)?youtu(be|.be)?(\.com)?\/(?!channel).+/;
   static createItem(
     link: string,
     voiceConnection: VoiceConnection,

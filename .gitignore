@@ -47,7 +47,6 @@ config_prod.json
 .idea/
 
 #Project specific
-animeList.json
 *.wav
 *.ogg
 *.pcm

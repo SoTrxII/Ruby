@@ -49,6 +49,9 @@ export class Jukebox extends EventEmitter {
     });
   }
 
+  get voiceConnection(): VoiceConnection{
+    return this._voiceConnection;
+  }
   /**
    * @param track Source track to add to the playlist
    * @param asker Who's aking to add it
@@ -68,6 +71,10 @@ export class Jukebox extends EventEmitter {
       `Ajout de musique, nouvelle longueur de file : ${this._playQueue.length}`
     );
     return true;
+  }
+
+  get numberOfSongs(){
+    return this._playQueue.length;
   }
 
   /**
@@ -200,26 +207,6 @@ export class Jukebox extends EventEmitter {
 
   /**
    * @public
-   * @summary Jump to n-th element in the queue
-   * @param {Integer} songIndex
-   * @throws If index is not valid
-   *
-   */
-  skipTo(songIndex) {
-    if (songIndex < 0 || this._playQueue.length < songIndex + 1) {
-      throw new Error("Invalid song index");
-    }
-    debug(songIndex);
-
-    // Skip songs, skipTo(0) should be an alias to skip()
-    if (songIndex > 0) {
-      this._playQueue.splice(0, songIndex);
-    }
-    this.currentSong.stop();
-  }
-
-  /**
-   * @public
    * @summary Stop current song playback
    * @param {Boolean} [startNext=true] Wether to start the next song in the list
    * @returns True if stopped
@@ -264,14 +251,6 @@ export class Jukebox extends EventEmitter {
   }
 
   /**
-   * @private
-   * @param max Upper limit
-   */
-  private _getRandomInt(max): number {
-    return Math.floor(Math.random() * Math.floor(max));
-  }
-
-  /**
    * @summary Resume the playback
    * @returns false if could not resume the playback
    */
@@ -304,6 +283,7 @@ export class Jukebox extends EventEmitter {
     debug(`Longueur de la file : ${this._playQueue.length}`);
     if (!this.islooping && !this._playQueue.length) {
       this.isPlaying = false;
+      this.currentSong = undefined;
       return false;
     }
     if (this.currentSong) {
