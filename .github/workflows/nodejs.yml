@@ -26,7 +26,6 @@ jobs:
         yarn install
         yarn build --if-present
         yarn test
-       build:
     - name : create release 
       - uses: actions/checkout@v1
       - uses: ncipollo/release-action@v1
