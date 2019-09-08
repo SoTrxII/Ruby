@@ -25,15 +25,6 @@ jobs:
         yarn install
         yarn build --if-present
         yarn test
-    - name: create release
-      - uses: actions/checkout@v1
-      - uses: ncipollo/release-action@v1
-        with:
-          artifacts: "dist/*"
-          bodyFile: "changelog.md"
-          # This token will be deleted once I can access secrets. Do not fear child
-          #token: ${{ secrets.GITHUB_TOKEN }}
-          token : "843b6932e22313f70ca031c9732b3c7974a206c5"
      
       env:
         CI: true
