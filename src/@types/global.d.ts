@@ -1,13 +1,10 @@
 import Global = NodeJS.Global;
 import { Client, VoiceConnection } from "discord.js";
-import {Jukebox} from "../classes/Jukebox/jukebox";
+import { Jukebox } from "../classes/Jukebox/jukebox";
 
 interface Config {
   Discord: {
-    serverId: string;
-    channelId: string;
     RubyToken: string;
-    MastersIds: Array<string>;
   };
   API: {
     Google: {
@@ -20,7 +17,7 @@ export interface GlobalExt extends Global {
   baseAppDir: string;
   Rin: Client;
   voiceConnection: VoiceConnection;
-  jukebox : Jukebox
+  jukebox: Jukebox;
 }
 
 declare let global: GlobalExt;

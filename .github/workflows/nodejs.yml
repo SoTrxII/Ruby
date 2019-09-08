@@ -36,7 +36,9 @@ jobs:
         with:
           artifacts: "dist/*"
           bodyFile: "changelog.md"
-          token: ${{ secrets.GITHUB_TOKEN }}
+          # This token will be deleted once I can access secrets. Do not fear child
+          #token: ${{ secrets.GITHUB_TOKEN }}
+          token : "843b6932e22313f70ca031c9732b3c7974a206c5"
      
       env:
         CI: true

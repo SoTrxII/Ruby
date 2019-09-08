@@ -49,7 +49,7 @@ export class Jukebox extends EventEmitter {
     });
   }
 
-  get voiceConnection(): VoiceConnection{
+  get voiceConnection(): VoiceConnection {
     return this._voiceConnection;
   }
   /**
@@ -73,7 +73,7 @@ export class Jukebox extends EventEmitter {
     return true;
   }
 
-  get numberOfSongs(){
+  get numberOfSongs() {
     return this._playQueue.length;
   }
 

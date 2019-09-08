@@ -51,3 +51,4 @@ config_prod.json
 *.ogg
 *.pcm
 dist/
+*.tgz

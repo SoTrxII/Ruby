@@ -35,7 +35,7 @@ Rin.on("message", message => {
   }
 });
 
-Rin.login(global.Config.Discord.RubyToken).then( () =>
+Rin.login(global.Config.Discord.RubyToken).then(() =>
   console.log("Successfully logged in")
 );
 

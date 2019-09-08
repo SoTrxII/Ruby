@@ -1,7 +1,13 @@
 import "mocha";
-import { expect, assert } from "chai";
+import { expect } from "chai";
 import { Jukebox } from "../src/classes/Jukebox/jukebox";
-import { VoiceConnection, TextChannel, User, StreamDispatcher, ClientUser } from "discord.js";
+import {
+  VoiceConnection,
+  TextChannel,
+  User,
+  StreamDispatcher,
+  ClientUser
+} from "discord.js";
 import { mock, spy, stub } from "sinon";
 import sinon = require("sinon");
 
@@ -23,19 +29,13 @@ describe("Jukebox", () => {
       on: () => null,
       end: () => null
     });
-    jukebox.addMusic(
-        firstLink,
-        sampleUser
-    );
-    jukebox.addMusic(
-        secondLink,
-        sampleUser
-    );
-  }
+    jukebox.addMusic(firstLink, sampleUser);
+    jukebox.addMusic(secondLink, sampleUser);
+  };
   //sampleUser.setActivity = stub().returns(null);
   beforeEach(() => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const fakeVc = (mock(VoiceConnection) as any) as VoiceConnection
+    const fakeVc = (mock(VoiceConnection) as any) as VoiceConnection;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const fakeTc = (mock(TextChannel) as any) as TextChannel;
     jukebox = new Jukebox(fakeVc, fakeTc);
@@ -134,16 +134,16 @@ describe("Jukebox", () => {
       it("Should go on to the next song at the end of the previous one", () => {
         const res = jukebox.play(false);
         expect(jukebox.currentSong.track).to.be.equal(firstLink);
-        jukebox.currentSong.emit('end');
+        jukebox.currentSong.emit("end");
         expect(jukebox.currentSong.track).to.be.equal(secondLink);
         expect(jukebox.isPlaying).to.be.equal(true);
       });
       it("Should stops playing when reaching the end of the playlist", () => {
         const res = jukebox.play(false);
         expect(jukebox.currentSong.track).to.be.equal(firstLink);
-        jukebox.currentSong.emit('end');
+        jukebox.currentSong.emit("end");
         expect(jukebox.currentSong.track).to.be.equal(secondLink);
-        jukebox.currentSong.emit('end');
+        jukebox.currentSong.emit("end");
         expect(jukebox.isPlaying).to.be.equal(false);
         expect(jukebox.currentSong).to.be.undefined;
       });
@@ -173,5 +173,4 @@ describe("Jukebox", () => {
       expect(infty).to.be.equals(false);
     });
   });
-  describe("Getting a track infos")
 });

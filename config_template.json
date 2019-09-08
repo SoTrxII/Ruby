@@ -1,10 +1,6 @@
 {
   "Discord": {
-    "serverId": "YOUR_SERV_ID",
-    "channelId": "YOUR_MAIN_CHANNEL_ID",
-    "RubyToken": "YOUR_BOT_TOKEN",
-    "MastersIds": [
-    ]
+    "RubyToken": "YOUR_BOT_TOKEN"
   },
   "API": {
     "Google": {

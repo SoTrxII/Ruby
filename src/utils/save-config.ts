@@ -1,6 +1,6 @@
 import { promises } from "fs";
-import {GlobalExt} from "../@types/global";
-declare const global : GlobalExt
+import { GlobalExt } from "../@types/global";
+declare const global: GlobalExt;
 
 /**
  * @summary Save the changes made to config.json

@@ -1,10 +1,5 @@
 import debug0 from "debug";
-import {
-  GuildMember,
-  RichEmbed,
-  StreamDispatcher, User,
-  VoiceConnection
-} from "discord.js";
+import { RichEmbed, StreamDispatcher, User, VoiceConnection } from "discord.js";
 import { EventEmitter } from "events";
 import { GlobalExt } from "../../@types/global";
 

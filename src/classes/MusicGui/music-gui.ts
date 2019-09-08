@@ -225,7 +225,7 @@ export class MusicGui extends EventEmitter {
         bitDepth: 16,
         sampleRate: 48000,
         // "signed" is a valid property, but not documented in the types
-        // tslint:disable-next-line:ban-ts-ignore
+        // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
         // @ts-ignore
         signed: true,
         // samplesPerFrame: 1024,
@@ -284,7 +284,7 @@ export class MusicGui extends EventEmitter {
   /**
    * Forward the song to a specific time
    */
-  async fetchTime(id: string, time: string): Promise<any> {
+  async fetchTime(id: string, time: string): Promise<boolean> {
     const song = this.songs.get(id);
     if (song === undefined) {
       return false;
@@ -293,9 +293,9 @@ export class MusicGui extends EventEmitter {
     if (song.state !== GuiItem.States.STOPPED) {
       this.stopSong(id);
     }
-    // tslint:disable-next-line:no-this-assignment
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     const that = this;
-    const progressProm = new Promise((res, rej) => {
+    const progressProm: Promise<boolean> = new Promise((res, rej) => {
       that.on(`songProgress${id}`, () => {
         res(true);
       });

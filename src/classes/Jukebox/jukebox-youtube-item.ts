@@ -1,9 +1,5 @@
-import { promisify } from "util";
-
 import * as ytdl from "ytdl-core";
 
-import { GuildMember, VoiceConnection } from "discord.js";
-//import { YouTube } from "youtube-node";
 import { JukeboxItem, JukeboxItemInfos } from "./jukebox-item";
 import { GlobalExt } from "../../@types/global";
 declare const global: GlobalExt;
@@ -29,8 +25,8 @@ export class JukeboxYoutubeItem extends JukeboxItem {
     // We actually need the function() for arguments to be defined
     // tslint:disable-next-line:only-arrow-functions
     this.infos = new Promise(function(): void {
-      resolve = arguments[0];
-      reject = arguments[1];
+      // eslint-disable-next-line prefer-rest-params
+      [resolve, reject] = arguments;
     });
     this._retrieveInfo(resolve, reject).catch(console.error);
   }
@@ -47,7 +43,7 @@ export class JukeboxYoutubeItem extends JukeboxItem {
       }),
       options
     );
-    this.dispatcher.on("end", evt => {
+    this.dispatcher.on("end", () => {
       /**
        * Emitted when an item stops playing
        * @event JukeboxItem#end

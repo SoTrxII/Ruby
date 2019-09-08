@@ -1,10 +1,10 @@
 {
-  "name": "Rin",
-  "version": "4.0.0",
+  "name": "ruby",
+  "version": "1.0.0",
   "scripts": {
-    "start": "node src/rin.ts",
-    "doc": "jsdoc -d docs -r -c jsdocconf.json .",
-    "devstart": "nodemon src/rin.ts",
+    "build": "tsc --sourceMap false && cp package.json dist/package.json",
+    "typedoc": "typedoc --out ./docs --mode modules --tsconfig ./tsconfig.json ./src/",
+    "test" : "node ./node_modules/mocha/bin/_mocha --require ts-node/register test/**/*.ts",
     "dev": "mv config.json config_prod.json && mv config_dev.json config.json",
     "prod": "mv config.json config_dev.json && mv config_prod.json config.json"
   },
@@ -47,6 +47,7 @@
     "prettier": "^1.18.2",
     "sinon": "^7.4.2",
     "ts-node": "^8.3.0",
+    "typedoc": "^0.15.0",
     "typescript": "^3.6.2"
   },
   "eslintConfig": {

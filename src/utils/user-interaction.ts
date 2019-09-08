@@ -1,9 +1,9 @@
-import {GlobalExt} from "../@types/global";
+import { GlobalExt } from "../@types/global";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type testFunctionType = (...args: Array<any>) => boolean;
 import { Message } from "discord.js";
-declare const global : GlobalExt
-
+declare const global: GlobalExt;
 
 /**
  * @summary Wait for a user to post a valid message
@@ -23,12 +23,12 @@ export async function waitForMessage(
 
   // We actually need the function() for arguments to be defined
   // tslint:disable-next-line:only-arrow-functions
-  const promLock = new Promise<Message>(function(): void {
-    resolve = arguments[0];
-    reject = arguments[1];
+  const promLock: Promise<Message> = new Promise<Message>(function(): void {
+    // eslint-disable-next-line prefer-rest-params
+    [resolve, reject] = arguments;
   });
 
-  const func = (message: Message) => {
+  const func = (message: Message): Promise<Message> => {
     if (message.author.id === authorId) {
       if (validation(message.content, message)) {
         global.Rin.off("message", func);
@@ -65,7 +65,7 @@ export async function yesNoQuestion(
   timeout: number
 ): Promise<boolean> {
   await evt.reply(`${question} [O/n]`);
-  const messageValidation = message => {
+  const messageValidation = (message: string): boolean => {
     const validResponses = ["O", "o", "n", "N", "Oui", "Non", "oui", "non"];
     const isValid = validResponses.includes(message);
     if (!isValid) {

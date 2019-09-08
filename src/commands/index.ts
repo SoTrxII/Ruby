@@ -1,19 +1,19 @@
-import {flatten, uniq, mergeAll, map} from "ramda";
+import { flatten, uniq, mergeAll, map } from "ramda";
 
-import {sync} from "glob";
+import { sync } from "glob";
 
-const glob_options = {
+const globOptions = {
   realpath: true,
   nodir: true,
-    ignore: [`${__dirname}/*(index.js.map)`]
+  ignore: [`${__dirname}/*(index.js.map)`]
 };
 
 const commandsFiles = uniq(
   flatten([
-    sync(`${__dirname}/*/index.js`, glob_options),
-    sync(`${__dirname}/*/*/index.js`, glob_options),
-    sync(`${__dirname}/*(!(help))/*.js`, glob_options),
-    sync(`${__dirname}/*(!(index.js))`, glob_options),
+    sync(`${__dirname}/*/index.js`, globOptions),
+    sync(`${__dirname}/*/*/index.js`, globOptions),
+    sync(`${__dirname}/*(!(help))/*.js`, globOptions),
+    sync(`${__dirname}/*(!(index.js))`, globOptions)
   ])
 );
 
