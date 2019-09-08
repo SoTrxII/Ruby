@@ -30,7 +30,7 @@ yarn install --production
 If the release thing is broken, because it will probably be, 
 you can also clone the repository and copy/paste this :
 ```bash
-yarn build && cd dist/ && yarn install --production
+yarn install && yarn build && mv -r node_modules dist/node_modules && cd dist/ && npm prune --production
 ```
 Then, do yourself a favor, and go fetch some sweet coffee, because you'll be waiting for a bit. 
 You could also use this time to wonder why you are using this instead of coding you own bot. C'mon,
