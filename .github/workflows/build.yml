@@ -1,0 +1,30 @@
+name: Compile all the things
+on:
+  push:
+    branches :
+      - master
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [10.x]
+    steps:
+      - uses: actions/checkout@v1
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name : install prerequisites
+        run : |
+          curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+          echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+          sudo apt-get update && sudo apt-get install yarn libasound2-dev
+          npm install -g node-gyp
+      - name: yarn install, build, and test
+        run: |
+          yarn install
+          yarn build
+          yarn test
+        env:
+          CI: true
