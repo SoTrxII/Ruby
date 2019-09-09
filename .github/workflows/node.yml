@@ -29,12 +29,10 @@ jobs:
     - name: create release
       if: success()
       uses: ncipollo/release-action@v1
-        with:
-          artifacts: "dist/*"
-          bodyFile: "changelog.md"
-          # This token will be deleted once I can access secrets. Do not fear child
-          #token: ${{ secrets.GITHUB_TOKEN }}
-          token : ${{ secrets.GITHUB_TOKEN }}
+      with:
+        artifacts: "dist/*"
+        bodyFile: "changelog.md"
+        token : ${{ secrets.GITHUB_TOKEN }}
      
       env:
         CI: true
