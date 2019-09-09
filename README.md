@@ -24,6 +24,8 @@ Sometimes, yes.
 ### How do I make it work then ?
 
 #### Prerequisites
+Node version should be > 10 and < 12.
+
 You must have `node-gyp`  and `libasound2-dev` installed.
 On Ubuntu for example, this can be achieved using 
 ```bash 

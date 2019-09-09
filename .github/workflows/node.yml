@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [10.x, 12.x]
+        node-version: [10.x]
     steps:
     - uses: actions/checkout@v1
     - name: Use Node.js ${{ matrix.node-version }}
@@ -24,7 +24,7 @@ jobs:
     - name: yarn install, build, and test
       run: |
         yarn install
-        yarn build --if-present
+        yarn build
         yarn test
     - name: create release
       if: success()
