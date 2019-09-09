@@ -22,6 +22,15 @@ shit John.
 Sometimes, yes. 
 
 ### How do I make it work then ?
+
+#### Prerequisites
+You must have `node-gyp`  and `libasound2-dev` installed.
+On Ubuntu for example, this can be achieved using 
+```bash 
+yarn global add node-gyp
+sudo apt install libasound2-dev
+```
+###
 The quickest way to achieve it is to download the latest release on the release page.
 Then, you can just copy/paste this:
 ```bash
