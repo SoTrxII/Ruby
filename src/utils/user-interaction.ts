@@ -28,7 +28,7 @@ export async function waitForMessage(
     [resolve, reject] = arguments;
   });
 
-  const func = (message: Message): Promise<Message> => {
+  const func = (message: Message): void => {
     if (message.author.id === authorId) {
       if (validation(message.content, message)) {
         global.Rin.off("message", func);

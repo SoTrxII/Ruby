@@ -47,7 +47,7 @@ Then, do yourself a favor, and go fetch some sweet coffee, because you'll be wai
 You could also use this time to wonder why you are using this instead of coding you own bot. C'mon,
 is this really why your mom payed for your CS studies ? That's what I call wasted money.
 
-Still here ? Next is the config file ! Create **config.json** at the root of the directory and
+Still here ? Next is the config file ! Edit **config.json** at the root of the directory and
 complete it. 
 ```json
 {

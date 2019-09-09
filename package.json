@@ -2,7 +2,7 @@
   "name": "ruby",
   "version": "1.0.0",
   "scripts": {
-    "build": "tsc --sourceMap false && cp package.json dist/package.json",
+    "build": "tsc --sourceMap false && cp package.json dist/package.json && cp config_template.json dist/config.json",
     "typedoc": "typedoc --out ./docs --mode modules --tsconfig ./tsconfig.json ./src/",
     "test" : "node ./node_modules/mocha/bin/_mocha --require ts-node/register test/**/*.ts",
     "dev": "mv config.json config_prod.json && mv config_dev.json config.json",
