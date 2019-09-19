@@ -101,6 +101,7 @@ export class Jukebox extends EventEmitter {
     }
 
     this.isPlaying = true;
+    let profileInterval = undefined;
 
     debug(this.currentSong);
 
@@ -114,13 +115,15 @@ export class Jukebox extends EventEmitter {
         });
       });
       const user = this._voiceConnection.client.user;
-      this.currentSong.toString().then(async str => {
-        user
-          .setActivity(str, {
-            type: "STREAMING"
-          })
-          .catch(debug);
-      });
+      profileInterval = setInterval(() => {
+        this.currentSong.toString().then(async str => {
+          user
+            .setActivity(str, {
+              type: "STREAMING"
+            })
+            .catch(debug);
+        });
+      }, 3000);
     }
 
     this.currentSong.play({
@@ -134,6 +137,7 @@ export class Jukebox extends EventEmitter {
       if (timeout) {
         clearTimeout(timeout);
       }
+      clearInterval(profileInterval);
       this.onEnd(displaySong, stopAfter).catch(debug);
     });
     // setTimeout( () => this.currentSong.on('end', (evt) => this.onEnd(evt), 5000));

@@ -2,6 +2,7 @@ import debug0 from "debug";
 import { RichEmbed, StreamDispatcher, User, VoiceConnection } from "discord.js";
 import { EventEmitter } from "events";
 import { GlobalExt } from "../../@types/global";
+import { secondsToDhms } from "../../utils/duration-converter";
 
 declare const global: GlobalExt;
 const debug = debug0("jukeboxItem");
@@ -12,6 +13,7 @@ export interface JukeboxItemInfos {
   description: string;
   image: string;
   url: string;
+  duration: number;
 }
 
 export abstract class JukeboxItem extends EventEmitter {
@@ -105,8 +107,12 @@ export abstract class JukeboxItem extends EventEmitter {
    */
   async toString(): Promise<string> {
     const data = await this._getInfo();
-
-    return `${data.title} - ${data.author}`;
+    if (this.dispatcher) {
+      return `${data.title} - ${data.author} [ ${secondsToDhms(
+        this.dispatcher.time / 1000
+      )} sur ${secondsToDhms(data.duration)}]`;
+    }
+    return `${data.title} - ${data.author} [${secondsToDhms(data.duration)}]`;
   }
 
   /**
@@ -119,8 +125,12 @@ export abstract class JukeboxItem extends EventEmitter {
     const DESC_LIMIT = 100;
 
     // Song-dependant parameters
-    em.setTitle(data.title || "Inconnu");
+    const title = `${data.title || "Inconnu"} [${secondsToDhms(
+      data.duration
+    )}]`;
+    em.setTitle(title);
     em.addField("Auteur", data.author || "Inconnu");
+
     // 2048 -> desc limit in embed
     let description;
     if (data.description) {

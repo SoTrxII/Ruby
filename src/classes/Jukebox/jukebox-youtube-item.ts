@@ -60,6 +60,7 @@ export class JukeboxYoutubeItem extends JukeboxItem {
     const data = await ytdl.getInfo(this.track).catch(reject);
 
     resolve({
+      duration: parseInt(data.length_seconds),
       title: data.title,
       author: data.author.name,
       description: data.description,
