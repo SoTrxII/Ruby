@@ -1,8 +1,8 @@
 import { GlobalExt } from "../@types/global";
+import { Message } from "discord.js";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type testFunctionType = (...args: Array<any>) => boolean;
-import { Message } from "discord.js";
 declare const global: GlobalExt;
 
 /**
@@ -93,6 +93,7 @@ interface ChooseOneItemOptions {
   /** Whether to display the choices to the user */
   displayChoices?: boolean;
 }
+
 /**
  * @summary Make the user choose between the choices in itemList
  * @param evt General handle to text channel

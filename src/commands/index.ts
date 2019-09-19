@@ -1,4 +1,4 @@
-import { flatten, uniq, mergeAll, map } from "ramda";
+import { flatten, map, mergeAll, uniq } from "ramda";
 
 import { sync } from "glob";
 

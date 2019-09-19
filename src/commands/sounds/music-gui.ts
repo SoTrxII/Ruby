@@ -1,26 +1,23 @@
 //import { createReadStream } from 'fs';
 import { GlobalExt } from "../../@types/global";
-
-declare const global: GlobalExt;
 import debug0 from "debug";
 import * as io0 from "socket.io";
-const io = io0(8089);
-const debug = debug0("command_musicGui");
-const { writeFile, readFile, access, F_OK } = require("fs").promises;
-
-const playlistsDir = `${global.baseAppDir}/../playlists`;
 import { MusicGui } from "../../classes/MusicGui/music-gui";
 import { Message, TextChannel } from "discord.js";
 
-let isConsole = true;
+declare const global: GlobalExt;
+const io = io0(8089);
+const debug = debug0("command_musicGui");
+const { writeFile, readFile, access, F_OK } = require("fs").promises;
+const playlistsDir = `${global.baseAppDir}/../playlists`;
 let gui = null;
 
-const listen = async (evt: Message) => {
+const listen = async (evt: Message): Promise<void> => {
   const asker = evt.guild.members.get(evt.author.id);
   const voiceChannel = asker.voiceChannel;
 
   if (!voiceChannel) {
-    evt.reply(
+    await evt.reply(
       "Tu dois être dans un canal vocal pour pouvoir lancer une commande !"
     );
     return;
@@ -82,9 +79,6 @@ const listen = async (evt: Message) => {
     }, 10000);*/
 };
 
-const cListen = async (evt: Message) => {
-  isConsole = true;
-};
 const _initMusicGui = async (
   evt: Message,
   command: string,
@@ -94,7 +88,7 @@ const _initMusicGui = async (
   const voiceChannel = asker.voiceChannel;
 
   if (!voiceChannel) {
-    evt.reply(
+    await evt.reply(
       "Tu dois être dans un canal vocal pour pouvoir lancer une commande !"
     );
     return;
@@ -213,7 +207,7 @@ const tListen = async (evt: Message) => {
   const voiceChannel = asker.voiceChannel;
 
   if (!voiceChannel) {
-    evt.reply(
+    await evt.reply(
       "Tu dois être dans un canal vocal pour pouvoir lancer une commande !"
     );
     return;
@@ -378,7 +372,6 @@ const tListen = async (evt: Message) => {
 
 exports.default = {
   listen: listen,
-  cListen: cListen,
   io: tListen,
   ai: addMusic,
   si: stopMusic,

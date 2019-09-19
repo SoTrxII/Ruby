@@ -1,23 +1,30 @@
+import "reflect-metadata";
 import "mocha";
+import { TYPES } from "../src/types";
 import { expect } from "chai";
+import { SearchService } from "../src/classes/Search/search-service";
+import { YoutubeSearch } from "../src/classes/Search/youtube-search";
+import container from "../src/inversify.config";
 import { Jukebox } from "../src/classes/Jukebox/jukebox";
-import {
-  VoiceConnection,
-  TextChannel,
-  User,
-  StreamDispatcher,
-  ClientUser
-} from "discord.js";
-import { mock, spy, stub } from "sinon";
+import { VoiceConnection, TextChannel, User, ClientUser } from "discord.js";
+import { mock, spy, stub, createStubInstance } from "sinon";
 import sinon = require("sinon");
+import { JukeboxItemFactory } from "../src/classes/Jukebox/jukebox-item-factory";
 
 describe("Jukebox", () => {
   let jukebox: Jukebox;
+  const mockLink = "https://www.youtube.com/watch?v=lAIGb1lfpBw";
+  container.rebind<SearchService>(TYPES.SearchServices).toConstantValue(
+    createStubInstance(YoutubeSearch, {
+      getFirst: Promise.resolve(mockLink)
+    })
+  );
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const sampleUser: User = (mock(User) as any) as User;
   const firstLink = "https://www.youtube.com/watch?v=J7Iz5060PUE";
   const secondLink = "https://www.youtube.com/watch?v=wZZ7oFKsKzY";
-  const setupPlayingState = () => {
+  const setupPlayingState = async (): Promise<void> => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const fakeClientUser = (mock(ClientUser.prototype) as any) as ClientUser;
     fakeClientUser.setActivity = stub().returns(null);
     // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
@@ -29,10 +36,9 @@ describe("Jukebox", () => {
       on: () => null,
       end: () => null
     });
-    jukebox.addMusic(firstLink, sampleUser);
-    jukebox.addMusic(secondLink, sampleUser);
+    await jukebox.addMusic(firstLink, sampleUser);
+    await jukebox.addMusic(secondLink, sampleUser);
   };
-  //sampleUser.setActivity = stub().returns(null);
   beforeEach(() => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const fakeVc = (mock(VoiceConnection) as any) as VoiceConnection;
@@ -42,52 +48,56 @@ describe("Jukebox", () => {
   });
   describe("Add a new music", () => {
     describe("Youtube music", () => {
-      it("Should add a valid youtube link", () => {
+      it("Should add a valid youtube link", async () => {
         const validLink = "https://www.youtube.com/watch?v=J7Iz5060PUE";
-        const res = jukebox.addMusic(validLink, sampleUser);
+        const res = await jukebox.addMusic(validLink, sampleUser);
         expect(res).to.equal(true);
         expect(jukebox.numberOfSongs).to.equal(1);
       });
 
-      it("Should ignore playlist on valid link", () => {
+      it("Should ignore playlist on valid link", async () => {
         const validLink =
           "https://www.youtube.com/watch?v=J7Iz5060PUE&list=RDCLAK5uy_k-R9-M_MoPNXLwGQrxPQW9LavsOgSwONg";
-        const res = jukebox.addMusic(validLink, sampleUser);
+        const res = await jukebox.addMusic(validLink, sampleUser);
         expect(res).to.equal(true);
         expect(jukebox.numberOfSongs).to.equal(1);
       });
 
-      it("Should add a valid youtube music link", () => {
+      it("Should add a valid youtube music link", async () => {
         const validLink = "https://music.youtube.com/watch?v=vtNJMAyeP0s";
-        const res = jukebox.addMusic(validLink, sampleUser);
+        const res = await jukebox.addMusic(validLink, sampleUser);
         expect(res).to.equal(true);
         expect(jukebox.numberOfSongs).to.equal(1);
       });
-      it("Should reject channel links", () => {
+      it("Should reject channel links", async () => {
+        JukeboxItemFactory.setTextSearchEnabled(false);
         const invalidLink =
           "https://youtube.com/channel/UCDZkgJZDyUnqwB070OyP72g";
-        const res = jukebox.addMusic(invalidLink, sampleUser);
+        const res = await jukebox.addMusic(invalidLink, sampleUser);
         expect(res).to.equal(false);
         expect(jukebox.numberOfSongs).to.equal(0);
+        JukeboxItemFactory.setTextSearchEnabled(true);
       });
     });
-    it("Should reject an invalid link", () => {
+    it("Should reject an invalid link", async () => {
+      JukeboxItemFactory.setTextSearchEnabled(false);
       const invalidLink =
         "https://www.obviouslynotvalid.meh/watch?v=J7Iz5060PUE";
-      const res = jukebox.addMusic(invalidLink, sampleUser);
+      const res = await jukebox.addMusic(invalidLink, sampleUser);
       expect(res).to.equal(false);
       expect(jukebox.numberOfSongs).to.equal(0);
+      JukeboxItemFactory.setTextSearchEnabled(true);
     });
-    it("Should be able to multiples tracks", () => {
-      const res1 = jukebox.addMusic(
+    it("Should be able to multiples tracks", async () => {
+      const res1 = await jukebox.addMusic(
         "https://www.youtube.com/watch?v=J7Iz5060PUE",
         sampleUser
       );
-      const res2 = jukebox.addMusic(
+      const res2 = await jukebox.addMusic(
         "https://www.youtube.com/watch?v=vVnE9o5Uxik",
         sampleUser
       );
-      const res3 = jukebox.addMusic(
+      const res3 = await jukebox.addMusic(
         "https://www.youtube.com/watch?v=wZZ7oFKsKzY",
         sampleUser
       );
@@ -96,18 +106,26 @@ describe("Jukebox", () => {
       expect(res3).to.equal(true);
       expect(jukebox.numberOfSongs).to.equal(3);
     });
-    it("Should be able to add the same track multiple times", () => {
-      const res1 = jukebox.addMusic(
+    it("Should be able to add the same track multiple times", async () => {
+      const res1 = await jukebox.addMusic(
         "https://www.youtube.com/watch?v=J7Iz5060PUE",
         sampleUser
       );
-      const res2 = jukebox.addMusic(
+      const res2 = await jukebox.addMusic(
         "https://www.youtube.com/watch?v=J7Iz5060PUE",
         sampleUser
       );
       expect(res1).to.equal(true);
       expect(res2).to.equal(true);
       expect(jukebox.numberOfSongs).to.equal(2);
+    });
+    it("Should fallback on text searching when the text provided is not a link", async () => {
+      const res = await jukebox.addMusic("beleu", sampleUser);
+      expect(res).to.equal(true);
+      expect(jukebox.numberOfSongs).to.equal(1);
+      await setupPlayingState();
+      jukebox.play(false);
+      expect(jukebox.currentSong.track).to.equal(mockLink);
     });
   });
   describe("Play a music", () => {
@@ -119,7 +137,7 @@ describe("Jukebox", () => {
         expect(res).to.be.equal(false);
         expect(jukebox.isPlaying).to.be.equal(false);
         expect(jukebox.numberOfSongs).to.be.equal(0);
-        expect(jukebox.currentSong).to.be.undefined;
+        expect(jukebox.currentSong).to.be.equal(undefined);
         sinon.assert.calledOnce(eventSpy);
       });
     });
@@ -132,7 +150,7 @@ describe("Jukebox", () => {
         expect(res).to.be.equal(true);
       });
       it("Should go on to the next song at the end of the previous one", () => {
-        const res = jukebox.play(false);
+        jukebox.play(false);
         expect(jukebox.currentSong.track).to.be.equal(firstLink);
         jukebox.currentSong.emit("end");
         expect(jukebox.currentSong.track).to.be.equal(secondLink);

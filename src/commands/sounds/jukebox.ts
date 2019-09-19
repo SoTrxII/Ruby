@@ -1,8 +1,8 @@
 import { GlobalExt } from "../../@types/global";
-
-declare const global: GlobalExt;
 import { Jukebox } from "../../classes/Jukebox/jukebox";
 import { Message, TextChannel } from "discord.js";
+
+declare const global: GlobalExt;
 
 /**
  * @async
@@ -81,16 +81,16 @@ const play = async (evt: Message, command: string, cmdArg: string) => {
 const addToQueue = async (evt: Message, command: string, cmdArg: string) => {
   await _updateJukebox(evt);
 
-  if (!global.jukebox.addMusic(cmdArg, evt.author)) {
+  if (!(await global.jukebox.addMusic(cmdArg, evt.author))) {
     evt.channel.send(
       `${cmdArg} n'est pas un lien valide, non ajouté à la liste de lecture`
     );
     return;
   }
   await evt.channel.send(`Chansons à venir :`);
-  global.jukebox.displayQueue();
+  await global.jukebox.displayQueue();
   if (!global.jukebox.isPlaying) {
-    play(evt, command, cmdArg);
+    await play(evt, command, cmdArg);
   }
 };
 
@@ -209,14 +209,14 @@ const resume = async (evt: Message, command: string, cmdArg: string) => {
 const list = async (evt: Message, command: string, cmdArg: string) => {
   await _updateJukebox(evt);
 
-  global.jukebox.displayQueue();
+  await global.jukebox.displayQueue();
 };
 
 /**
  * @summary Skip current song and starts next
- * @param {Discord/Message} evt Discord message Event
- * @param {String} command Discord command string (ex : play, add, list)
- * @param {Integer} [cmdArg = 0] If specified, skip cmdArg song
+ * @param evt Discord message Event
+ * @param command Discord command string (ex : play, add, list)
+ * @param cmdArg If specified, skip cmdArg song
  */
 const skip = async (evt: Message, command: string, cmdArg: string) => {
   await _updateJukebox(evt);
@@ -231,9 +231,9 @@ const skip = async (evt: Message, command: string, cmdArg: string) => {
  * @async
  * @public
  * @summary Change playback volume
- * @param {Discord/Message} evt Change the volume of the playback
- * @param {String} command Discord command string (ex : play, add, list)
- * @param {Integer} cmdArg New volume
+ * @param evt Change the volume of the playback
+ * @param command Discord command string (ex : play, add, list)
+ * @param cmdArg New volume
  */
 const setVolume = async (evt: Message, command: string, cmdArg: string) => {
   await _updateJukebox(evt);

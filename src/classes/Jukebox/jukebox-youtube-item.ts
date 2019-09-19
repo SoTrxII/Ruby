@@ -1,15 +1,5 @@
 import * as ytdl from "ytdl-core";
-
 import { JukeboxItem, JukeboxItemInfos } from "./jukebox-item";
-import { GlobalExt } from "../../@types/global";
-declare const global: GlobalExt;
-
-//const ytAPI = new YouTube();
-
-// SearchPm --> Search with promise
-//const searchPm = promisify(ytAPI.search);
-
-//ytAPI.setKey(global.Config.API.Google.youtubeParser);
 
 export class JukeboxYoutubeItem extends JukeboxItem {
   infos: Promise<JukeboxItemInfos>;
@@ -18,7 +8,8 @@ export class JukeboxYoutubeItem extends JukeboxItem {
     super(track, voiceConnection, asker);
     // Deferred promise
     // tslint:disable-next-line:one-variable-per-declaration
-    let resolve, reject;
+    let resolve = undefined,
+      reject = undefined;
     /**
      * Uses a deferred promise that resolve when the informations are fetched
      */

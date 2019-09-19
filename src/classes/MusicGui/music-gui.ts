@@ -92,12 +92,12 @@ export class MusicGui extends EventEmitter {
     }
 
     return (
-      this.hmsToSecondsOnly(this.timemark) +
-      this.hmsToSecondsOnly(song.startTime)
+      MusicGui.hmsToSecondsOnly(this.timemark) +
+      MusicGui.hmsToSecondsOnly(song.startTime)
     );
   }
 
-  hmsToSecondsOnly(str: string): number {
+  static hmsToSecondsOnly(str: string): number {
     const p = str.split(":");
     // tslint:disable-next-line:one-variable-per-declaration
     let s = 0,
@@ -117,7 +117,7 @@ export class MusicGui extends EventEmitter {
    * @return id of the song or null the song couldn't be added
    */
   addSong(link: string): string {
-    const id = this._generateId();
+    const id = MusicGui._generateId();
     const item = GuiItemFactory.createItem(link);
     // Item fitting the link couldn't be found
     if (item === undefined) {
@@ -365,7 +365,7 @@ export class MusicGui extends EventEmitter {
   /**
    * Generate a random id
    */
-  _generateId(): string {
+  private static _generateId(): string {
     return (
       // tslint:disable-next-line:newline-per-chained-call
       Math.random()

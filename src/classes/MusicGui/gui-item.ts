@@ -10,17 +10,6 @@ enum ItemStates {
 }
 
 export abstract class GuiItem extends EventEmitter {
-  get volume(): number {
-    return this.volumeStream.volume;
-  }
-
-  set volume(volume: number) {
-    if (isNaN(volume) || volume < 0 || volume > 100) {
-      throw new Error(`${volume}is not a valid volume !`);
-    }
-    this.volumeStream.setVolume(volume / 100);
-  }
-
   static readonly States = ItemStates;
   stream: Readable = undefined;
   speaker: Speaker = undefined;
@@ -34,6 +23,17 @@ export abstract class GuiItem extends EventEmitter {
 
   protected constructor(public track: string) {
     super();
+  }
+
+  get volume(): number {
+    return this.volumeStream.volume;
+  }
+
+  set volume(volume: number) {
+    if (isNaN(volume) || volume < 0 || volume > 100) {
+      throw new Error(`${volume}is not a valid volume !`);
+    }
+    this.volumeStream.setVolume(volume / 100);
   }
 
   /**

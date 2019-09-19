@@ -1,5 +1,6 @@
 import { promises } from "fs";
 import { GlobalExt } from "../@types/global";
+
 declare const global: GlobalExt;
 
 /**
@@ -15,12 +16,14 @@ export async function saveConfig(): Promise<void> {
     "utf8"
   );
 }
+
 /**
  * @summary Overwrite databaseConfig with the given Object
  * @returns Resolve when done
  */
 // tslint:disable-next-line:only-arrow-functions
 export async function saveDatabaseConfig(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   databaseConfig: Record<string, any>
 ): Promise<void> {
   // tslint:disable-next-line:no-null-keyword

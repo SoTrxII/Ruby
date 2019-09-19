@@ -12,6 +12,7 @@ interface Config {
     };
   };
 }
+
 export interface GlobalExt extends Global {
   Config: Config;
   baseAppDir: string;
@@ -19,5 +20,3 @@ export interface GlobalExt extends Global {
   voiceConnection: VoiceConnection;
   jukebox: Jukebox;
 }
-
-declare let global: GlobalExt;

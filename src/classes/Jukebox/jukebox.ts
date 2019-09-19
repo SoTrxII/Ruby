@@ -3,16 +3,13 @@ import { TextChannel, VoiceConnection } from "discord.js";
 import { JukeboxItem } from "./jukebox-item";
 import { JukeboxItemFactory } from "./jukebox-item-factory";
 
-import { chooseOneItem } from "../../utils/user-interaction.js";
-
 import debug0 from "debug";
+import { injectable } from "inversify";
+
 const debug = debug0("jukebox");
 
+@injectable()
 export class Jukebox extends EventEmitter {
-  /**
-   * List of music to be played
-   */
-  private _playQueue: JukeboxItem[] = [];
   /**
    * Is the Jukebox playing right now ?
    */
@@ -21,11 +18,14 @@ export class Jukebox extends EventEmitter {
    * playback volume
    */
   volume = 10;
-
   /**
    * What's being being played
    */
   currentSong: JukeboxItem;
+  /**
+   * List of music to be played
+   */
+  private _playQueue: JukeboxItem[] = [];
   private islooping: boolean;
 
   constructor(
@@ -33,6 +33,10 @@ export class Jukebox extends EventEmitter {
     public textChannel: TextChannel
   ) {
     super();
+  }
+
+  get voiceConnection(): VoiceConnection {
+    return this._voiceConnection;
   }
 
   /**
@@ -49,16 +53,17 @@ export class Jukebox extends EventEmitter {
     });
   }
 
-  get voiceConnection(): VoiceConnection {
-    return this._voiceConnection;
+  get numberOfSongs() {
+    return this._playQueue.length;
   }
+
   /**
    * @param track Source track to add to the playlist
    * @param asker Who's aking to add it
    * @returns True if the track was added
    */
-  addMusic(track, asker): boolean {
-    const newItem = JukeboxItemFactory.createItem(
+  async addMusic(track, asker): Promise<boolean> {
+    const newItem = await JukeboxItemFactory.createItem(
       track,
       this._voiceConnection,
       asker
@@ -73,17 +78,12 @@ export class Jukebox extends EventEmitter {
     return true;
   }
 
-  get numberOfSongs() {
-    return this._playQueue.length;
-  }
-
   /**
    * @public
    * @summary Begin playing the songs in the queue
-   * @param {Boolean} [displaySong=true] Send details about the song in the text channel before playing
-   * @param {Integer} [stopAfter=-1] If positive stops the song after a ceratin time (seconds)
+   * @param displaySong Send details about the song in the text channel before playing
+   * @param stopAfter If positive stops the song after a ceratin time (seconds)
    * @returns false if could not play
-   * @fires Jukebox#QueueEmpty
    * @listens JukeboxItem#end for relooping
    */
   play(displaySong = true, stopAfter = -1): boolean {
@@ -115,9 +115,11 @@ export class Jukebox extends EventEmitter {
       });
       const user = this._voiceConnection.client.user;
       this.currentSong.toString().then(async str => {
-        user.setActivity(str, {
-          type: "STREAMING"
-        });
+        user
+          .setActivity(str, {
+            type: "STREAMING"
+          })
+          .catch(debug);
       });
     }
 
@@ -132,7 +134,7 @@ export class Jukebox extends EventEmitter {
       if (timeout) {
         clearTimeout(timeout);
       }
-      this.onEnd(displaySong, stopAfter);
+      this.onEnd(displaySong, stopAfter).catch(debug);
     });
     // setTimeout( () => this.currentSong.on('end', (evt) => this.onEnd(evt), 5000));
     return true;
@@ -142,10 +144,10 @@ export class Jukebox extends EventEmitter {
    * Event handler for @see{@link{JukeboxItem#end}}
    * @summary What to do at the end of a track
    */
-  async onEnd(displaySong, stopAfter) {
+  async onEnd(displaySong, stopAfter): Promise<void> {
     debug("END");
     const user = this._voiceConnection.client.user;
-    user.setActivity(null);
+    user.setActivity(null).catch(debug);
     this.currentSong.off("end", this.onEnd);
     // this.currentSong.stop();
     // await new Promise( (res, rej) => setTimeout( res(), 5000));
@@ -174,7 +176,7 @@ export class Jukebox extends EventEmitter {
   /**
    * @public
    * @summary Change playback volume
-   * @param {Integer} newVolume
+   * @param newVolume
    * @return False if parameters is invalid, false otherwise
    */
   setVolume(newVolume) {
@@ -219,7 +221,7 @@ export class Jukebox extends EventEmitter {
     if (hasWorked) {
       this.isPlaying = false;
       const user = this._voiceConnection.client.user;
-      user.setActivity(null);
+      user.setActivity(null).catch(debug);
     }
     return hasWorked;
   }
@@ -240,9 +242,11 @@ export class Jukebox extends EventEmitter {
     if (this.currentSong.pause()) {
       const user = this._voiceConnection.client.user;
       this.currentSong.toString().then(async str => {
-        user.setActivity("[PAUSED]" + str, {
-          type: "STREAMING"
-        });
+        user
+          .setActivity("[PAUSED]" + str, {
+            type: "STREAMING"
+          })
+          .catch(debug);
       });
 
       return true;
@@ -258,9 +262,11 @@ export class Jukebox extends EventEmitter {
     if (this.currentSong.resume()) {
       const user = this._voiceConnection.client.user;
       this.currentSong.toString().then(async str => {
-        user.setActivity(str, {
-          type: "STREAMING"
-        });
+        user
+          .setActivity(str, {
+            type: "STREAMING"
+          })
+          .catch(debug);
       });
       return true;
     }
@@ -273,6 +279,10 @@ export class Jukebox extends EventEmitter {
    */
   setTextChannel(textChannel) {
     this.textChannel = textChannel;
+  }
+
+  setLoop(b: boolean) {
+    this.islooping = b;
   }
 
   /**
@@ -295,9 +305,5 @@ export class Jukebox extends EventEmitter {
     }
 
     return true;
-  }
-
-  setLoop(b: boolean) {
-    this.islooping = b;
   }
 }

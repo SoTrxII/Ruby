@@ -1,17 +1,21 @@
+import container from "./inversify.config";
 import { Client } from "discord.js";
 import * as config from "../config.json";
+import { parseTextCommand } from "./utils/command-handle";
+import { replyRandom } from "./utils/reply-at-random";
+import { GlobalExt } from "./@types/global";
+import { TYPES } from "./types";
+import * as debug0 from "debug";
+const debug = debug0("Ruby");
+
 declare const global: GlobalExt;
 global.Config = config;
 global.baseAppDir = __dirname;
 
-import { parseTextCommand } from "./utils/command-handle.js";
-import { replyRandom } from "./utils/reply-at-random";
-import { GlobalExt } from "./@types/global";
 // Constants
-global.Rin = new Client();
+global.Rin = container.get<Client>(TYPES.Client);
 const Rin = global.Rin; // Convenient alias
 const COMMAND_PREFIX = "$";
-
 Rin.on("ready", () => {
   console.log("Up & Ready to roll");
 });
@@ -31,7 +35,7 @@ Rin.on("message", message => {
     // Commands goes here
     parseTextCommand(message).catch(console.error);
   } else if (isMentioned) {
-    replyRandom(message);
+    replyRandom(message).catch(debug);
   }
 });
 
@@ -40,10 +44,11 @@ Rin.login(global.Config.Discord.RubyToken).then(() =>
 );
 
 let isExiting = false;
+
 /**
  * @summary Handler to clean up remaining processes before exiting
- * @param  {Object[]} options variables to handle special case while switching off
- * @param  {Exception[]} err Exception that caused Rin's death
+ * @param  options variables to handle special case while switching off
+ * @param  err Exception that caused Rin's death
  */
 // tslint:disable-next-line:only-arrow-functions
 //TODO: Add typedef for options and err

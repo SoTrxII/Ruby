@@ -1,12 +1,13 @@
 import { kill, pid } from "process";
 import { GlobalExt } from "../../@types/global";
+
 declare const global: GlobalExt;
 
 /**
  * Make Ruby kill itself, pm2 should restart it then.
  * @desc This is a quick fix to dispatcher ending problem
  */
-const restart = async () => {
+const restart = async (): Promise<void> => {
   await global.Rin.destroy();
   kill(pid);
 };
