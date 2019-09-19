@@ -147,10 +147,8 @@ export class Jukebox extends EventEmitter {
   async onEnd(displaySong, stopAfter): Promise<void> {
     debug("END");
     const user = this._voiceConnection.client.user;
-    user.setActivity(null).catch(debug);
+    user.setActivity(null);
     this.currentSong.off("end", this.onEnd);
-    // this.currentSong.stop();
-    // await new Promise( (res, rej) => setTimeout( res(), 5000));
     this.isPlaying = false;
     this.play(displaySong, stopAfter);
   }
@@ -221,7 +219,7 @@ export class Jukebox extends EventEmitter {
     if (hasWorked) {
       this.isPlaying = false;
       const user = this._voiceConnection.client.user;
-      user.setActivity(null).catch(debug);
+      user.setActivity(null);
     }
     return hasWorked;
   }
@@ -242,11 +240,9 @@ export class Jukebox extends EventEmitter {
     if (this.currentSong.pause()) {
       const user = this._voiceConnection.client.user;
       this.currentSong.toString().then(async str => {
-        user
-          .setActivity("[PAUSED]" + str, {
-            type: "STREAMING"
-          })
-          .catch(debug);
+        user.setActivity("[PAUSED]" + str, {
+          type: "STREAMING"
+        });
       });
 
       return true;
@@ -262,11 +258,9 @@ export class Jukebox extends EventEmitter {
     if (this.currentSong.resume()) {
       const user = this._voiceConnection.client.user;
       this.currentSong.toString().then(async str => {
-        user
-          .setActivity(str, {
-            type: "STREAMING"
-          })
-          .catch(debug);
+        user.setActivity(str, {
+          type: "STREAMING"
+        });
       });
       return true;
     }
