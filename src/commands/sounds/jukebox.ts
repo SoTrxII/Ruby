@@ -1,6 +1,7 @@
 import { GlobalExt } from "../../@types/global";
 import { Jukebox } from "../../classes/Jukebox/jukebox";
 import { Message, TextChannel } from "discord.js";
+import { getValids } from "../../utils/command-handle";
 
 declare const global: GlobalExt;
 
@@ -74,17 +75,26 @@ const play = async (evt: Message, command: string, cmdArg: string) => {
 
 /**
  * @summary Add a music to play
- * @param {Discord/Message} evt Discord message Event
- * @param {String} command Discord command string (ex : play, add, list)
- * @param {String} cmdArg Music to add
+ * @param evt Discord message Event
+ * @param command Discord command string (ex : play, add, list)
+ * @param cmdArg Music to add
  */
 const addToQueue = async (evt: Message, command: string, cmdArg: string) => {
   await _updateJukebox(evt);
-
-  if (!(await global.jukebox.addMusic(cmdArg, evt.author))) {
-    evt.channel.send(
-      `${cmdArg} n'est pas un lien valide, non ajouté à la liste de lecture`
-    );
+  const addedBatch = getValids(cmdArg)
+    .map(
+      async (valid: string): Promise<number> => {
+        const added = await global.jukebox.addMusic(valid, evt.author);
+        if (!added) {
+          evt.channel.send(
+            `${cmdArg} n'est pas un lien valide, non ajouté à la liste de lecture`
+          );
+        }
+        return Number(added);
+      }
+    )
+    .reduce(async (acc, value) => (await acc) + (await value));
+  if ((await addedBatch) === 0) {
     return;
   }
   await evt.channel.send(`Chansons à venir :`);
@@ -120,6 +130,29 @@ const stop = async (evt: Message, command: string, cmdArg: string) => {
     global.voiceConnection.disconnect();
     global.voiceConnection = null;
   }
+};
+
+const removeFromQueue = async (
+  evt: Message,
+  command: string,
+  cmdArg: string
+) => {
+  await _updateJukebox(evt);
+  const index = parseInt(cmdArg);
+  if (isNaN(index)) {
+    evt.channel.send(
+      `Faut mettre le numéro de la chanson dans la liste tu sais...`
+    );
+    return;
+  }
+
+  if (!global.jukebox.removeFromQueue(index - 1)) {
+    evt.channel.send(`Nop, y'a pas de chanson avec ce numéro`);
+    return;
+  }
+  await evt.channel.send(`Chanson enlevée !`);
+  await evt.channel.send(`Chansons à venir :`);
+  await global.jukebox.displayQueue();
 };
 
 /**
@@ -250,6 +283,8 @@ exports.default = {
   addMusic: addToQueue,
   am: addToQueue,
   ajouter: addToQueue,
+  enlever: removeFromQueue,
+  rm: removeFromQueue,
   list: list,
   liste: list,
   pause: pause,
@@ -269,6 +304,11 @@ exports.help = {
     parameters: "URL d'une vidéo Youtube",
     desc: "Ajoute une musique à la liste de lecture",
     aliases: "am"
+  },
+  enlever: {
+    parameters: "Numero de la musique dans la liste",
+    desc: "Enlève une musique de la liste des musiques en attente",
+    aliases: "rm"
   },
   liste: {
     parameters: "",
@@ -298,11 +338,6 @@ exports.help = {
     parameters: "Entier entre 0 et 100",
     desc: "Change le volume de la lecture",
     aliases: "volume"
-  },
-  search: {
-    parameters: "Quoi chercher",
-    desc: "Cherche sur les sources supportées une musique",
-    aliases: ["s", "q"]
   },
   stop: {
     parameters: "",

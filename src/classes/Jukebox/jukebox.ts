@@ -176,6 +176,17 @@ export class Jukebox extends EventEmitter {
   }
 
   /**
+   * Remove a song from the waiting queue
+   */
+  removeFromQueue(index: number): boolean {
+    if (index < 0 || index > this._playQueue.length) {
+      return false;
+    }
+    this._playQueue.splice(index, 1);
+    return true;
+  }
+
+  /**
    * @public
    * @summary Change playback volume
    * @param newVolume

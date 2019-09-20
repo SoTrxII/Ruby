@@ -6,6 +6,7 @@ import { replyRandom } from "./utils/reply-at-random";
 import { GlobalExt } from "./@types/global";
 import { TYPES } from "./types";
 import * as debug0 from "debug";
+
 const debug = debug0("Ruby");
 
 declare const global: GlobalExt;

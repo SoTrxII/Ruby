@@ -2,7 +2,10 @@ import debug0 from "debug";
 import { RichEmbed, StreamDispatcher, User, VoiceConnection } from "discord.js";
 import { EventEmitter } from "events";
 import { GlobalExt } from "../../@types/global";
-import { secondsToDhms } from "../../utils/duration-converter";
+import {
+  secondsToDhms,
+  secondsToISOhhmmss
+} from "../../utils/duration-converter";
 
 declare const global: GlobalExt;
 const debug = debug0("jukeboxItem");
@@ -108,9 +111,9 @@ export abstract class JukeboxItem extends EventEmitter {
   async toString(): Promise<string> {
     const data = await this._getInfo();
     if (this.dispatcher) {
-      return `${data.title} - ${data.author} [ ${secondsToDhms(
+      return `${data.title} - ${data.author} [ ${secondsToISOhhmmss(
         this.dispatcher.time / 1000
-      )} sur ${secondsToDhms(data.duration)}]`;
+      )} sur ${secondsToISOhhmmss(data.duration)}]`;
     }
     return `${data.title} - ${data.author} [${secondsToDhms(data.duration)}]`;
   }

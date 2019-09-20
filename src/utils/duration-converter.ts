@@ -8,6 +8,10 @@ export const secondsToDhms = (seconds: number): string => {
   const dDisplay = d > 0 ? d + (d == 1 ? " jour, " : " jours, ") : "";
   const hDisplay = h > 0 ? h + (h == 1 ? " heure, " : " heures, ") : "";
   const mDisplay = m > 0 ? m + (m == 1 ? " minute, " : " minutes, ") : "";
-  const sDisplay = s > 0 ? s + (s == 1 ? " seconde" : " secondes") : "";
-  return dDisplay + hDisplay + mDisplay + sDisplay;
+  const sDisplay = s > 0 ? s + (s == 1 ? " seconde," : " secondes,") : "";
+  const display = (dDisplay + hDisplay + mDisplay + sDisplay).trim();
+  return display.substr(0, display.length - 1);
+};
+export const secondsToISOhhmmss = (seconds: number): string => {
+  return new Date(seconds * 1000).toISOString().substr(11, 8);
 };
