@@ -1,3 +1,11 @@
 # What's new
-## Features
-You can now use $am/$ajouter with a non-link element to trigger a youtube search
+
+## New features
++ Command $clear/$vider empty the play list
+
+## Changes
+
+## Bug fixes
++ Fixing the help command aliases disappearance in certain cases
+  
+

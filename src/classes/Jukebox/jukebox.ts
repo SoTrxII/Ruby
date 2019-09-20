@@ -187,7 +187,13 @@ export class Jukebox extends EventEmitter {
   }
 
   /**
-   * @public
+   * Empty the playlist
+   */
+  removeAllFromQueue(): void {
+    this._playQueue = [];
+  }
+
+  /**
    * @summary Change playback volume
    * @param newVolume
    * @return False if parameters is invalid, false otherwise
@@ -211,7 +217,6 @@ export class Jukebox extends EventEmitter {
   }
 
   /**
-   * @public
    * @summary Skip current song and go to the next one
    * @returns False if there is no next song
    */
@@ -221,7 +226,6 @@ export class Jukebox extends EventEmitter {
   }
 
   /**
-   * @public
    * @summary Stop current song playback
    * @param {Boolean} [startNext=true] Wether to start the next song in the list
    * @returns True if stopped
