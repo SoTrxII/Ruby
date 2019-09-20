@@ -1,9 +1,14 @@
 # What's new
 
-## Features
-+ You can now use $am/$ajouter with a non-link element to trigger a youtube search.
-+ Duration and elapses time are now indicated on both the status and the song embed.
+## New features
++ New $rm/$enlever command that can remove a song in the waiting queue 
++ $am support now batches. Such as $am [ link1 ] [ link2 ]. It can
+even be a mix of text for research and direct link. 
 
-##Bug fixes
-+ The list of song is now properly awaited
+## Changes
++ The time format in Ruby status bar is now hh:mm:ss
+
+## Bug fixes
++ Fixing the help command aliases disappearance in certain cases
+  
 
