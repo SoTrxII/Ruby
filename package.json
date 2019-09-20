@@ -1,6 +1,6 @@
 {
   "name": "ruby",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "scripts": {
     "packRelease": "tar -zcvf Ruby.tgz dist",
     "build": "cp -n config_template.json config.json && tsc --sourceMap false && cp package.json dist/package.json",
