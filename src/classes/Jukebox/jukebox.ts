@@ -151,7 +151,7 @@ export class Jukebox extends EventEmitter {
   async onEnd(displaySong, stopAfter): Promise<void> {
     debug("END");
     const user = this._voiceConnection.client.user;
-    user.setActivity(null);
+    user.setActivity(undefined);
     this.currentSong.off("end", this.onEnd);
     this.isPlaying = false;
     this.play(displaySong, stopAfter);
@@ -238,7 +238,7 @@ export class Jukebox extends EventEmitter {
     if (hasWorked) {
       this.isPlaying = false;
       const user = this._voiceConnection.client.user;
-      user.setActivity(null);
+      user.setActivity(undefined);
     }
     return hasWorked;
   }
