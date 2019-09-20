@@ -1,6 +1,7 @@
 import { GlobalExt } from "../../@types/global";
 import { Jukebox } from "../../classes/Jukebox/jukebox";
 import { Message, TextChannel } from "discord.js";
+import { getValids } from "../../utils/command-handle";
 
 declare const global: GlobalExt;
 
@@ -74,17 +75,26 @@ const play = async (evt: Message, command: string, cmdArg: string) => {
 
 /**
  * @summary Add a music to play
- * @param {Discord/Message} evt Discord message Event
- * @param {String} command Discord command string (ex : play, add, list)
- * @param {String} cmdArg Music to add
+ * @param evt Discord message Event
+ * @param command Discord command string (ex : play, add, list)
+ * @param cmdArg Music to add
  */
 const addToQueue = async (evt: Message, command: string, cmdArg: string) => {
   await _updateJukebox(evt);
-
-  if (!(await global.jukebox.addMusic(cmdArg, evt.author))) {
-    evt.channel.send(
-      `${cmdArg} n'est pas un lien valide, non ajouté à la liste de lecture`
-    );
+  const addedBatch = getValids(cmdArg)
+    .map(
+      async (valid: string): Promise<number> => {
+        const added = await global.jukebox.addMusic(valid, evt.author);
+        if (!added) {
+          evt.channel.send(
+            `${cmdArg} n'est pas un lien valide, non ajouté à la liste de lecture`
+          );
+        }
+        return Number(added);
+      }
+    )
+    .reduce(async (acc, value) => (await acc) + (await value));
+  if ((await addedBatch) === 0) {
     return;
   }
   await evt.channel.send(`Chansons à venir :`);

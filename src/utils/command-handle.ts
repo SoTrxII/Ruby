@@ -44,3 +44,36 @@ export async function parseTextCommand(message: Message): Promise<void> {
     console.error(`Failed to resolve command : ${e.stack}`)
   );
 }
+
+/**
+ * Split arguments between text and url.
+ * @example "https://www.youtube/watchdd jjkdd hdksjhd  https://www.youtube/watchdd dd"
+ * should return ["https://www.youtube/watchdd", "jjkdd hdksjhd", "https://www.youtube/watchdd", "dd"]
+ * @param cmdArg command line argument to parse
+ * @returns valid arguments.
+ */
+export function getValids(cmdArg: string): Array<string> {
+  const validStrings: Array<string> = [];
+  if (cmdArg === undefined || cmdArg === "") {
+    return validStrings;
+  }
+  const filtered = cmdArg.split(" ").filter(s => s !== "");
+  const urlRegex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/;
+  let current: string = undefined;
+  let buffered = "";
+  while ((current = filtered.shift()) !== undefined) {
+    if (urlRegex.test(current)) {
+      if (buffered !== "") {
+        validStrings.push(buffered.trim());
+        buffered = "";
+      }
+      validStrings.push(current);
+    } else {
+      buffered += `${current} `;
+    }
+  }
+  if (buffered !== "") {
+    validStrings.push(buffered.trim());
+  }
+  return validStrings;
+}
