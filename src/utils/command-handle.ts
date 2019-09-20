@@ -5,6 +5,27 @@
 import { Message } from "discord.js";
 import { commands, help } from "../commands";
 
+export function getHelpString(): string {
+  let returnString = "";
+  for (const commandDesc of Object.keys(help).sort()) {
+    returnString += `\n **\`$${commandDesc}\`** ${
+      help[commandDesc].parameters
+        ? "_`" + help[commandDesc].parameters + "`_"
+        : ""
+    }\n\t\
+                _${help[commandDesc].desc}_\
+                ${
+                  help[commandDesc].aliases
+                    ? "\n\t__Alias__ : " +
+                      (typeof help[commandDesc].aliases === "string"
+                        ? help[commandDesc].aliases
+                        : help[commandDesc].aliases.join(", "))
+                    : ""
+                }`;
+  }
+  return returnString;
+}
+
 // tslint:disable-next-line:only-arrow-functions
 export async function parseTextCommand(message: Message): Promise<void> {
   const command = message.content
@@ -15,21 +36,7 @@ export async function parseTextCommand(message: Message): Promise<void> {
 
   // Redirect to special command help
   if (command === "help" || command === "halp") {
-    let returnString = "";
-    for (const commandDesc of Object.keys(help).sort()) {
-      returnString += `\n **\`$${commandDesc}\`** ${
-        help[commandDesc].parameters
-          ? "_`" + help[commandDesc].parameters + "`_"
-          : ""
-      }\n\t\
-                _${help[commandDesc].desc}_\
-                ${
-                  help[commandDesc].aliases
-                    ? "\n\t__Alias__ : " + help[commandDesc].aliases.join(", ")
-                    : ""
-                }`;
-    }
-    await message.channel.send(returnString);
+    await message.channel.send(getHelpString());
 
     return;
   }

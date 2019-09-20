@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import "mocha";
-import { getValids } from "../src/utils/command-handle";
+import { getHelpString, getValids } from "../src/utils/command-handle";
 import { expect } from "chai";
 describe("CommandHandle", () => {
   describe("Split into link and text", () => {
@@ -45,6 +45,13 @@ describe("CommandHandle", () => {
         "https://www.youtube.com/watch?v=TiEGVgYTXKo",
         "https://www.youtube.com/watch?v=TiEGVgYTXKo"
       ]);
+    });
+  });
+  describe("Help", () => {
+    it("Should be able to build the help string", () => {
+      expect(getHelpString).to.not.throw();
+      const helpStr = getHelpString();
+      expect(helpStr).to.not.equal(undefined);
     });
   });
 });
