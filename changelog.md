@@ -1,14 +1,12 @@
 # What's new
 
 ## New features
-+ New $rm/$enlever command that can remove a song in the waiting queue 
-+ $am support now batches. Such as $am [ link1 ] [ link2 ]. It can
-even be a mix of text for research and direct link. 
++ The audio is now balanced with a loudnorm algorithm !
++ Added $clear/$vider command to empty the whole playlist
 
 ## Changes
-+ The time format in Ruby status bar is now hh:mm:ss
++ Default volume is now 55
 
 ## Bug fixes
-+ Fixing the help command aliases disappearance in certain cases
-  
++ Fixing a build problem by setting inversify a a dependency instead of a dev-dependency   
 
