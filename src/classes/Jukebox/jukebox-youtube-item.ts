@@ -1,5 +1,6 @@
 import * as ytdl from "ytdl-core";
 import { JukeboxItem, JukeboxItemInfos } from "./jukebox-item";
+import { PassThrough } from "stream";
 
 export class JukeboxYoutubeItem extends JukeboxItem {
   infos: Promise<JukeboxItemInfos>;
@@ -27,19 +28,24 @@ export class JukeboxYoutubeItem extends JukeboxItem {
    */
   play(options): void {
     super.play(options);
-    this.dispatcher = this.voiceConnection.playStream(
-      ytdl(this.track, {
-        quality: "highest",
-        highWaterMark: 1024 * 1024 * 50 // Give the song a 50Mb buffer size (default : 16kb)
-      }),
-      options
-    );
-    this.dispatcher.on("end", () => {
-      /**
-       * Emitted when an item stops playing
-       * @event JukeboxItem#end
-       */
-      this.emit("end");
+    const inputStream = ytdl(this.track, {
+      quality: "highest",
+      highWaterMark: 1024 * 1024 * 50 // Give the song a 50Mb buffer size (default : 16kb)
+    });
+    const normalizedStream = new PassThrough();
+    this.ffmpeg = this.getNormalizationProcess(inputStream, normalizedStream);
+    this.ffmpeg.once("progress", () => {
+      this.dispatcher = this.voiceConnection.playStream(
+        normalizedStream,
+        options
+      );
+      this.dispatcher.on("end", () => {
+        /**
+         * Emitted when an item stops playing
+         * @event JukeboxItem#end
+         */
+        this.emit("end");
+      });
     });
   }
 

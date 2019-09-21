@@ -6,6 +6,9 @@ import {
   secondsToDhms,
   secondsToISOhhmmss
 } from "../../utils/duration-converter";
+import * as ffmpeg from "fluent-ffmpeg";
+import { FfmpegCommand } from "fluent-ffmpeg";
+import { Readable, Writable } from "stream";
 
 declare const global: GlobalExt;
 const debug = debug0("jukeboxItem");
@@ -23,6 +26,7 @@ export abstract class JukeboxItem extends EventEmitter {
   hasBegun = false;
   isPaused = false;
   protected dispatcher: StreamDispatcher = undefined;
+  protected ffmpeg: FfmpegCommand = undefined;
 
   protected constructor(
     public track: string,
@@ -76,6 +80,9 @@ export abstract class JukeboxItem extends EventEmitter {
    */
   stop(): boolean {
     if (this.dispatcher && this.hasBegun) {
+      /*if (this.ffmpeg) {
+        this.ffmpeg.kill("SIGKILL");
+      }*/
       this.dispatcher.end();
 
       return true;
@@ -166,5 +173,22 @@ export abstract class JukeboxItem extends EventEmitter {
     em.setTimestamp();
 
     return em;
+  }
+
+  protected getNormalizationProcess(
+    inStream: Readable,
+    outStream: Writable
+  ): FfmpegCommand {
+    const command = ffmpeg(inStream)
+      .on("error", commandLine => {
+        debug(`Ffmpeg error : ${commandLine}`);
+      })
+      .audioCodec("libopus")
+      .format("ogg")
+      .noVideo()
+      .addOption("-analyzeduration 0")
+      .addOption("-af loudnorm=I=-16:TP=-1.5:LRA=11");
+    command.stream(outStream, { end: true });
+    return command;
   }
 }

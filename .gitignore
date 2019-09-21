@@ -52,3 +52,4 @@ config_prod.json
 *.pcm
 dist/
 *.tgz
+*.mp3

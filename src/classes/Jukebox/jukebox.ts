@@ -17,7 +17,7 @@ export class Jukebox extends EventEmitter {
   /**
    * playback volume
    */
-  volume = 10;
+  volume = 55;
   /**
    * What's being being played
    */
@@ -151,7 +151,7 @@ export class Jukebox extends EventEmitter {
   async onEnd(displaySong, stopAfter): Promise<void> {
     debug("END");
     const user = this._voiceConnection.client.user;
-    user.setActivity(null);
+    user.setActivity(undefined);
     this.currentSong.off("end", this.onEnd);
     this.isPlaying = false;
     this.play(displaySong, stopAfter);
@@ -187,7 +187,13 @@ export class Jukebox extends EventEmitter {
   }
 
   /**
-   * @public
+   * Empty the playlist
+   */
+  removeAllFromQueue(): void {
+    this._playQueue = [];
+  }
+
+  /**
    * @summary Change playback volume
    * @param newVolume
    * @return False if parameters is invalid, false otherwise
@@ -211,7 +217,6 @@ export class Jukebox extends EventEmitter {
   }
 
   /**
-   * @public
    * @summary Skip current song and go to the next one
    * @returns False if there is no next song
    */
@@ -221,7 +226,6 @@ export class Jukebox extends EventEmitter {
   }
 
   /**
-   * @public
    * @summary Stop current song playback
    * @param {Boolean} [startNext=true] Wether to start the next song in the list
    * @returns True if stopped
@@ -234,7 +238,7 @@ export class Jukebox extends EventEmitter {
     if (hasWorked) {
       this.isPlaying = false;
       const user = this._voiceConnection.client.user;
-      user.setActivity(null);
+      user.setActivity(undefined);
     }
     return hasWorked;
   }

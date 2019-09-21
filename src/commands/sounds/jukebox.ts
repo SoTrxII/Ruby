@@ -155,6 +155,16 @@ const removeFromQueue = async (
   await global.jukebox.displayQueue();
 };
 
+const removeAllFromQueue = async (
+  evt: Message,
+  command: string,
+  cmdArg: string
+): Promise<void> => {
+  await _updateJukebox(evt);
+  global.jukebox.removeAllFromQueue();
+  await evt.channel.send(`Liste de chansons vidée`);
+};
+
 /**
  * @async
  * @public
@@ -285,6 +295,8 @@ exports.default = {
   ajouter: addToQueue,
   enlever: removeFromQueue,
   rm: removeFromQueue,
+  clear: removeAllFromQueue,
+  vider: removeAllFromQueue,
   list: list,
   liste: list,
   pause: pause,
@@ -343,5 +355,10 @@ exports.help = {
     parameters: "",
     desc: "Arrête la lecture",
     aliases: "volume"
+  },
+  vider: {
+    parameters: "",
+    desc: "Vide la liste de lecture lecture",
+    aliases: "clear"
   }
 };
