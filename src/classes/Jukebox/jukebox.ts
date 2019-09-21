@@ -17,7 +17,7 @@ export class Jukebox extends EventEmitter {
   /**
    * playback volume
    */
-  volume = 10;
+  volume = 55;
   /**
    * What's being being played
    */
