@@ -80,9 +80,9 @@ export abstract class JukeboxItem extends EventEmitter {
    */
   stop(): boolean {
     if (this.dispatcher && this.hasBegun) {
-      /*if (this.ffmpeg) {
+      if (this.ffmpeg) {
         this.ffmpeg.kill("SIGKILL");
-      }*/
+      }
       this.dispatcher.end();
 
       return true;
@@ -183,9 +183,15 @@ export abstract class JukeboxItem extends EventEmitter {
       .on("error", commandLine => {
         debug(`Ffmpeg error : ${commandLine}`);
       })
-      .audioCodec("libopus")
-      .format("ogg")
+      .on("stderr", commandLine => {
+        debug(`Ffmpeg stderr : ${commandLine}`);
+      })
+      .audioCodec("aac")
+      .format("matroska")
+      .addOption("-movflags")
+      .addOption("+faststart")
       .noVideo()
+      .audioBitrate("192k")
       .addOption("-analyzeduration 0")
       .addOption("-af loudnorm=I=-16:TP=-1.5:LRA=11");
     command.stream(outStream, { end: true });

@@ -32,9 +32,11 @@ export class JukeboxYoutubeItem extends JukeboxItem {
       quality: "highest",
       highWaterMark: 1024 * 1024 * 50 // Give the song a 50Mb buffer size (default : 16kb)
     });
-    const normalizedStream = new PassThrough();
+    const normalizedStream = new PassThrough({
+      highWaterMark: 10 * 1024 * 1024
+    });
     this.ffmpeg = this.getNormalizationProcess(inputStream, normalizedStream);
-    this.ffmpeg.once("progress", () => {
+    this.ffmpeg.once("stderr", () => {
       this.dispatcher = this.voiceConnection.playStream(
         normalizedStream,
         options

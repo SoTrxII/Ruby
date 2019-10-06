@@ -1,6 +1,6 @@
 {
   "name": "ruby",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "scripts": {
     "packRelease": "tar -zcvf Ruby.tgz dist",
     "build": "cp -n config_template.json config.json && tsc --sourceMap false && cp package.json dist/package.json",
@@ -28,6 +28,7 @@
     "socket.io": "^2.2.0",
     "sodium": "^3.0.2",
     "speaker": "^0.4.2",
+    "tslib": "^1.10.0",
     "uws": "^100.0.1",
     "ytdl-core": "^0.29.6"
   },

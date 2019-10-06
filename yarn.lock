@@ -2322,7 +2322,7 @@ ts-toolbelt@^3.8.4:
   resolved "https://registry.yarnpkg.com/ts-toolbelt/-/ts-toolbelt-3.8.72.tgz#647ba67a3bd55f1e5a8057c1a7621c38b2e418a5"
   integrity sha512-rVwnPRczAamCTIs/9iUgWW12YMscmDG79M0xiUmcmWgTk8lkjxrrwzUys72wsIxNohtiNQaOhbkgQPIxqIdwmA==
 
-tslib@^1.8.1, tslib@^1.9.0:
+tslib@^1.10.0, tslib@^1.8.1, tslib@^1.9.0:
   version "1.10.0"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.10.0.tgz#c3c19f95973fb0a62973fb09d90d961ee43e5c8a"
   integrity sha512-qOebF53frne81cf0S9B41ByenJ3/IuH8yJKngAX35CmiZySA0khhkovshKK+jGCaMnVomla7gVlIcc3EvKPbTQ==
