@@ -1,19 +1,16 @@
 import "reflect-metadata";
 import "mocha";
-import { YoutubeSearch } from "../src/classes/Search/youtube-search";
-// eslint-disable-next-line @typescript-eslint/camelcase
-import { youtube_v3 } from "googleapis";
-import { createStubInstance, stub } from "sinon";
 import { expect } from "chai";
+import { YoutubeSearch } from "./youtube-search";
 // eslint-disable-next-line @typescript-eslint/camelcase
-import Youtube = youtube_v3.Youtube;
+import { stub } from "sinon";
+
 describe("YoutubeSearch", () => {
   describe("search", () => {
     before(() => {
-      const googleStub = createStubInstance(Youtube);
       //Needs to be a public memeber of the class to be recognized by stub(), any is a workaround
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      stub(YoutubeSearch, "initializeYoutube" as any).returns(googleStub);
+      stub(YoutubeSearch, "initializeYoutube" as any).returns({});
     });
     describe("When there is a result", () => {
       const videoId = "OKLM";

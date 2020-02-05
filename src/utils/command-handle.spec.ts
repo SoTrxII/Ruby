@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import "mocha";
-import { getHelpString, getValids } from "../src/utils/command-handle";
+import { getHelpString, getValids } from "./command-handle";
 import { expect } from "chai";
 describe("CommandHandle", () => {
   describe("Split into link and text", () => {

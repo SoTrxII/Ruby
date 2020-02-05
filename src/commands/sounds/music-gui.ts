@@ -2,7 +2,7 @@
 import { GlobalExt } from "../../@types/global";
 import debug0 from "debug";
 import * as io0 from "socket.io";
-import { MusicGui } from "../../classes/MusicGui/music-gui";
+import { MusicGui } from "../../components/MusicGui/music-gui";
 import { Message, TextChannel } from "discord.js";
 
 declare const global: GlobalExt;

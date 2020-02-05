@@ -1,5 +1,5 @@
 import { GlobalExt } from "../../@types/global";
-import { Jukebox } from "../../classes/Jukebox/jukebox";
+import { Jukebox } from "../../components/Jukebox/jukebox";
 import { Message, TextChannel } from "discord.js";
 import { getValids } from "../../utils/command-handle";
 

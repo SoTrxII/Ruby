@@ -1,6 +1,6 @@
 import { EventEmitter } from "events";
 import { FfmpegCommand } from "fluent-ffmpeg";
-import Speaker from "speaker";
+import { Speaker } from "speaker";
 import { Readable } from "stream";
 
 enum ItemStates {

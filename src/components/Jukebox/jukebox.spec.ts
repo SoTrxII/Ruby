@@ -1,15 +1,15 @@
 import "reflect-metadata";
 import "mocha";
-import { TYPES } from "../src/types";
+import { TYPES } from "../../types";
 import { expect } from "chai";
-import { SearchService } from "../src/classes/Search/search-service";
-import { YoutubeSearch } from "../src/classes/Search/youtube-search";
-import container from "../src/inversify.config";
-import { Jukebox } from "../src/classes/Jukebox/jukebox";
+import { SearchService } from "../Search/search-service";
+import { YoutubeSearch } from "../Search/youtube-search";
+import container from "../../inversify.config";
+import { Jukebox } from "./jukebox";
 import { VoiceConnection, TextChannel, User, ClientUser } from "discord.js";
 import { mock, spy, stub, createStubInstance } from "sinon";
 import sinon = require("sinon");
-import { JukeboxItemFactory } from "../src/classes/Jukebox/jukebox-item-factory";
+import { JukeboxItemFactory } from "./jukebox-item-factory";
 
 describe("Jukebox", () => {
   let jukebox: Jukebox;

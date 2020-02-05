@@ -3,7 +3,7 @@ import { TextChannel, VoiceConnection } from "discord.js";
 import { EventEmitter } from "events";
 import * as ffmpeg from "fluent-ffmpeg";
 import Volume from "pcm-volume";
-import Speaker from "speaker";
+import { Speaker } from "speaker";
 import { PassThrough, pipeline, Readable, Writable } from "stream";
 import { GuiItem } from "./gui-item";
 import { GuiItemFactory } from "./gui-item-factory";
@@ -48,7 +48,7 @@ export class MusicGui extends EventEmitter {
       .outputFormat("s16le")
       .addOption("-analyzeduration 0")
       .audioCodec("pcm_s16le")
-      .audioBitrate("64k")
+      .audioBitrate("128k")
       .output(this.audioLoop, { end: false });
 
     this.audioCommand.run();

@@ -1,6 +1,6 @@
 import Global = NodeJS.Global;
 import { Client, VoiceConnection } from "discord.js";
-import { Jukebox } from "../classes/Jukebox/jukebox";
+import { Jukebox } from "../components/Jukebox/jukebox";
 
 interface Config {
   Discord: {

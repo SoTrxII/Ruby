@@ -1,6 +1,9 @@
 # What's new
++ Now compatible with Node 12.x !  
++ Bumped dependencies
++ Added a Dockerfile for good measure, Ruby can now be used as a container, using its host Pulseaudio configuration.
++ Changed the way tests are handled
 
-## Bug fixes
-+ Fixed a broken ffmpeg execution when normalizing the output stream after one song has already been played.
-+ Fixed a deployment problem by requiring the missing "tslib" lib.   
+# Hotfix
++ Added a temp hotfix to allow node-speaker to compile properly. Hope they fix that soon. 
 
