@@ -21,7 +21,11 @@ export class JukeboxItemFactory {
     voiceConnection: VoiceConnection,
     asker: GuildMember
   ): Promise<JukeboxItem> {
-    const item = JukeboxItemFactory.getFromLink(link, voiceConnection, asker);
+    const item = await JukeboxItemFactory.getFromLink(
+      link,
+      voiceConnection,
+      asker
+    );
     if (JukeboxItemFactory.disableTextSearch || item !== undefined) return item;
     const newLink = await JukeboxItemFactory.searchForMatch(link);
     return JukeboxItemFactory.getFromLink(newLink, voiceConnection, asker);
@@ -31,12 +35,13 @@ export class JukeboxItemFactory {
     JukeboxItemFactory.disableTextSearch = !state;
   }
 
-  private static getFromLink(
+  private static async getFromLink(
     link: string,
     voiceConnection: VoiceConnection,
     asker: GuildMember
-  ): JukeboxItem {
+  ): Promise<JukeboxItem> {
     if (JukeboxItemFactory.YOUTUBE.test(link)) {
+      await JukeboxYoutubeItem.sanityCheck(link);
       return new JukeboxYoutubeItem(link, voiceConnection, asker);
     }
     return undefined;

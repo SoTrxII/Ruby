@@ -51,6 +51,10 @@ export class JukeboxYoutubeItem extends JukeboxItem {
     });
   }
 
+  static async sanityCheck(link: string) {
+    await ytdl.getBasicInfo(link);
+  }
+
   /**
    * @returns Info about the playback
    */

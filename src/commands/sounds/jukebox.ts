@@ -85,11 +85,6 @@ const addToQueue = async (evt: Message, command: string, cmdArg: string) => {
     .map(
       async (valid: string): Promise<number> => {
         const added = await global.jukebox.addMusic(valid, evt.author);
-        if (!added) {
-          evt.channel.send(
-            `${cmdArg} n'est pas un lien valide, non ajouté à la liste de lecture`
-          );
-        }
         return Number(added);
       }
     )
