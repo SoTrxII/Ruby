@@ -85,7 +85,10 @@ const addToQueue = async (evt: Message, command: string, cmdArg: string) => {
     .map(
       async (valid: string): Promise<number> => {
         const added = await global.jukebox.addMusic(valid, evt.author);
-        return Number(added);
+        if (!added[0]) {
+          await evt.channel.send(added[1]);
+        }
+        return Number(added[0]);
       }
     )
     .reduce(async (acc, value) => (await acc) + (await value));

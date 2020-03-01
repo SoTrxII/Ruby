@@ -62,7 +62,7 @@ export class Jukebox extends EventEmitter {
    * @param asker Who's aking to add it
    * @returns True if the track was added
    */
-  async addMusic(track, asker): Promise<boolean> {
+  async addMusic(track, asker): Promise<[boolean, string]> {
     let newItem;
     try {
       newItem = await JukeboxItemFactory.createItem(
@@ -71,23 +71,23 @@ export class Jukebox extends EventEmitter {
         asker
       );
     } catch (e) {
-      await this.textChannel.send(
+      return [
+        false,
         `Erreur inatendue avec le lien ${track}: ${e}, on skip la chanson !`
-      );
-      return false;
+      ];
     }
 
     if (newItem === undefined) {
-      await this.textChannel.send(
+      return [
+        false,
         `${track} n'est pas un lien valide, non ajouté à la liste de lecture`
-      );
-      return false;
+      ];
     }
     this._playQueue.push(newItem);
     debug(
       `Ajout de musique, nouvelle longueur de file : ${this._playQueue.length}`
     );
-    return true;
+    return [true, "ok"];
   }
 
   /**

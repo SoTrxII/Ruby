@@ -10,6 +10,9 @@ import { VoiceConnection, TextChannel, User, ClientUser } from "discord.js";
 import { mock, spy, stub, createStubInstance } from "sinon";
 import sinon = require("sinon");
 import { JukeboxItemFactory } from "./jukebox-item-factory";
+import { JukeboxYoutubeItem } from "./jukebox-youtube-item";
+
+const MAX_TIMEOUT = 10000;
 
 describe("Jukebox", () => {
   let jukebox: Jukebox;
@@ -46,11 +49,36 @@ describe("Jukebox", () => {
     const fakeTc = (mock(TextChannel) as any) as TextChannel;
     jukebox = new Jukebox(fakeVc, fakeTc);
   });
+  describe("Sanity Checks", () => {
+    describe("Youtube", () => {
+      it("Should pass sanity for a normal video", () => {
+        JukeboxYoutubeItem.sanityCheck(
+          "https://www.youtube.com/watch?v=ZNswbkSGHGI"
+        );
+      });
+      it("Should throw on an anormal vid", () => {
+        try {
+          JukeboxYoutubeItem.sanityCheck(
+            "https://music.youtube.com/watch?v=GKAywP6yd60&list=RDAMVMGKAywP6yd60"
+          );
+          throw new Error("DID NOT THROW");
+        } catch (e) {}
+      });
+    });
+  });
   describe("Add a new music", () => {
+    let stubbedSanity;
+    before(() => {
+      stubbedSanity = stub(JukeboxYoutubeItem, "sanityCheck").resolves();
+    });
+    after(() => {
+      stubbedSanity.restore();
+    });
     describe("Youtube music", () => {
+      //before(() => {})
       it("Should add a valid youtube link", async () => {
         const validLink = "https://www.youtube.com/watch?v=J7Iz5060PUE";
-        const res = await jukebox.addMusic(validLink, sampleUser);
+        const [res, message] = await jukebox.addMusic(validLink, sampleUser);
         expect(res).to.equal(true);
         expect(jukebox.numberOfSongs).to.equal(1);
       });
@@ -58,14 +86,14 @@ describe("Jukebox", () => {
       it("Should ignore playlist on valid link", async () => {
         const validLink =
           "https://www.youtube.com/watch?v=J7Iz5060PUE&list=RDCLAK5uy_k-R9-M_MoPNXLwGQrxPQW9LavsOgSwONg";
-        const res = await jukebox.addMusic(validLink, sampleUser);
+        const [res, message] = await jukebox.addMusic(validLink, sampleUser);
         expect(res).to.equal(true);
         expect(jukebox.numberOfSongs).to.equal(1);
       });
 
       it("Should add a valid youtube music link", async () => {
         const validLink = "https://music.youtube.com/watch?v=vtNJMAyeP0s";
-        const res = await jukebox.addMusic(validLink, sampleUser);
+        const [res, message] = await jukebox.addMusic(validLink, sampleUser);
         expect(res).to.equal(true);
         expect(jukebox.numberOfSongs).to.equal(1);
       });
@@ -73,62 +101,69 @@ describe("Jukebox", () => {
         JukeboxItemFactory.setTextSearchEnabled(false);
         const invalidLink =
           "https://youtube.com/channel/UCDZkgJZDyUnqwB070OyP72g";
-        const res = await jukebox.addMusic(invalidLink, sampleUser);
+        const [res, message] = await jukebox.addMusic(invalidLink, sampleUser);
         expect(res).to.equal(false);
         expect(jukebox.numberOfSongs).to.equal(0);
         JukeboxItemFactory.setTextSearchEnabled(true);
       });
-    });
-    it("Should reject an invalid link", async () => {
-      JukeboxItemFactory.setTextSearchEnabled(false);
-      const invalidLink =
-        "https://www.obviouslynotvalid.meh/watch?v=J7Iz5060PUE";
-      const res = await jukebox.addMusic(invalidLink, sampleUser);
-      expect(res).to.equal(false);
-      expect(jukebox.numberOfSongs).to.equal(0);
-      JukeboxItemFactory.setTextSearchEnabled(true);
-    });
-    it("Should be able to multiples tracks", async () => {
-      const res1 = await jukebox.addMusic(
-        "https://www.youtube.com/watch?v=J7Iz5060PUE",
-        sampleUser
-      );
-      const res2 = await jukebox.addMusic(
-        "https://www.youtube.com/watch?v=vVnE9o5Uxik",
-        sampleUser
-      );
-      const res3 = await jukebox.addMusic(
-        "https://www.youtube.com/watch?v=wZZ7oFKsKzY",
-        sampleUser
-      );
-      expect(res1).to.equal(true);
-      expect(res2).to.equal(true);
-      expect(res3).to.equal(true);
-      expect(jukebox.numberOfSongs).to.equal(3);
-    });
-    it("Should be able to add the same track multiple times", async () => {
-      const res1 = await jukebox.addMusic(
-        "https://www.youtube.com/watch?v=J7Iz5060PUE",
-        sampleUser
-      );
-      const res2 = await jukebox.addMusic(
-        "https://www.youtube.com/watch?v=J7Iz5060PUE",
-        sampleUser
-      );
-      expect(res1).to.equal(true);
-      expect(res2).to.equal(true);
-      expect(jukebox.numberOfSongs).to.equal(2);
-    });
-    it("Should fallback on text searching when the text provided is not a link", async () => {
-      const res = await jukebox.addMusic("beleu", sampleUser);
-      expect(res).to.equal(true);
-      expect(jukebox.numberOfSongs).to.equal(1);
-      await setupPlayingState();
-      jukebox.play(false);
-      expect(jukebox.currentSong.track).to.equal(mockLink);
+      it("Should reject an invalid link", async () => {
+        JukeboxItemFactory.setTextSearchEnabled(false);
+        const invalidLink =
+          "https://www.obviouslynotvalid.meh/watch?v=J7Iz5060PUE";
+        const [res, message] = await jukebox.addMusic(invalidLink, sampleUser);
+        expect(res).to.equal(false);
+        expect(jukebox.numberOfSongs).to.equal(0);
+        JukeboxItemFactory.setTextSearchEnabled(true);
+      });
+      it("Should be able to multiples tracks", async () => {
+        const [res1, message1] = await jukebox.addMusic(
+          "https://www.youtube.com/watch?v=J7Iz5060PUE",
+          sampleUser
+        );
+        const [res2, message2] = await jukebox.addMusic(
+          "https://www.youtube.com/watch?v=vVnE9o5Uxik",
+          sampleUser
+        );
+        const [res3, message3] = await jukebox.addMusic(
+          "https://www.youtube.com/watch?v=wZZ7oFKsKzY",
+          sampleUser
+        );
+        expect(res1).to.equal(true);
+        expect(res2).to.equal(true);
+        expect(res3).to.equal(true);
+        expect(jukebox.numberOfSongs).to.equal(3);
+      }).timeout(10000);
+      it("Should be able to add the same track multiple times", async () => {
+        const [res1, message1] = await jukebox.addMusic(
+          "https://www.youtube.com/watch?v=J7Iz5060PUE",
+          sampleUser
+        );
+        const [res2, message2] = await jukebox.addMusic(
+          "https://www.youtube.com/watch?v=J7Iz5060PUE",
+          sampleUser
+        );
+        expect(res1).to.equal(true);
+        expect(res2).to.equal(true);
+        expect(jukebox.numberOfSongs).to.equal(2);
+      });
+      it("Should fallback on text searching when the text provided is not a link", async () => {
+        const [res, message] = await jukebox.addMusic("beleu", sampleUser);
+        expect(res).to.equal(true);
+        expect(jukebox.numberOfSongs).to.equal(1);
+        await setupPlayingState();
+        jukebox.play(false);
+        expect(jukebox.currentSong.track).to.equal(mockLink);
+      }).timeout(10000);
     });
   });
   describe("Play a music", () => {
+    let stubbedSanity;
+    before(() => {
+      stubbedSanity = stub(JukeboxYoutubeItem, "sanityCheck").resolves();
+    });
+    after(() => {
+      stubbedSanity.restore();
+    });
     describe("When no music were added", () => {
       it("Should return false if queue is empty and emit a queue empty event", () => {
         const eventSpy = spy();
