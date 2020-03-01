@@ -2,9 +2,11 @@ import { GlobalExt } from "../../@types/global";
 import { Jukebox } from "../../components/Jukebox/jukebox";
 import { Message, TextChannel } from "discord.js";
 import { getValids } from "../../utils/command-handle";
+import Timeout = NodeJS.Timeout;
 
 declare const global: GlobalExt;
-
+const TIMEOUT_TIME = 5 * 60 * 1000;
+let timeout: Timeout;
 /**
  * @async
  * @private
@@ -15,7 +17,7 @@ declare const global: GlobalExt;
 const _updateJukebox = async (evt: Message): Promise<boolean> => {
   const asker = evt.guild.members.get(evt.author.id);
   const voiceChannel = asker.voiceChannel;
-
+  clearTimeout(timeout);
   if (!voiceChannel) {
     await evt.reply(
       "Tu dois être dans un canal vocal pour pouvoir lancer une commande !"
@@ -37,10 +39,15 @@ const _updateJukebox = async (evt: Message): Promise<boolean> => {
       evt.channel as TextChannel
     );
     global.jukebox.on("QueueEmpty", () => {
-      evt.channel.send("Liste de lecture vide! Mon travail ici est terminé !");
-      global.voiceConnection.disconnect();
-      //Not really required actually, but helps GC cleaning the mess up
-      global.voiceConnection = null;
+      evt.channel.send(
+        "Liste de lecture vide! J'me casse dans 5 minutes les nuls !"
+      );
+      timeout = setTimeout(() => {
+        global.voiceConnection.disconnect();
+        evt.channel.send("Mon travail ici est terminé !");
+        //Not really required actually, but helps GC cleaning the mess up
+        global.voiceConnection = null;
+      }, TIMEOUT_TIME);
     });
   }
 
@@ -53,7 +60,7 @@ const _updateJukebox = async (evt: Message): Promise<boolean> => {
  * @summary Starts the jukebox
  * @param evt Discord message Event
  * @param command Discord command string (ex : play, add, list)
- * @param cmdArg Ignored
+ * @param cmdArg Ignoredf
  */
 const play = async (evt: Message, command: string, cmdArg: string) => {
   if (!(await _updateJukebox(evt))) return;
