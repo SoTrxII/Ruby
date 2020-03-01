@@ -12,7 +12,7 @@ declare const global: GlobalExt;
  * and the voicechannel it's streaming into
  * @param evt message event leading to this function
  */
-const _updateJukebox = async (evt: Message): Promise<void> => {
+const _updateJukebox = async (evt: Message): Promise<boolean> => {
   const asker = evt.guild.members.get(evt.author.id);
   const voiceChannel = asker.voiceChannel;
 
@@ -20,7 +20,7 @@ const _updateJukebox = async (evt: Message): Promise<void> => {
     await evt.reply(
       "Tu dois être dans un canal vocal pour pouvoir lancer une commande !"
     );
-    return;
+    return false;
   }
   //Join user voicechannel
   if (
@@ -47,6 +47,7 @@ const _updateJukebox = async (evt: Message): Promise<void> => {
   if (global.jukebox.textChannel.id != evt.channel.id) {
     global.jukebox.setTextChannel(evt.channel);
   }
+  return true;
 };
 /**
  * @summary Starts the jukebox
@@ -55,7 +56,7 @@ const _updateJukebox = async (evt: Message): Promise<void> => {
  * @param cmdArg Ignored
  */
 const play = async (evt: Message, command: string, cmdArg: string) => {
-  await _updateJukebox(evt);
+  if (!(await _updateJukebox(evt))) return;
 
   if (global.jukebox.isPaused()) {
     global.jukebox.resume();
@@ -80,7 +81,7 @@ const play = async (evt: Message, command: string, cmdArg: string) => {
  * @param cmdArg Music to add
  */
 const addToQueue = async (evt: Message, command: string, cmdArg: string) => {
-  await _updateJukebox(evt);
+  if (!(await _updateJukebox(evt))) return;
   const addedBatch = getValids(cmdArg)
     .map(
       async (valid: string): Promise<number> => {
@@ -111,7 +112,7 @@ const addToQueue = async (evt: Message, command: string, cmdArg: string) => {
  * @param {String} cmdArg Ignored
  */
 const stop = async (evt: Message, command: string, cmdArg: string) => {
-  await _updateJukebox(evt);
+  if (!(await _updateJukebox(evt))) return;
 
   if (!global.jukebox.isPlaying) {
     evt.channel.send(`Il n'y a pas de musique en cours de lecture !`);
@@ -135,7 +136,7 @@ const removeFromQueue = async (
   command: string,
   cmdArg: string
 ) => {
-  await _updateJukebox(evt);
+  if (!(await _updateJukebox(evt))) return;
   const index = parseInt(cmdArg);
   if (isNaN(index)) {
     evt.channel.send(
@@ -158,7 +159,7 @@ const removeAllFromQueue = async (
   command: string,
   cmdArg: string
 ): Promise<void> => {
-  await _updateJukebox(evt);
+  if (!(await _updateJukebox(evt))) return;
   global.jukebox.removeAllFromQueue();
   await evt.channel.send(`Liste de chansons vidée`);
 };
@@ -172,7 +173,7 @@ const removeAllFromQueue = async (
  * @param {String} cmdArg Ignored
  */
 const loop = async (evt: Message, command: string, cmdArg: string) => {
-  await _updateJukebox(evt);
+  if (!(await _updateJukebox(evt))) return;
   if (!global.jukebox.isPlaying) {
     evt.channel.send(`Il n'y a pas de musique en cours de lecture !`);
     return;
@@ -190,7 +191,7 @@ const loop = async (evt: Message, command: string, cmdArg: string) => {
  * @param {String} cmdArg Ignored
  */
 const unloop = async (evt: Message, command: string, cmdArg: string) => {
-  await _updateJukebox(evt);
+  if (!(await _updateJukebox(evt))) return;
   if (!global.jukebox.isPlaying) {
     evt.channel.send(`Il n'y a pas de musique en cours de lecture !`);
     return;
@@ -208,7 +209,7 @@ const unloop = async (evt: Message, command: string, cmdArg: string) => {
  * @param {String} cmdArg Ignored
  */
 const pause = async (evt: Message, command: string, cmdArg: string) => {
-  await _updateJukebox(evt);
+  if (!(await _updateJukebox(evt))) return;
 
   if (!global.jukebox.isPlaying) {
     evt.channel.send(
@@ -229,7 +230,7 @@ const pause = async (evt: Message, command: string, cmdArg: string) => {
  * @param {String} cmdArg Ignored
  */
 const resume = async (evt: Message, command: string, cmdArg: string) => {
-  await _updateJukebox(evt);
+  if (!(await _updateJukebox(evt))) return;
 
   if (!global.jukebox.isPaused()) {
     evt.channel.send("C'est difficile de reprendre sans faire pause...");
@@ -248,7 +249,7 @@ const resume = async (evt: Message, command: string, cmdArg: string) => {
  * @param {String} cmdArg Ignored
  */
 const list = async (evt: Message, command: string, cmdArg: string) => {
-  await _updateJukebox(evt);
+  if (!(await _updateJukebox(evt))) return;
 
   await global.jukebox.displayQueue();
 };
@@ -260,7 +261,7 @@ const list = async (evt: Message, command: string, cmdArg: string) => {
  * @param cmdArg If specified, skip cmdArg song
  */
 const skip = async (evt: Message, command: string, cmdArg: string) => {
-  await _updateJukebox(evt);
+  if (!(await _updateJukebox(evt))) return;
   try {
     global.jukebox.skip();
   } catch (ex) {
@@ -277,7 +278,7 @@ const skip = async (evt: Message, command: string, cmdArg: string) => {
  * @param cmdArg New volume
  */
 const setVolume = async (evt: Message, command: string, cmdArg: string) => {
-  await _updateJukebox(evt);
+  if (!(await _updateJukebox(evt))) return;
 
   if (!global.jukebox.setVolume(cmdArg)) {
     evt.channel.send("Volume invalide. Il doit être compris entre 0 et 100");
