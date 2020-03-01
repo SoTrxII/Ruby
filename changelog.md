@@ -1,9 +1,8 @@
 # What's new
-+ Now compatible with Node 12.x !  
++ Added a new way to check for restricted Yt videos, preventing crashes, especially on Yt music
++ Added a 5 mins delay between the end of a playing queue and actually leaving the channel.
 + Bumped dependencies
-+ Added a Dockerfile for good measure, Ruby can now be used as a container, using its host Pulseaudio configuration.
-+ Changed the way tests are handled
 
-# Hotfix
-+ Added a temp hotfix to allow node-speaker to compile properly. Hope they fix that soon. 
-
+# Bug Fixes
++ Fixed commands running even though the user wasn't on a voice channel
+ 
