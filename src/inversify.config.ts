@@ -1,14 +1,24 @@
-import "reflect-metadata";
 import { Container } from "inversify";
 import { TYPES } from "./types";
-import { SearchService } from "./components/Search/search-service";
-import { YoutubeSearch } from "./components/Search/youtube-search";
-import { Client } from "discord.js";
-import { Jukebox } from "./components/Jukebox/jukebox";
+import { Ruby } from "./Ruby";
+import { SearchAPI } from "./@types/search-API";
+import { YoutubeSearchService } from "./services/youtube-search-service";
+import * as config from "../config.json";
+import { JukeboxAPI } from "./@types/jukebox-API";
+import { Jukebox } from "./components/jukebox";
+import { YoutubeDownloadService } from "./services/youtube-download-service";
+import { DownloadAPI } from "./@types/youtube-downloader-API";
+export const container = new Container();
 
-const container = new Container();
-container.bind<Client>(TYPES.Client).toConstantValue(new Client());
-container.bind<Jukebox>(TYPES.Jukebox).to(Jukebox);
-container.bind<SearchService>(TYPES.SearchServices).to(YoutubeSearch);
+container.bind<Ruby>(TYPES.Ruby).to(Ruby);
 
-export default container;
+container
+  .bind<SearchAPI>(TYPES.YoutubeService)
+  .toConstantValue(new YoutubeSearchService(config.API.Google.youtubeParser));
+
+container
+  .bind<JukeboxAPI>(TYPES.Jukebox)
+  .to(Jukebox)
+  .inSingletonScope();
+
+container.bind<DownloadAPI>(TYPES.YoutubeDownload).to(YoutubeDownloadService);

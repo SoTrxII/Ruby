@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="9f6ccf1f-8b0e-4417-a570-4abfd37c31c8" name="Default Changelist" comment="Refactoring to modernize the codebase">
+      <change afterPath="$PROJECT_DIR$/.gitlab-ci.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/Ruby-rebuild.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Readme.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jest.config.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/@types/jukebox-API.d.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/@types/jukebox-item-API.d.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/@types/search-API.d.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/@types/youtube-downloader-API.d.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Ruby.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/commands/add-song.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/commands/add-song.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/commands/pause-song.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/commands/resume-song.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/commands/skip-song.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/jukebox-command.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/jukebox-youtube-item.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/jukebox-youtube-item.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/jukebox.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/jukebox.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/decorators/assert-state.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/decorators/debounce.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/decorators/memoize.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/decorators/voice-channel-only.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/services/youtube-download-service.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/services/youtube-download-service.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/services/youtube-search-service.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/services/youtube-search-service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.dockerignore" beforeDir="false" afterPath="$PROJECT_DIR$/.dockerignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.github/workflows/build.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.github/workflows/release.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.yarnclean" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/changelog.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/config_template.json" beforeDir="false" afterPath="$PROJECT_DIR$/config_template.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pulse-client.conf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ruby-replics.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/speakertypes.bak" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/@types/global.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commands/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commands/sounds/jukebox.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commands/sounds/music-gui.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commands/system/restart.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Jukebox/jukebox-item-factory.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Jukebox/jukebox-item.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Jukebox/jukebox-youtube-item.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Jukebox/jukebox.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Jukebox/jukebox.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/MusicGui/gui-item-factory.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/MusicGui/gui-item.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/MusicGui/gui-youtube-item.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/MusicGui/music-gui.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Search/search-service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Search/youtube-search.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Search/youtube-search.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/inversify.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/inversify.config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rin.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/command-handle.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/command-handle.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/duration-converter.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/reply-at-random.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/save-config.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/user-interaction.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/tsconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1fub3tXhamtq6UQXMskaXovGJKs" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/dist/src/main.js" />
+    <property name="nodejs.jest.jest_package" value="$PROJECT_DIR$/node_modules/jest" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="prettierjs.PrettierConfiguration.Package" value="$PROJECT_DIR$/node_modules/prettier" />
+    <property name="settings.editor.selected.configurable" value="settings.typescriptcompiler" />
+    <property name="ts.external.directory.path" value="$PROJECT_DIR$/node_modules/typescript/lib" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/components" />
+      <recent name="$PROJECT_DIR$" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Node.js.Ruby">
+    <configuration name="Command: Add song.Should catch any throwed error" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+      <node-interpreter value="project" />
+      <node-options value="" />
+      <jest-package value="$PROJECT_DIR$/node_modules/jest" />
+      <working-dir value="$PROJECT_DIR$" />
+      <envs />
+      <scope-kind value="TEST" />
+      <test-file value="$PROJECT_DIR$/src/commands/add-song.spec.ts" />
+      <test-names>
+        <test-name value="Command: Add song" />
+        <test-name value="Should catch any throwed error" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <configuration name="Jukebox Item.Cache details.Should cache the details" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+      <node-interpreter value="project" />
+      <node-options value="" />
+      <jest-package value="$PROJECT_DIR$/node_modules/jest" />
+      <working-dir value="$PROJECT_DIR$" />
+      <envs />
+      <scope-kind value="TEST" />
+      <test-file value="$PROJECT_DIR$/src/components/jukebox-youtube-item.spec.ts" />
+      <test-names>
+        <test-name value="Jukebox Item" />
+        <test-name value="Cache details" />
+        <test-name value="Should cache the details" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <configuration name="Jukebox.Adding a song.Should be able to add multiple songs by using the URLs directly" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+      <node-interpreter value="project" />
+      <node-options value="" />
+      <jest-package value="$PROJECT_DIR$/node_modules/jest" />
+      <working-dir value="$PROJECT_DIR$" />
+      <envs />
+      <scope-kind value="TEST" />
+      <test-file value="$PROJECT_DIR$/src/components/jukebox.spec.ts" />
+      <test-names>
+        <test-name value="Jukebox" />
+        <test-name value="Adding a song" />
+        <test-name value="Should be able to add multiple songs by using the URLs directly" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <configuration name="Youtube Downloader.Should download a video compatible with opus" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+      <node-interpreter value="project" />
+      <node-options value="" />
+      <jest-package value="$PROJECT_DIR$/node_modules/jest" />
+      <working-dir value="$PROJECT_DIR$" />
+      <envs />
+      <scope-kind value="TEST" />
+      <test-file value="$PROJECT_DIR$/src/services/youtube-download-service.spec.ts" />
+      <test-names>
+        <test-name value="Youtube Downloader" />
+        <test-name value="Should download a video compatible with opus" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <configuration name="Youtube service.Should return undefined when no results are found" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+      <node-interpreter value="project" />
+      <node-options value="" />
+      <jest-package value="$PROJECT_DIR$/node_modules/jest" />
+      <working-dir value="$PROJECT_DIR$" />
+      <envs />
+      <scope-kind value="TEST" />
+      <test-file value="$PROJECT_DIR$/src/services/youtube-search-service.spec.ts" />
+      <test-names>
+        <test-name value="Youtube service" />
+        <test-name value="Should return undefined when no results are found" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <configuration name="Ruby" type="NodeJSConfigurationType" path-to-js-file="dist/src/main.js" working-dir="$PROJECT_DIR$">
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Node.js.Ruby" />
+      <item itemvalue="Jest.Youtube Downloader.Should download a video compatible with opus" />
+      <item itemvalue="Jest.Youtube service.Should return undefined when no results are found" />
+      <item itemvalue="Jest.Jukebox.Adding a song.Should be able to add multiple songs by using the URLs directly" />
+      <item itemvalue="Jest.Command: Add song.Should catch any throwed error" />
+      <item itemvalue="Jest.Jukebox Item.Cache details.Should cache the details" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Jest.Jukebox Item.Cache details.Should cache the details" />
+        <item itemvalue="Jest.Command: Add song.Should catch any throwed error" />
+        <item itemvalue="Jest.Jukebox.Adding a song.Should be able to add multiple songs by using the URLs directly" />
+        <item itemvalue="Jest.Youtube Downloader.Should download a video compatible with opus" />
+        <item itemvalue="Jest.Youtube service.Should return undefined when no results are found" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="9f6ccf1f-8b0e-4417-a570-4abfd37c31c8" name="Default Changelist" comment="" />
+      <created>1597070728917</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1597070728917</updated>
+      <workItem from="1597070730124" duration="12443000" />
+      <workItem from="1597088040157" duration="1875000" />
+      <workItem from="1597094500435" duration="10966000" />
+      <workItem from="1597139677176" duration="26581000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Refactoring to modernize the codebase" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactoring to modernize the codebase" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="424" y="178" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1597088230519">
+      <screen x="0" y="0" width="1920" height="1044" />
+    </state>
+    <state x="424" y="178" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1044/1920.0.1920.1080@0.0.1920.1044" timestamp="1597088230519" />
+    <state x="773" y="239" width="374" height="566" key="#com.intellij.ide.util.MemberChooser" timestamp="1597097630653">
+      <screen x="0" y="0" width="1920" height="1044" />
+    </state>
+    <state x="773" y="239" width="374" height="566" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1044/1920.0.1920.1080@0.0.1920.1044" timestamp="1597097630653" />
+    <state x="698" y="277" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1597080899385">
+      <screen x="0" y="0" width="1920" height="1044" />
+    </state>
+    <state x="698" y="277" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1044/1920.0.1920.1080@0.0.1920.1044" timestamp="1597080899385" />
+    <state x="2618" y="287" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1044/1920.0.1920.1080@1920.0.1920.1080" timestamp="1597073663506" />
+    <state x="723" y="266" key="#xdebugger.evaluate" timestamp="1597158322583">
+      <screen x="0" y="0" width="1920" height="1044" />
+    </state>
+    <state x="723" y="266" key="#xdebugger.evaluate/0.0.1920.1044/1920.0.1920.1080@0.0.1920.1044" timestamp="1597158322583" />
+    <state x="333" y="268" width="424" height="488" key="FileChooserDialogImpl" timestamp="1597088228939">
+      <screen x="0" y="0" width="1920" height="1044" />
+    </state>
+    <state x="333" y="268" width="424" height="488" key="FileChooserDialogImpl/0.0.1920.1044/1920.0.1920.1080@0.0.1920.1044" timestamp="1597088228939" />
+    <state width="1899" height="286" key="GridCell.Tab.0.bottom" timestamp="1597171694021">
+      <screen x="0" y="0" width="1920" height="1044" />
+    </state>
+    <state width="1899" height="286" key="GridCell.Tab.0.bottom/0.0.1920.1044/1920.0.1920.1080@0.0.1920.1044" timestamp="1597171694021" />
+    <state width="1899" height="286" key="GridCell.Tab.0.bottom/0.0.1920.1044/1920.0.1920.1080@1920.0.1920.1080" timestamp="1597152055892" />
+    <state width="1899" height="286" key="GridCell.Tab.0.center" timestamp="1597171694021">
+      <screen x="0" y="0" width="1920" height="1044" />
+    </state>
+    <state width="1899" height="286" key="GridCell.Tab.0.center/0.0.1920.1044/1920.0.1920.1080@0.0.1920.1044" timestamp="1597171694021" />
+    <state width="1899" height="286" key="GridCell.Tab.0.center/0.0.1920.1044/1920.0.1920.1080@1920.0.1920.1080" timestamp="1597152055892" />
+    <state width="1899" height="286" key="GridCell.Tab.0.left" timestamp="1597171694021">
+      <screen x="0" y="0" width="1920" height="1044" />
+    </state>
+    <state width="1899" height="286" key="GridCell.Tab.0.left/0.0.1920.1044/1920.0.1920.1080@0.0.1920.1044" timestamp="1597171694021" />
+    <state width="1899" height="286" key="GridCell.Tab.0.left/0.0.1920.1044/1920.0.1920.1080@1920.0.1920.1080" timestamp="1597152055892" />
+    <state width="1899" height="286" key="GridCell.Tab.0.right" timestamp="1597171694021">
+      <screen x="0" y="0" width="1920" height="1044" />
+    </state>
+    <state width="1899" height="286" key="GridCell.Tab.0.right/0.0.1920.1044/1920.0.1920.1080@0.0.1920.1044" timestamp="1597171694021" />
+    <state width="1899" height="286" key="GridCell.Tab.0.right/0.0.1920.1044/1920.0.1920.1080@1920.0.1920.1080" timestamp="1597152055892" />
+    <state width="1899" height="338" key="GridCell.Tab.1.bottom" timestamp="1597168024463">
+      <screen x="0" y="0" width="1920" height="1044" />
+    </state>
+    <state width="1899" height="338" key="GridCell.Tab.1.bottom/0.0.1920.1044/1920.0.1920.1080@0.0.1920.1044" timestamp="1597168024463" />
+    <state width="1899" height="353" key="GridCell.Tab.1.bottom/0.0.1920.1044/1920.0.1920.1080@1920.0.1920.1080" timestamp="1597148791618" />
+    <state width="1899" height="338" key="GridCell.Tab.1.center" timestamp="1597168024462">
+      <screen x="0" y="0" width="1920" height="1044" />
+    </state>
+    <state width="1899" height="338" key="GridCell.Tab.1.center/0.0.1920.1044/1920.0.1920.1080@0.0.1920.1044" timestamp="1597168024462" />
+    <state width="1899" height="353" key="GridCell.Tab.1.center/0.0.1920.1044/1920.0.1920.1080@1920.0.1920.1080" timestamp="1597148791618" />
+    <state width="1899" height="338" key="GridCell.Tab.1.left" timestamp="1597168024462">
+      <screen x="0" y="0" width="1920" height="1044" />
+    </state>
+    <state width="1899" height="338" key="GridCell.Tab.1.left/0.0.1920.1044/1920.0.1920.1080@0.0.1920.1044" timestamp="1597168024462" />
+    <state width="1899" height="353" key="GridCell.Tab.1.left/0.0.1920.1044/1920.0.1920.1080@1920.0.1920.1080" timestamp="1597148791618" />
+    <state width="1899" height="338" key="GridCell.Tab.1.right" timestamp="1597168024462">
+      <screen x="0" y="0" width="1920" height="1044" />
+    </state>
+    <state width="1899" height="338" key="GridCell.Tab.1.right/0.0.1920.1044/1920.0.1920.1080@0.0.1920.1044" timestamp="1597168024462" />
+    <state width="1899" height="353" key="GridCell.Tab.1.right/0.0.1920.1044/1920.0.1920.1080@1920.0.1920.1080" timestamp="1597148791618" />
+    <state width="1899" height="338" key="GridCell.Tab.2.bottom" timestamp="1597168024463">
+      <screen x="0" y="0" width="1920" height="1044" />
+    </state>
+    <state width="1899" height="338" key="GridCell.Tab.2.bottom/0.0.1920.1044/1920.0.1920.1080@0.0.1920.1044" timestamp="1597168024463" />
+    <state width="1899" height="353" key="GridCell.Tab.2.bottom/0.0.1920.1044/1920.0.1920.1080@1920.0.1920.1080" timestamp="1597148791618" />
+    <state width="1899" height="338" key="GridCell.Tab.2.center" timestamp="1597168024463">
+      <screen x="0" y="0" width="1920" height="1044" />
+    </state>
+    <state width="1899" height="338" key="GridCell.Tab.2.center/0.0.1920.1044/1920.0.1920.1080@0.0.1920.1044" timestamp="1597168024463" />
+    <state width="1899" height="353" key="GridCell.Tab.2.center/0.0.1920.1044/1920.0.1920.1080@1920.0.1920.1080" timestamp="1597148791618" />
+    <state width="1899" height="338" key="GridCell.Tab.2.left" timestamp="1597168024463">
+      <screen x="0" y="0" width="1920" height="1044" />
+    </state>
+    <state width="1899" height="338" key="GridCell.Tab.2.left/0.0.1920.1044/1920.0.1920.1080@0.0.1920.1044" timestamp="1597168024463" />
+    <state width="1899" height="353" key="GridCell.Tab.2.left/0.0.1920.1044/1920.0.1920.1080@1920.0.1920.1080" timestamp="1597148791618" />
+    <state width="1899" height="338" key="GridCell.Tab.2.right" timestamp="1597168024463">
+      <screen x="0" y="0" width="1920" height="1044" />
+    </state>
+    <state width="1899" height="338" key="GridCell.Tab.2.right/0.0.1920.1044/1920.0.1920.1080@0.0.1920.1044" timestamp="1597168024463" />
+    <state width="1899" height="353" key="GridCell.Tab.2.right/0.0.1920.1044/1920.0.1920.1080@1920.0.1920.1080" timestamp="1597148791618" />
+    <state width="1899" height="338" key="GridCell.Tab.3.bottom" timestamp="1597168024463">
+      <screen x="0" y="0" width="1920" height="1044" />
+    </state>
+    <state width="1899" height="338" key="GridCell.Tab.3.bottom/0.0.1920.1044/1920.0.1920.1080@0.0.1920.1044" timestamp="1597168024463" />
+    <state width="1899" height="353" key="GridCell.Tab.3.bottom/0.0.1920.1044/1920.0.1920.1080@1920.0.1920.1080" timestamp="1597148791618" />
+    <state width="1899" height="338" key="GridCell.Tab.3.center" timestamp="1597168024463">
+      <screen x="0" y="0" width="1920" height="1044" />
+    </state>
+    <state width="1899" height="338" key="GridCell.Tab.3.center/0.0.1920.1044/1920.0.1920.1080@0.0.1920.1044" timestamp="1597168024463" />
+    <state width="1899" height="353" key="GridCell.Tab.3.center/0.0.1920.1044/1920.0.1920.1080@1920.0.1920.1080" timestamp="1597148791618" />
+    <state width="1899" height="338" key="GridCell.Tab.3.left" timestamp="1597168024463">
+      <screen x="0" y="0" width="1920" height="1044" />
+    </state>
+    <state width="1899" height="338" key="GridCell.Tab.3.left/0.0.1920.1044/1920.0.1920.1080@0.0.1920.1044" timestamp="1597168024463" />
+    <state width="1899" height="353" key="GridCell.Tab.3.left/0.0.1920.1044/1920.0.1920.1080@1920.0.1920.1080" timestamp="1597148791618" />
+    <state width="1899" height="338" key="GridCell.Tab.3.right" timestamp="1597168024463">
+      <screen x="0" y="0" width="1920" height="1044" />
+    </state>
+    <state width="1899" height="338" key="GridCell.Tab.3.right/0.0.1920.1044/1920.0.1920.1080@0.0.1920.1044" timestamp="1597168024463" />
+    <state width="1899" height="353" key="GridCell.Tab.3.right/0.0.1920.1044/1920.0.1920.1080@1920.0.1920.1080" timestamp="1597148791618" />
+    <state x="454" y="155" key="SettingsEditor" timestamp="1597084610843">
+      <screen x="0" y="0" width="1920" height="1044" />
+    </state>
+    <state x="454" y="155" key="SettingsEditor/0.0.1920.1044/1920.0.1920.1080@0.0.1920.1044" timestamp="1597084610843" />
+    <state x="653" y="266" width="614" height="512" key="find.popup" timestamp="1597160010544">
+      <screen x="0" y="0" width="1920" height="1044" />
+    </state>
+    <state x="653" y="266" width="614" height="512" key="find.popup/0.0.1920.1044/1920.0.1920.1080@0.0.1920.1044" timestamp="1597160010544" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/components/jukebox.spec.ts</url>
+          <line>45</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/services/youtube-search-service.spec.ts</url>
+          <line>3</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="14" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/services/youtube-search-service.spec.ts</url>
+          <line>6</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="15" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/components/jukebox.ts</url>
+          <line>71</line>
+          <option name="timeStamp" value="32" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

@@ -1,5 +1,6 @@
 export const TYPES = {
-  SearchServices: Symbol("SearchServices"),
-  Client: Symbol("Client"),
-  Jukebox: Symbol("Jukebox")
+    Ruby: Symbol.for("Ruby"),
+    YoutubeService: Symbol.for("YoutubeService"),
+    YoutubeDownload: Symbol.for("YoutubeDownload"),
+    Jukebox: Symbol.for("Jukebox")
 };

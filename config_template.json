@@ -1,10 +1,11 @@
 {
   "Discord": {
-    "RubyToken": "YOUR_BOT_TOKEN"
+    "Token": "<BOT-TOKEN>",
+    "MastersIds": ["<DISCORD-OWNER1-ID>", "<DISCORD-OWNER2-ID>"]
   },
   "API": {
     "Google": {
-      "youtubeParser": "YOUR_TOKEN"
+      "youtubeParser": "<YOUTUBE_DATA_API_V3_KEY>"
     }
   }
 }
