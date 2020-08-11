@@ -20,80 +20,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9f6ccf1f-8b0e-4417-a570-4abfd37c31c8" name="Default Changelist" comment="Refactoring to modernize the codebase">
-      <change afterPath="$PROJECT_DIR$/.gitlab-ci.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/Ruby-rebuild.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Readme.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/jest.config.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/@types/jukebox-API.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/@types/jukebox-item-API.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/@types/search-API.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/@types/youtube-downloader-API.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Ruby.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/commands/add-song.spec.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/commands/add-song.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/commands/pause-song.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/commands/resume-song.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/commands/skip-song.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/jukebox-command.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/jukebox-youtube-item.spec.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/jukebox-youtube-item.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/jukebox.spec.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/jukebox.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/decorators/assert-state.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/decorators/debounce.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/decorators/memoize.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/decorators/voice-channel-only.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/services/youtube-download-service.spec.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/services/youtube-download-service.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/services/youtube-search-service.spec.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/services/youtube-search-service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dockerignore" beforeDir="false" afterPath="$PROJECT_DIR$/.dockerignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.github/workflows/build.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.github/workflows/release.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.yarnclean" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LICENSE" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/changelog.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitlab-ci.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.gitlab-ci.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config_template.json" beforeDir="false" afterPath="$PROJECT_DIR$/config_template.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pulse-client.conf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ruby-replics.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/speakertypes.bak" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/@types/global.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/commands/index.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/commands/sounds/jukebox.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/commands/sounds/music-gui.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/commands/system/restart.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Jukebox/jukebox-item-factory.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Jukebox/jukebox-item.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Jukebox/jukebox-youtube-item.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Jukebox/jukebox.spec.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Jukebox/jukebox.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/MusicGui/gui-item-factory.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/MusicGui/gui-item.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/MusicGui/gui-youtube-item.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/MusicGui/music-gui.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Search/search-service.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Search/youtube-search.spec.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Search/youtube-search.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/inversify.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/inversify.config.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rin.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/command-handle.spec.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/command-handle.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/duration-converter.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/reply-at-random.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/save-config.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/user-interaction.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/tsconfig.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -101,6 +30,11 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="dev_lean" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1fub3tXhamtq6UQXMskaXovGJKs" />
@@ -231,8 +165,16 @@
       <workItem from="1597070730124" duration="12443000" />
       <workItem from="1597088040157" duration="1875000" />
       <workItem from="1597094500435" duration="10966000" />
-      <workItem from="1597139677176" duration="26581000" />
+      <workItem from="1597139677176" duration="28273000" />
     </task>
+    <task id="LOCAL-00001" summary="Refactoring to modernize the codebase">
+      <created>1597171834843</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1597171834843</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -359,6 +301,10 @@
       <screen x="0" y="0" width="1920" height="1044" />
     </state>
     <state x="454" y="155" key="SettingsEditor/0.0.1920.1044/1920.0.1920.1080@0.0.1920.1044" timestamp="1597084610843" />
+    <state x="560" y="256" key="Vcs.Push.Dialog.v2" timestamp="1597171968418">
+      <screen x="0" y="0" width="1920" height="1044" />
+    </state>
+    <state x="560" y="256" key="Vcs.Push.Dialog.v2/0.0.1920.1044/1920.0.1920.1080@0.0.1920.1044" timestamp="1597171968418" />
     <state x="653" y="266" width="614" height="512" key="find.popup" timestamp="1597160010544">
       <screen x="0" y="0" width="1920" height="1044" />
     </state>
@@ -367,11 +313,6 @@
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/components/jukebox.spec.ts</url>
-          <line>45</line>
-          <option name="timeStamp" value="5" />
-        </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/services/youtube-search-service.spec.ts</url>
           <line>3</line>
@@ -383,11 +324,6 @@
           <line>6</line>
           <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="15" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/components/jukebox.ts</url>
-          <line>71</line>
-          <option name="timeStamp" value="32" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
