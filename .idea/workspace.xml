@@ -19,9 +19,14 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9f6ccf1f-8b0e-4417-a570-4abfd37c31c8" name="Default Changelist" comment="Update README and .env.example explanations">
+    <list default="true" id="9f6ccf1f-8b0e-4417-a570-4abfd37c31c8" name="Default Changelist" comment="Correction Typos in Readme.md">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/Readme.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Ruby.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Ruby.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commands/add-song.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/commands/add-song.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commands/pause-song.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/commands/pause-song.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commands/resume-song.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/commands/resume-song.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commands/skip-song.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/commands/skip-song.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/jukebox-command.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/jukebox-command.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -183,7 +188,14 @@
       <option name="project" value="LOCAL" />
       <updated>1597241148809</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Correction Typos in Readme.md">
+      <created>1597241558636</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1597241558636</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -205,7 +217,8 @@
     <MESSAGE value="Refactoring to modernize the codebase" />
     <MESSAGE value="Changing from a config file to a env based configuration" />
     <MESSAGE value="Update README and .env.example explanations" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update README and .env.example explanations" />
+    <MESSAGE value="Correction Typos in Readme.md" />
+    <option name="LAST_COMMIT_MESSAGE" value="Correction Typos in Readme.md" />
   </component>
   <component name="WindowStateProjectService">
     <state x="424" y="178" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1597235350519">
@@ -325,10 +338,10 @@
       <screen x="0" y="0" width="1920" height="1044" />
     </state>
     <state x="454" y="155" key="SettingsEditor/0.0.1920.1044/1920.0.1920.1080@0.0.1920.1044" timestamp="1597084610843" />
-    <state x="560" y="256" key="Vcs.Push.Dialog.v2" timestamp="1597241199896">
+    <state x="560" y="256" key="Vcs.Push.Dialog.v2" timestamp="1597241568176">
       <screen x="0" y="0" width="1920" height="1044" />
     </state>
-    <state x="560" y="256" key="Vcs.Push.Dialog.v2/0.0.1920.1044/1920.0.1920.1080@0.0.1920.1044" timestamp="1597241199896" />
+    <state x="560" y="256" key="Vcs.Push.Dialog.v2/0.0.1920.1044/1920.0.1920.1080@0.0.1920.1044" timestamp="1597241568176" />
     <state x="575" y="133" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1597239959273">
       <screen x="0" y="0" width="1920" height="1044" />
     </state>

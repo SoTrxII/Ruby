@@ -19,7 +19,7 @@ export class Ruby {
   public async bootUp(): Promise<void> {
     this.client.registry
       .registerDefaultTypes()
-      .registerGroups([["musique", "Un bruit agréable"]])
+      .registerGroups([["music", "Computer generated noises"]])
       .registerDefaultGroups()
       .registerDefaultCommands({
         ping: false,

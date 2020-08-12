@@ -8,8 +8,8 @@ export default class PauseSong extends JukeboxCommand {
         super(client, {
             name: "pause",
             memberName: "pause",
-            group: "musique",
-            description: "Met en pause la lecture (Duh)",
+            group: "music",
+            description: "Pause playback",
             examples: ["?pause"]
         });
     }
@@ -20,11 +20,11 @@ export default class PauseSong extends JukeboxCommand {
             await this.getTargetVoiceChannel(message)
         );
         if (jukebox.state !== JUKEBOX_STATE.PLAYING) {
-            await message.say("La lecture n'est pas en cours !");
+            await message.say("Jukebox isn't currently playing !");
             return;
         }
         await jukebox.pause();
-        await message.say("Lecture mise en pause !")
+        await message.say("Jukebox paused !")
         return message;
     }
 }

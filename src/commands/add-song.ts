@@ -13,16 +13,16 @@ export default class AddSong extends JukeboxCommand {
       name: "am",
       aliases: ["addmusic"],
       memberName: "addmusic",
-      group: "musique",
-      description: "Ajoute une musique à la liste de lecture",
+      group: "music",
+      description: "Add an item to the playlist",
       examples: [
         "?am https://www.youtube.com/watch?v=FKLtgamrhpk",
-        "?am poulet"
+        "?am chicken"
       ],
       args: [
         {
           key: "query",
-          prompt: "Lien ou texte de la musique à jouer",
+          prompt: "Direct YouTube Link or plaintext query",
           type: "string"
         }
       ]
@@ -42,7 +42,7 @@ export default class AddSong extends JukeboxCommand {
           await jukebox.addSong(query);
         } catch (e) {
           await message.say(
-            `Aucune musique correspondant à "${query}" a été trouvée !`
+            `No youtube videos found matching "${query}"`
           );
           return;
         }

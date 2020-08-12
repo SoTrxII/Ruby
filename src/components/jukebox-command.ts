@@ -62,7 +62,7 @@ export abstract class JukeboxCommand extends Command {
   }
 
   protected async leaveWarningMessage(){
-    await JukeboxCommand.textChannel?.send("Liste de lecture vide ! J'me casse dans 5 minutes");
+    await JukeboxCommand.textChannel?.send("Playlist empty ! Disconnecting in 5 minutes !");
   }
 
   @debounce(2000)

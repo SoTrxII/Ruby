@@ -8,8 +8,8 @@ export default class SkipSong extends JukeboxCommand {
     super(client, {
       name: "skip",
       memberName: "skip",
-      group: "musique",
-      description: "Passe la chanson en cours",
+      group: "music",
+      description: "Skip currently playing song",
       examples: ["?skip"]
     });
   }

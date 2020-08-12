@@ -9,8 +9,8 @@ export default class ResumeSong extends JukeboxCommand {
       name: "resume",
       aliases: ["play"],
       memberName: "resume",
-      group: "musique",
-      description: "Reprend la lecture",
+      group: "music",
+      description: "Resume playback",
       examples: ["?resume", "?play"]
     });
   }
@@ -24,7 +24,7 @@ export default class ResumeSong extends JukeboxCommand {
       jukebox.state !== JUKEBOX_STATE.PAUSED &&
       jukebox.state !== JUKEBOX_STATE.STOPPED
     ) {
-      await message.say("Le jukebox n'est pas en pause");
+      await message.say("Jukebox isn't paused !");
       return;
     }
 
