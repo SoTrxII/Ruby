@@ -1,13 +1,19 @@
-import * as config from "../config.json";
 import { CommandoClient } from "discord.js-commando";
 import { join } from "path";
 import { injectable } from "inversify";
 
+export interface RubyConfig {
+  commandPrefix: string;
+  owner: string[];
+  token: string;
+}
 @injectable()
 export class Ruby {
+  constructor(private config: RubyConfig) {}
+
   public client = new CommandoClient({
-    commandPrefix: "?",
-    owner: config.Discord.MastersIds
+    commandPrefix: this.config.commandPrefix,
+    owner: this.config.owner
   });
 
   public async bootUp(): Promise<void> {
@@ -24,6 +30,6 @@ export class Ruby {
 
     this.client.once("ready", () => console.log("Up & Ready"));
     this.client.on("error", console.error);
-    await this.client.login(config.Discord.Token).catch(console.error);
+    await this.client.login(this.config.token).catch(console.error);
   }
 }

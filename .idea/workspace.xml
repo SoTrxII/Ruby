@@ -20,9 +20,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9f6ccf1f-8b0e-4417-a570-4abfd37c31c8" name="Default Changelist" comment="Refactoring to modernize the codebase">
-      <change beforePath="$PROJECT_DIR$/.gitlab-ci.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.gitlab-ci.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.env.example" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.github/workflows/cd-workflow.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.dockerignore" beforeDir="false" afterPath="$PROJECT_DIR$/.dockerignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config_template.json" beforeDir="false" afterPath="$PROJECT_DIR$/config_template.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Ruby.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Ruby.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/inversify.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/inversify.config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,7 +38,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="dev_lean" />
+        <entry key="$PROJECT_DIR$" value="master_gitlab" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -56,11 +62,11 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/components" />
       <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/src/components" />
     </key>
   </component>
-  <component name="RunManager" selected="Node.js.Ruby">
+  <component name="RunManager" selected="npm.start:dev">
     <configuration name="Command: Add song.Should catch any throwed error" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
       <node-interpreter value="project" />
       <node-options value="" />
@@ -105,20 +111,6 @@
       </test-names>
       <method v="2" />
     </configuration>
-    <configuration name="Youtube Downloader.Should download a video compatible with opus" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
-      <node-interpreter value="project" />
-      <node-options value="" />
-      <jest-package value="$PROJECT_DIR$/node_modules/jest" />
-      <working-dir value="$PROJECT_DIR$" />
-      <envs />
-      <scope-kind value="TEST" />
-      <test-file value="$PROJECT_DIR$/src/services/youtube-download-service.spec.ts" />
-      <test-names>
-        <test-name value="Youtube Downloader" />
-        <test-name value="Should download a video compatible with opus" />
-      </test-names>
-      <method v="2" />
-    </configuration>
     <configuration name="Youtube service.Should return undefined when no results are found" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
       <node-interpreter value="project" />
       <node-options value="" />
@@ -136,20 +128,30 @@
     <configuration name="Ruby" type="NodeJSConfigurationType" path-to-js-file="dist/src/main.js" working-dir="$PROJECT_DIR$">
       <method v="2" />
     </configuration>
+    <configuration name="start:dev" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="start:dev" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
     <list>
-      <item itemvalue="Node.js.Ruby" />
-      <item itemvalue="Jest.Youtube Downloader.Should download a video compatible with opus" />
       <item itemvalue="Jest.Youtube service.Should return undefined when no results are found" />
       <item itemvalue="Jest.Jukebox.Adding a song.Should be able to add multiple songs by using the URLs directly" />
       <item itemvalue="Jest.Command: Add song.Should catch any throwed error" />
       <item itemvalue="Jest.Jukebox Item.Cache details.Should cache the details" />
+      <item itemvalue="Node.js.Ruby" />
+      <item itemvalue="npm.start:dev" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="npm.start:dev" />
         <item itemvalue="Jest.Jukebox Item.Cache details.Should cache the details" />
         <item itemvalue="Jest.Command: Add song.Should catch any throwed error" />
         <item itemvalue="Jest.Jukebox.Adding a song.Should be able to add multiple songs by using the URLs directly" />
-        <item itemvalue="Jest.Youtube Downloader.Should download a video compatible with opus" />
         <item itemvalue="Jest.Youtube service.Should return undefined when no results are found" />
       </list>
     </recent_temporary>
@@ -190,16 +192,21 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Refactoring to modernize the codebase" />
     <option name="LAST_COMMIT_MESSAGE" value="Refactoring to modernize the codebase" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="424" y="178" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1597088230519">
+    <state x="424" y="178" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1597235350519">
       <screen x="0" y="0" width="1920" height="1044" />
     </state>
-    <state x="424" y="178" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1044/1920.0.1920.1080@0.0.1920.1044" timestamp="1597088230519" />
+    <state x="424" y="178" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1044/1920.0.1920.1080@0.0.1920.1044" timestamp="1597235350519" />
+    <state x="681" y="325" width="548" height="397" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1597232470939">
+      <screen x="0" y="0" width="1920" height="1044" />
+    </state>
+    <state x="681" y="325" width="548" height="397" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1920.1044/1920.0.1920.1080@0.0.1920.1044" timestamp="1597232470939" />
     <state x="773" y="239" width="374" height="566" key="#com.intellij.ide.util.MemberChooser" timestamp="1597097630653">
       <screen x="0" y="0" width="1920" height="1044" />
     </state>
@@ -217,25 +224,25 @@
       <screen x="0" y="0" width="1920" height="1044" />
     </state>
     <state x="333" y="268" width="424" height="488" key="FileChooserDialogImpl/0.0.1920.1044/1920.0.1920.1080@0.0.1920.1044" timestamp="1597088228939" />
-    <state width="1899" height="286" key="GridCell.Tab.0.bottom" timestamp="1597171694021">
+    <state width="1899" height="286" key="GridCell.Tab.0.bottom" timestamp="1597237498578">
       <screen x="0" y="0" width="1920" height="1044" />
     </state>
-    <state width="1899" height="286" key="GridCell.Tab.0.bottom/0.0.1920.1044/1920.0.1920.1080@0.0.1920.1044" timestamp="1597171694021" />
+    <state width="1899" height="286" key="GridCell.Tab.0.bottom/0.0.1920.1044/1920.0.1920.1080@0.0.1920.1044" timestamp="1597237498578" />
     <state width="1899" height="286" key="GridCell.Tab.0.bottom/0.0.1920.1044/1920.0.1920.1080@1920.0.1920.1080" timestamp="1597152055892" />
-    <state width="1899" height="286" key="GridCell.Tab.0.center" timestamp="1597171694021">
+    <state width="1899" height="286" key="GridCell.Tab.0.center" timestamp="1597237498578">
       <screen x="0" y="0" width="1920" height="1044" />
     </state>
-    <state width="1899" height="286" key="GridCell.Tab.0.center/0.0.1920.1044/1920.0.1920.1080@0.0.1920.1044" timestamp="1597171694021" />
+    <state width="1899" height="286" key="GridCell.Tab.0.center/0.0.1920.1044/1920.0.1920.1080@0.0.1920.1044" timestamp="1597237498578" />
     <state width="1899" height="286" key="GridCell.Tab.0.center/0.0.1920.1044/1920.0.1920.1080@1920.0.1920.1080" timestamp="1597152055892" />
-    <state width="1899" height="286" key="GridCell.Tab.0.left" timestamp="1597171694021">
+    <state width="1899" height="286" key="GridCell.Tab.0.left" timestamp="1597237498578">
       <screen x="0" y="0" width="1920" height="1044" />
     </state>
-    <state width="1899" height="286" key="GridCell.Tab.0.left/0.0.1920.1044/1920.0.1920.1080@0.0.1920.1044" timestamp="1597171694021" />
+    <state width="1899" height="286" key="GridCell.Tab.0.left/0.0.1920.1044/1920.0.1920.1080@0.0.1920.1044" timestamp="1597237498578" />
     <state width="1899" height="286" key="GridCell.Tab.0.left/0.0.1920.1044/1920.0.1920.1080@1920.0.1920.1080" timestamp="1597152055892" />
-    <state width="1899" height="286" key="GridCell.Tab.0.right" timestamp="1597171694021">
+    <state width="1899" height="286" key="GridCell.Tab.0.right" timestamp="1597237498578">
       <screen x="0" y="0" width="1920" height="1044" />
     </state>
-    <state width="1899" height="286" key="GridCell.Tab.0.right/0.0.1920.1044/1920.0.1920.1080@0.0.1920.1044" timestamp="1597171694021" />
+    <state width="1899" height="286" key="GridCell.Tab.0.right/0.0.1920.1044/1920.0.1920.1080@0.0.1920.1044" timestamp="1597237498578" />
     <state width="1899" height="286" key="GridCell.Tab.0.right/0.0.1920.1044/1920.0.1920.1080@1920.0.1920.1080" timestamp="1597152055892" />
     <state width="1899" height="338" key="GridCell.Tab.1.bottom" timestamp="1597168024463">
       <screen x="0" y="0" width="1920" height="1044" />
@@ -297,6 +304,10 @@
     </state>
     <state width="1899" height="338" key="GridCell.Tab.3.right/0.0.1920.1044/1920.0.1920.1080@0.0.1920.1044" timestamp="1597168024463" />
     <state width="1899" height="353" key="GridCell.Tab.3.right/0.0.1920.1044/1920.0.1920.1080@1920.0.1920.1080" timestamp="1597148791618" />
+    <state x="748" y="215" key="RollbackChangesDialog" timestamp="1597235748271">
+      <screen x="0" y="0" width="1920" height="1044" />
+    </state>
+    <state x="748" y="215" key="RollbackChangesDialog/0.0.1920.1044/1920.0.1920.1080@0.0.1920.1044" timestamp="1597235748271" />
     <state x="454" y="155" key="SettingsEditor" timestamp="1597084610843">
       <screen x="0" y="0" width="1920" height="1044" />
     </state>
@@ -309,6 +320,10 @@
       <screen x="0" y="0" width="1920" height="1044" />
     </state>
     <state x="653" y="266" width="614" height="512" key="find.popup/0.0.1920.1044/1920.0.1920.1080@0.0.1920.1044" timestamp="1597160010544" />
+    <state x="697" y="227" width="516" height="593" key="git4idea.branch.GitSmartOperationDialog" timestamp="1597225705186">
+      <screen x="0" y="0" width="1920" height="1044" />
+    </state>
+    <state x="697" y="227" width="516" height="593" key="git4idea.branch.GitSmartOperationDialog/0.0.1920.1044/1920.0.1920.1080@0.0.1920.1044" timestamp="1597225705186" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -316,13 +331,11 @@
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/services/youtube-search-service.spec.ts</url>
           <line>3</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="14" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/services/youtube-search-service.spec.ts</url>
           <line>6</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="15" />
         </line-breakpoint>
       </breakpoints>
