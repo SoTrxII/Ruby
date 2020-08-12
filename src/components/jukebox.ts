@@ -78,14 +78,15 @@ export class Jukebox implements JukeboxAPI {
   }
 
   @assertState(JUKEBOX_STATE.PLAYING)
-  stop() {
+  stop(): void {
+    this.songQueue = [];
     this.endDispatcher();
   }
 
   private async playNextSong() {
-    this.currentSong = this.songQueue.pop();
+    this.currentSong = this.songQueue.shift();
     if (this.currentSong === undefined) {
-      this.endDispatcher();
+      if(this.dispatcher) this.endDispatcher();
     } else {
       this.state = JUKEBOX_STATE.PLAYING;
       this.dispatcher = await this.currentSong?.play(this.voiceConnection);

@@ -12,6 +12,7 @@ export interface JukeboxAPI {
   skip(): Promise<void>;
   pause(): void;
   resume(): void;
+  stop(): void;
   /** Subscribe a function to a song transition event **/
   onNewSong(f: (...args: any[]) => void): void
   onQueueEmpty(f: (...args: any[]) => void): void

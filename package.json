@@ -5,6 +5,7 @@
   "scripts": {
     "pretest": "./node_modules/.bin/jest --clearCache",
     "test": "./node_modules/.bin/jest",
+    "prebuild": "rm -rf build/*",
     "build": "tsc && cp package.json dist/package.json",
     "start:dev": "npm run build && node -r dotenv-safe/config dist/main.js "
   },
