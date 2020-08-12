@@ -17,7 +17,7 @@ export function voiceChannelOnly() {
       const voiceChannel = asker.voice.channel;
       if (!voiceChannel) {
         await message.say(
-          "Il faut être dans un channel vocal pour lancer cette commande !"
+          "You must be in a voice channel to run this command"
         );
         return;
       }
