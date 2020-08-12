@@ -49,13 +49,13 @@ export abstract class JukeboxCommand extends Command {
       this.jukebox.queue.map(async item => await item.getDetails())
     );
     const currentSong = await this.jukebox.getCurrentSongDetails();
-    if (!currentSong) return "Plus de chansons dans la liste !";
-    let nowPlaying = `**En cours** : :musical_note: ${currentSong.title} - ${currentSong.author}`;
+    if (!currentSong) return "Nothing in the playlist !";
+    let nowPlaying = `**Playing** : :musical_note: ${currentSong.title} - ${currentSong.author}`;
     const queueArray = queueDetails.map((details, index) => {
       return `${index + 1}) ${details.title} - ${details.author}`;
     });
     if (queueArray.length){
-      queueArray.unshift(`**En attente (${queueDetails.length})** :`);
+      queueArray.unshift(`**Playlist (${queueDetails.length})** :`);
     }
     queueArray.unshift(nowPlaying);
     return queueArray.join("\n");
