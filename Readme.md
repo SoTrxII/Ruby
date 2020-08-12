@@ -17,7 +17,7 @@ Ruby requires a Youtube Data API V3 API key and a Discord Bot Token. These can b
 
 ### Docker
 
-Either pull it from the github package
+Either pull it from GitHub packages
 ```sh
 # GitHub "public" repository require login in for some reason
 docker login docker.pkg.github.com --username <YOUR_USERNAME>
@@ -25,8 +25,8 @@ docker pull docker.pkg.github.com/soulcramer/ruby/ruby:latest
 ```
 Or build it yourself
 ```sh
-    # In the repo dir, after cloning it
-    docker build -t docker.pkg.github.com/soulcramer/ruby/ruby:latest . 
+# In the repo dir, after cloning it
+docker build -t docker.pkg.github.com/soulcramer/ruby/ruby:latest . 
 ```
 
 Whatever you used to get the image, you can run it using :
@@ -46,7 +46,7 @@ version: '3.7'
 services:
     ruby:
      # Be aware that you still need to be logged in to github package 
-     # with your Docker account
+     # with your GitHub account
      image: docker.pkg.github.com/soulcramer/ruby/ruby:latest
      container_name: ruby
      restart: always
@@ -69,6 +69,7 @@ npm run build
 
 Once all the requirements have been installed, you can then copy the `.env.example` file 
 into `.env` and fill in the values.
+
 ```sh
 cp .env.example .env
 # Fill the values in .env...
