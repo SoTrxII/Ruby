@@ -5,6 +5,7 @@ import { JukeboxItemAPI, JukeboxItemDetails } from "./jukebox-item-API";
 export interface JukeboxAPI {
   state: JUKEBOX_STATE;
   queue: JukeboxItemAPI[];
+  currentSong: JukeboxItemAPI;
   connect(vc: VoiceChannel): Promise<void>;
   addSong(query: string): Promise<void>;
   getCurrentSongDetails(): Promise<JukeboxItemDetails>;
@@ -13,6 +14,7 @@ export interface JukeboxAPI {
   pause(): void;
   resume(): void;
   stop(): void;
+  loop(isLooping: boolean): void
   /** Subscribe a function to a song transition event **/
   onNewSong(f: (...args: any[]) => void): void
   onQueueEmpty(f: (...args: any[]) => void): void

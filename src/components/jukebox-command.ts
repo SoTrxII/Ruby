@@ -1,11 +1,16 @@
-import {Command, CommandInfo, CommandoClient, CommandoMessage} from "discord.js-commando";
-import {JukeboxAPI} from "../@types/jukebox-API";
-import {TYPES} from "../types";
+import {
+  Command,
+  CommandInfo,
+  CommandoClient,
+  CommandoMessage
+} from "discord.js-commando";
+import { JukeboxAPI } from "../@types/jukebox-API";
+import { TYPES } from "../types";
 import getDecorators from "inversify-inject-decorators";
-import {container} from "../inversify.config";
-import {DMChannel, Message, TextChannel, VoiceChannel} from "discord.js";
-import {JUKEBOX_STATE} from "./jukebox";
-import {debounce} from "../decorators/debounce";
+import { container } from "../inversify.config";
+import { DMChannel, Message, TextChannel, VoiceChannel } from "discord.js";
+import { JUKEBOX_STATE } from "./jukebox";
+import { debounce } from "../decorators/debounce";
 
 const { lazyInject } = getDecorators(container);
 
@@ -20,10 +25,13 @@ export abstract class JukeboxCommand extends Command {
 
   protected constructor(client: CommandoClient, infos: CommandInfo) {
     super(client, infos);
-    if(this.jukebox.state === JUKEBOX_STATE.NOT_INITIALIZED && !JukeboxCommand.JUKEBOX_EVENTS_SUBSCRIBED){
+    if (
+      this.jukebox.state === JUKEBOX_STATE.NOT_INITIALIZED &&
+      !JukeboxCommand.JUKEBOX_EVENTS_SUBSCRIBED
+    ) {
       JukeboxCommand.JUKEBOX_EVENTS_SUBSCRIBED = true;
-      this.jukebox.onNewSong( this.displayQueue.bind(this) )
-      this.jukebox.onQueueEmpty( this.leaveWarningMessage.bind(this) )
+      this.jukebox.onNewSong(this.displayQueue.bind(this));
+      this.jukebox.onQueueEmpty(this.leaveWarningMessage.bind(this));
     }
   }
   protected async getTargetVoiceChannel(
@@ -51,23 +59,27 @@ export abstract class JukeboxCommand extends Command {
     const currentSong = await this.jukebox.getCurrentSongDetails();
     if (!currentSong) return "Nothing in the playlist !";
     let nowPlaying = `**Playing** : :musical_note: ${currentSong.title} - ${currentSong.author}`;
+    if (this.jukebox.currentSong.isLooping) nowPlaying += "  :repeat:";
     const queueArray = queueDetails.map((details, index) => {
       return `${index + 1}) ${details.title} - ${details.author}`;
     });
-    if (queueArray.length){
+    if (queueArray.length) {
       queueArray.unshift(`**Playlist (${queueDetails.length})** :`);
     }
     queueArray.unshift(nowPlaying);
     return queueArray.join("\n");
   }
 
-  protected async leaveWarningMessage(){
-    await JukeboxCommand.textChannel?.send("Playlist empty ! Disconnecting in 5 minutes !");
+  protected async leaveWarningMessage() {
+    await JukeboxCommand.textChannel?.send(
+      "Playlist empty ! Disconnecting in 5 minutes !"
+    );
   }
 
   @debounce(2000)
-  protected async displayQueue(message?: CommandoMessage): Promise<void>{
-    if(message) JukeboxCommand.textChannel = message.channel;
-    if(this.jukebox.queue) await JukeboxCommand.textChannel.send(await this.formatQueue());
+  protected async displayQueue(message?: CommandoMessage): Promise<void> {
+    if (message) JukeboxCommand.textChannel = message.channel;
+    if (this.jukebox.queue)
+      await JukeboxCommand.textChannel.send(await this.formatQueue());
   }
 }

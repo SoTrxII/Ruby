@@ -13,4 +13,5 @@ export interface JukeboxItemAPI {
   readonly url: string;
   play(vc: VoiceConnection): Promise<StreamDispatcher>;
   getDetails(): Promise<JukeboxItemDetails>
+  isLooping: boolean;
 }

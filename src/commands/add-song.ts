@@ -14,9 +14,10 @@ export default class AddSong extends JukeboxCommand {
       aliases: ["addmusic"],
       memberName: "addmusic",
       group: "music",
-      description: "Add an item to the playlist",
+      description: "Add one or multiple items to the playlist",
       examples: [
         "?am https://www.youtube.com/watch?v=FKLtgamrhpk",
+        "?am https://www.youtube.com/watch?v=FKLtgamrhpk https://www.youtube.com/watch?v=Fjqs-qmkNug",
         "?am chicken"
       ],
       args: [

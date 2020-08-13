@@ -25,7 +25,7 @@ export class Jukebox implements JukeboxAPI {
   public state = JUKEBOX_STATE.NOT_INITIALIZED;
   private voiceConnection: VoiceConnection;
   private dispatcher: StreamDispatcher;
-  private currentSong: JukeboxItemAPI;
+  public currentSong: JukeboxItemAPI;
   private songQueue: JukeboxItemAPI[] = [];
   private searchEngine: SearchAPI;
   private transitionPipeline: Procedure[] = [];
@@ -83,10 +83,14 @@ export class Jukebox implements JukeboxAPI {
     this.endDispatcher();
   }
 
-  private async playNextSong() {
-    this.currentSong = this.songQueue.shift();
+  private async playNextSong(accountForLooping = true) {
+    // Replay the same song if looping is activated
+    this.currentSong = accountForLooping && this.currentSong?.isLooping
+      ? this.currentSong
+      : this.songQueue.shift();
+
     if (this.currentSong === undefined) {
-      if(this.dispatcher) this.endDispatcher();
+      if (this.dispatcher) this.endDispatcher();
     } else {
       this.state = JUKEBOX_STATE.PLAYING;
       this.dispatcher = await this.currentSong?.play(this.voiceConnection);
@@ -116,7 +120,12 @@ export class Jukebox implements JukeboxAPI {
   }
 
   @assertState(JUKEBOX_STATE.PLAYING)
+  loop(isLooping: boolean): void {
+    if (this.currentSong) this.currentSong.isLooping = isLooping;
+  }
+
+  @assertState(JUKEBOX_STATE.PLAYING)
   async skip(): Promise<void> {
-    await this.playNextSong();
+    await this.playNextSong(false);
   }
 }

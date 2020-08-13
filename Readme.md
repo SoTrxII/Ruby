@@ -2,14 +2,18 @@
 A discord music bot in Typescript !
 
 ## Commands
-The default prefix is **?**.
+The default prefix is **?**. This can be changed via a command line argument.
 
-The command list is : 
- + ?am / ?addMusic : add a music to the playlist. These can either be YouTube videos links or plain text. 
-    A plain text input will be queried to the Youtube Data API and the first macthing video will be played.
- + ?pause : Doesn't need explanation
- + ?resume : Doesn't need explanation
- + ?skip: Skip the currently playing song
+| Command         | Description                                                                                                                                                                                   |   |   |   |
+|-----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---|---|---|
+| ?am / ?addmusic | Add one or multiple musics to the playlist. These can either be YouTube videos links or plain text. A plain text input will be queried to the Youtube Data API and the first matching video will be played.  |   |   |   |
+| ?pause          | Pause playback                                                                                                                                                                                |   |   |   |
+| ?resume         | Resume playback                                                                                                                                                                               |   |   |   |
+| ?skip           | Skip the currently playing song                                                                                                                                                               |   |   |   |
+| ?stop           | Stop playback                                                                                                                                                                                 |   |   |   |
+| ?loop           | Replay the currently playing song over and over again                                                                                                                                         |   |   |   |
+| ?unloop         | Cancel the looping state of the currently playing song                                                                                                                                        |   |   |   |
+| ?playlist       | Shows the playlist                                                                                                                                                                            |   |   |   |
 
 ## Running it 
 

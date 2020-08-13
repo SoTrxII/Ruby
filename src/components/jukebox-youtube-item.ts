@@ -9,6 +9,8 @@ export class JukeboxYoutubeItem implements JukeboxItemAPI {
   //Can't IoC this one
   private downloader: DownloadAPI = new YoutubeDownloadService();
 
+  public isLooping = false;
+
   constructor(public readonly url: string) {}
 
   async play(vc: VoiceConnection): Promise<StreamDispatcher> {
