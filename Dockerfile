@@ -31,4 +31,4 @@ RUN npm install -g pm2 modclean \
     && apk del .build-deps \
     && rm -rf /root/.npm /usr/local/lib/node_modules/npm
 
-CMD ["pm2-runtime","/app/src/main.js"]
+CMD ["pm2-runtime", "/app/main.js"]

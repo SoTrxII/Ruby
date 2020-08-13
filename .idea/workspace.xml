@@ -19,18 +19,9 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9f6ccf1f-8b0e-4417-a570-4abfd37c31c8" name="Default Changelist" comment="Yet another translation missing">
-      <change afterPath="$PROJECT_DIR$/src/commands/loop-song.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/commands/show-queue.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/commands/unloop-song.ts" afterDir="false" />
+    <list default="true" id="9f6ccf1f-8b0e-4417-a570-4abfd37c31c8" name="Default Changelist" comment="Adding the ?playlist, ?loop, ?unloop commands. Updating readme accordingly.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/Readme.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/@types/jukebox-API.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/@types/jukebox-API.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/@types/jukebox-item-API.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/@types/jukebox-item-API.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/commands/add-song.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/commands/add-song.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/jukebox-command.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/jukebox-command.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/jukebox-youtube-item.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/jukebox-youtube-item.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/jukebox.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/jukebox.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -170,7 +161,7 @@
       <workItem from="1597088040157" duration="1875000" />
       <workItem from="1597094500435" duration="10966000" />
       <workItem from="1597139677176" duration="28273000" />
-      <workItem from="1597315915931" duration="3386000" />
+      <workItem from="1597315915931" duration="4377000" />
     </task>
     <task id="LOCAL-00001" summary="Refactoring to modernize the codebase">
       <created>1597171834843</created>
@@ -221,7 +212,14 @@
       <option name="project" value="LOCAL" />
       <updated>1597245687451</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Adding the ?playlist, ?loop, ?unloop commands. Updating readme accordingly.">
+      <created>1597320777068</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1597320777068</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -247,7 +245,8 @@
     <MESSAGE value="Translating all text output to english." />
     <MESSAGE value="Fixing a missing translation" />
     <MESSAGE value="Yet another translation missing" />
-    <option name="LAST_COMMIT_MESSAGE" value="Yet another translation missing" />
+    <MESSAGE value="Adding the ?playlist, ?loop, ?unloop commands. Updating readme accordingly." />
+    <option name="LAST_COMMIT_MESSAGE" value="Adding the ?playlist, ?loop, ?unloop commands. Updating readme accordingly." />
   </component>
   <component name="WindowStateProjectService">
     <state x="424" y="178" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1597235350519">
@@ -367,10 +366,11 @@
       <screen x="0" y="0" width="1920" height="1044" />
     </state>
     <state x="454" y="155" key="SettingsEditor/0.0.1920.1044/1920.0.1920.1080@0.0.1920.1044" timestamp="1597084610843" />
-    <state x="560" y="256" key="Vcs.Push.Dialog.v2" timestamp="1597245689842">
-      <screen x="0" y="0" width="1920" height="1044" />
+    <state x="2480" y="265" key="Vcs.Push.Dialog.v2" timestamp="1597320785645">
+      <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state x="560" y="256" key="Vcs.Push.Dialog.v2/0.0.1920.1044/1920.0.1920.1080@0.0.1920.1044" timestamp="1597245689842" />
+    <state x="2480" y="265" key="Vcs.Push.Dialog.v2/0.0.1920.1044/1920.0.1920.1080@1920.0.1920.1080" timestamp="1597320785645" />
     <state x="575" y="133" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1597239959273">
       <screen x="0" y="0" width="1920" height="1044" />
     </state>
