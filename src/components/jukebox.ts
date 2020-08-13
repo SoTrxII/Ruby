@@ -78,9 +78,9 @@ export class Jukebox implements JukeboxAPI {
   }
 
   @assertState(JUKEBOX_STATE.PLAYING)
-  stop(): void {
+  async stop(): Promise<void> {
     this.songQueue = [];
-    this.endDispatcher();
+    await this.playNextSong(false);
   }
 
   private async playNextSong(accountForLooping = true) {
