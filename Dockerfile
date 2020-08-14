@@ -22,7 +22,8 @@ WORKDIR /app
 COPY --from=build /app/dist /app
 
 RUN npm install -g pm2 modclean \
-    && apk add --no-cache --virtual .build-deps git alpine-sdk libtool autoconf automake python ffmpeg \
+    && apk add --no-cache --virtual .build-deps git alpine-sdk libtool autoconf automake python \
+    && apk add --no-cache ffmpeg \
     && npm install --only=prod \
     && modclean -r \
     && modclean -r /usr/local/lib/node_modules/pm2 \
