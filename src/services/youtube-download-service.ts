@@ -9,7 +9,7 @@ import { opus, FFmpeg } from "prism-media";
 import { DownloadAPI } from "../@types/youtube-downloader-API";
 import { Readable } from "stream";
 import { injectable } from "inversify";
-import {memoize} from "../decorators/memoize";
+import { memoize } from "../decorators/memoize";
 
 export class NoFormatAvailableError extends Error {}
 /**
@@ -17,6 +17,9 @@ export class NoFormatAvailableError extends Error {}
  */
 @injectable()
 export class YoutubeDownloadService implements DownloadAPI {
+  private static readonly defaultYtdlOptions: downloadOptions = {
+    highWaterMark: 1 << 25
+  };
   private static getEncodingArgs(input: string): string[] {
     return [
       "-reconnect",
@@ -62,6 +65,7 @@ export class YoutubeDownloadService implements DownloadAPI {
     url: string,
     options: downloadOptions = {}
   ): Promise<Readable> {
+    Object.assign(options, YoutubeDownloadService.defaultYtdlOptions)
     const infos = await getInfo(url);
     const format = infos.formats.find(YoutubeDownloadService.opusFilter);
     const hasOpusStream = format && infos.videoDetails.lengthSeconds != "0";

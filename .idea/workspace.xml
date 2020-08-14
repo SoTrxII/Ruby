@@ -19,9 +19,9 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9f6ccf1f-8b0e-4417-a570-4abfd37c31c8" name="Default Changelist" comment="Correcting an unwanted behaviour when stopping the playback while a looping song was playing.">
+    <list default="true" id="9f6ccf1f-8b0e-4417-a570-4abfd37c31c8" name="Default Changelist" comment="Fixing FFMPEG being considered as a virtual dependency in the Dockerfile.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/youtube-download-service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/youtube-download-service.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -132,10 +132,10 @@
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="Jest.Youtube service.Should return undefined when no results are found" />
+      <item itemvalue="Jest.Jukebox.Adding a song.Should be able to add multiple songs by using the URLs directly" />
       <item itemvalue="Jest.Command: Add song.Should catch any throwed error" />
       <item itemvalue="Jest.Jukebox Item.Cache details.Should cache the details" />
-      <item itemvalue="Jest.Jukebox.Adding a song.Should be able to add multiple songs by using the URLs directly" />
-      <item itemvalue="Jest.Youtube service.Should return undefined when no results are found" />
       <item itemvalue="Node.js.Ruby" />
       <item itemvalue="npm.start:dev" />
     </list>
@@ -162,7 +162,7 @@
       <workItem from="1597094500435" duration="10966000" />
       <workItem from="1597139677176" duration="28273000" />
       <workItem from="1597315915931" duration="8354000" />
-      <workItem from="1597443431959" duration="39000" />
+      <workItem from="1597443431959" duration="1302000" />
     </task>
     <task id="LOCAL-00001" summary="Refactoring to modernize the codebase">
       <created>1597171834843</created>
@@ -248,7 +248,14 @@
       <option name="project" value="LOCAL" />
       <updated>1597326821479</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Fixing FFMPEG being considered as a virtual dependency in the Dockerfile.">
+      <created>1597443598768</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1597443598768</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -278,7 +285,8 @@
     <MESSAGE value="Updating Dokerfile" />
     <MESSAGE value="Updating Dockerfile" />
     <MESSAGE value="Correcting an unwanted behaviour when stopping the playback while a looping song was playing." />
-    <option name="LAST_COMMIT_MESSAGE" value="Correcting an unwanted behaviour when stopping the playback while a looping song was playing." />
+    <MESSAGE value="Fixing FFMPEG being considered as a virtual dependency in the Dockerfile." />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixing FFMPEG being considered as a virtual dependency in the Dockerfile." />
   </component>
   <component name="WindowStateProjectService">
     <state x="424" y="178" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1597235350519">
@@ -398,10 +406,10 @@
       <screen x="0" y="0" width="1920" height="1044" />
     </state>
     <state x="454" y="155" key="SettingsEditor/0.0.1920.1044/1920.0.1920.1080@0.0.1920.1044" timestamp="1597084610843" />
-    <state x="560" y="256" key="Vcs.Push.Dialog.v2" timestamp="1597326828777">
+    <state x="560" y="256" key="Vcs.Push.Dialog.v2" timestamp="1597443607001">
       <screen x="0" y="0" width="1920" height="1044" />
     </state>
-    <state x="560" y="256" key="Vcs.Push.Dialog.v2/0.0.1920.1044/1920.0.1920.1080@0.0.1920.1044" timestamp="1597326828777" />
+    <state x="560" y="256" key="Vcs.Push.Dialog.v2/0.0.1920.1044/1920.0.1920.1080@0.0.1920.1044" timestamp="1597443607001" />
     <state x="2480" y="265" key="Vcs.Push.Dialog.v2/0.0.1920.1044/1920.0.1920.1080@1920.0.1920.1080" timestamp="1597320785645" />
     <state x="575" y="133" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1597239959273">
       <screen x="0" y="0" width="1920" height="1044" />
