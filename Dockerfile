@@ -17,12 +17,14 @@ FROM node:current-alpine
 # add the required dependencies
 WORKDIR /app
 COPY package.json /app/package.json
-RUN npm install
-COPY . /app
 RUN npm install -g pm2 modclean \
     && apk add --no-cache --virtual .build-deps git alpine-sdk libtool autoconf automake python \
     && apk add --no-cache ffmpeg \
-    && npm run build \
+    && npm install
+
+COPY . /app
+
+RUN npm run build \
     && npm prune --production \
     && modclean -r \
     && modclean -r /usr/local/lib/node_modules/pm2 \
