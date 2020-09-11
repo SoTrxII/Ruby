@@ -4,27 +4,26 @@ WORKDIR /app
 # add `/app/node_modules/.bin` to $PATH
 ENV PATH /app/node_modules/.bin:$PATH
 # install and cache app dependencies
-COPY package.json /app/package.json 
+COPY package.json /app/package.json
 
 RUN apk add git alpine-sdk libtool autoconf automake python ffmpeg && npm install
 # add app
 COPY . /app
 # generate build
 RUN npm run build
-############
-### prod ###
-############
+
 FROM node:current-alpine
 
 # add the required dependencies
 WORKDIR /app
-
-COPY --from=build /app/dist /app
-
+COPY package.json /app/package.json
+RUN npm install
+COPY . /app
 RUN npm install -g pm2 modclean \
     && apk add --no-cache --virtual .build-deps git alpine-sdk libtool autoconf automake python \
     && apk add --no-cache ffmpeg \
-    && npm install --only=prod \
+    && npm run build \
+    && npm prune --production \
     && modclean -r \
     && modclean -r /usr/local/lib/node_modules/pm2 \
     && npm uninstall -g modclean \

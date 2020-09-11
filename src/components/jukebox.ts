@@ -12,7 +12,7 @@ export enum JUKEBOX_STATE {
   NOT_INITIALIZED,
   PLAYING,
   PAUSED,
-  STOPPED
+  STOPPED,
 }
 
 export class InvalidQueryError extends Error {}
@@ -69,7 +69,7 @@ export class Jukebox implements JukeboxAPI {
     this.dispatcher.end();
     this.dispatcher = undefined;
     this.state = JUKEBOX_STATE.STOPPED;
-    this.queueEmptyPipeline.forEach(f => f());
+    this.queueEmptyPipeline.forEach((f) => f());
     this.disconnectTimer = setTimeout(() => {
       this.voiceConnection.disconnect();
       this.voiceConnection = undefined;
@@ -85,19 +85,26 @@ export class Jukebox implements JukeboxAPI {
 
   private async playNextSong(accountForLooping = true) {
     // Replay the same song if looping is activated
-    this.currentSong = accountForLooping && this.currentSong?.isLooping
-      ? this.currentSong
-      : this.songQueue.shift();
+    this.currentSong =
+      accountForLooping && this.currentSong?.isLooping
+        ? this.currentSong
+        : this.songQueue.shift();
 
     if (this.currentSong === undefined) {
       if (this.dispatcher) this.endDispatcher();
     } else {
       this.state = JUKEBOX_STATE.PLAYING;
-      this.dispatcher = await this.currentSong?.play(this.voiceConnection);
-      this.dispatcher.on("finish", async () => {
+      try {
+        this.dispatcher = await this.currentSong?.play(this.voiceConnection);
+        this.dispatcher.on("finish", async () => {
+          await this.playNextSong();
+          if (this.currentSong) this.transitionPipeline.forEach((f) => f());
+        });
+      } catch (e) {
+        console.error(e);
         await this.playNextSong();
-        if (this.currentSong) this.transitionPipeline.forEach(f => f());
-      });
+        if (this.currentSong) this.transitionPipeline.forEach((f) => f());
+      }
     }
   }
 

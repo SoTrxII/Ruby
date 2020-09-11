@@ -3,7 +3,7 @@ import {
   downloadFromInfo,
   videoFormat,
   downloadOptions,
-  videoInfo
+  videoInfo,
 } from "ytdl-core";
 import { opus, FFmpeg } from "prism-media";
 import { DownloadAPI } from "../@types/youtube-downloader-API";
@@ -18,7 +18,7 @@ export class NoFormatAvailableError extends Error {}
 @injectable()
 export class YoutubeDownloadService implements DownloadAPI {
   private static readonly defaultYtdlOptions: downloadOptions = {
-    highWaterMark: 1 << 25
+    highWaterMark: 1 << 25,
   };
   private static getEncodingArgs(input: string): string[] {
     return [
@@ -39,7 +39,7 @@ export class YoutubeDownloadService implements DownloadAPI {
       "-ar",
       "48000",
       "-ac",
-      "2"
+      "2",
     ];
   }
 
@@ -57,15 +57,15 @@ export class YoutubeDownloadService implements DownloadAPI {
 
   private static bestAudioFormat(formats: videoFormat[]): videoFormat {
     formats = formats
-      .filter(format => format.audioBitrate)
+      .filter((format) => format.audioBitrate)
       .sort((a, b) => b.audioBitrate - a.audioBitrate);
-    return formats.find(format => !format.bitrate) || formats[0];
+    return formats.find((format) => !format.bitrate) || formats[0];
   }
   async download(
     url: string,
     options: downloadOptions = {}
   ): Promise<Readable> {
-    Object.assign(options, YoutubeDownloadService.defaultYtdlOptions)
+    Object.assign(options, YoutubeDownloadService.defaultYtdlOptions);
     const infos = await getInfo(url);
     const format = infos.formats.find(YoutubeDownloadService.opusFilter);
     const hasOpusStream = format && infos.videoDetails.lengthSeconds != "0";
@@ -77,15 +77,18 @@ export class YoutubeDownloadService implements DownloadAPI {
         .on("end", () => demuxer.destroy());
     } else {
       const bestAudio = YoutubeDownloadService.bestAudioFormat(infos.formats);
-      if (!bestAudio) throw new NoFormatAvailableError();
+      if (!bestAudio)
+        throw new NoFormatAvailableError(
+          `No formats available for song with url : ${url}`
+        );
 
       const transcoder = new FFmpeg({
-        args: YoutubeDownloadService.getEncodingArgs(bestAudio.url)
+        args: YoutubeDownloadService.getEncodingArgs(bestAudio.url),
       });
       const opusEncoder = new opus.Encoder({
         rate: 48000,
         channels: 2,
-        frameSize: 960
+        frameSize: 960,
       });
       const stream = transcoder.pipe(opusEncoder);
       stream.on("close", () => {

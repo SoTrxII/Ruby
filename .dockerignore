@@ -5,3 +5,4 @@ dist
 config*.json
 yarn-error.log
 .env
+.git
