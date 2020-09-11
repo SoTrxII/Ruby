@@ -135,4 +135,11 @@ export class Jukebox implements JukeboxAPI {
   async skip(): Promise<void> {
     await this.playNextSong(false);
   }
+
+  remove(index: number): void {
+    const zeroBasedIndex = index - 1;
+    if (this.queue.length <= zeroBasedIndex || zeroBasedIndex < 0)
+      throw new InvalidStateError();
+    this.queue.splice(zeroBasedIndex, 1);
+  }
 }

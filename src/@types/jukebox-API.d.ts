@@ -14,8 +14,9 @@ export interface JukeboxAPI {
   pause(): void;
   resume(): void;
   stop(): Promise<void>;
-  loop(isLooping: boolean): void
+  loop(isLooping: boolean): void;
+  remove(index: number): void;
   /** Subscribe a function to a song transition event **/
-  onNewSong(f: (...args: any[]) => void): void
-  onQueueEmpty(f: (...args: any[]) => void): void
+  onNewSong(f: (...args: any[]) => void): void;
+  onQueueEmpty(f: (...args: any[]) => void): void;
 }
