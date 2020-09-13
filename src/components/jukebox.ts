@@ -28,6 +28,7 @@ export class Jukebox implements JukeboxAPI {
   public currentSong: JukeboxItemAPI;
   private songQueue: JukeboxItemAPI[] = [];
   private searchEngine: SearchAPI;
+  private songStartPipeline: Procedure[] = [];
   private transitionPipeline: Procedure[] = [];
   private queueEmptyPipeline: Procedure[] = [];
 
@@ -50,6 +51,9 @@ export class Jukebox implements JukeboxAPI {
 
   onNewSong(f: Procedure): void {
     this.transitionPipeline.push(f);
+  }
+  onSongStart(f: Procedure): void {
+    this.songStartPipeline.push(f);
   }
 
   onQueueEmpty(f: Procedure): void {
@@ -96,6 +100,7 @@ export class Jukebox implements JukeboxAPI {
       this.state = JUKEBOX_STATE.PLAYING;
       try {
         this.dispatcher = await this.currentSong?.play(this.voiceConnection);
+        this.songStartPipeline.forEach((f) => f());
         this.dispatcher.on("finish", async () => {
           await this.playNextSong();
           if (this.currentSong) this.transitionPipeline.forEach((f) => f());

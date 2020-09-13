@@ -2,7 +2,7 @@ import {
   Command,
   CommandInfo,
   CommandoClient,
-  CommandoMessage
+  CommandoMessage,
 } from "discord.js-commando";
 import { JukeboxAPI } from "../@types/jukebox-API";
 import { TYPES } from "../types";
@@ -11,12 +11,16 @@ import { container } from "../inversify.config";
 import { DMChannel, Message, TextChannel, VoiceChannel } from "discord.js";
 import { JUKEBOX_STATE } from "./jukebox";
 import { debounce } from "../decorators/debounce";
+import { SongProgressManagerAPI } from "../@types/song-progress-manager";
+import { secondstoIso } from "../utilities/seconds-to-iso";
 
 const { lazyInject } = getDecorators(container);
 
 export abstract class JukeboxCommand extends Command {
   @lazyInject(TYPES.Jukebox)
   private jukebox: JukeboxAPI;
+  @lazyInject(TYPES.SongProgressManager)
+  private progressManager: SongProgressManagerAPI;
 
   protected static JUKEBOX_EVENTS_SUBSCRIBED = false;
   protected static voiceChannel: VoiceChannel;
@@ -31,8 +35,20 @@ export abstract class JukeboxCommand extends Command {
     ) {
       JukeboxCommand.JUKEBOX_EVENTS_SUBSCRIBED = true;
       this.jukebox.onNewSong(this.displayQueue.bind(this));
+      this.jukebox.onSongStart(this.updateProgressDisplay.bind(this));
       this.jukebox.onQueueEmpty(this.leaveWarningMessage.bind(this));
+      this.jukebox.onQueueEmpty(this.resetProgressDisplay.bind(this));
     }
+  }
+
+  protected async updateProgressDisplay() {
+    if (!this.jukebox.currentSong) return;
+    const details = await this.jukebox.currentSong.getDetails();
+    this.progressManager.start(this.client, details, 5000);
+  }
+
+  protected resetProgressDisplay(){
+    this.progressManager.stop();
   }
   protected async getTargetVoiceChannel(
     message: Message
@@ -54,14 +70,18 @@ export abstract class JukeboxCommand extends Command {
 
   protected async formatQueue() {
     const queueDetails = await Promise.all(
-      this.jukebox.queue.map(async item => await item.getDetails())
+      this.jukebox.queue.map(async (item) => await item.getDetails())
     );
     const currentSong = await this.jukebox.getCurrentSongDetails();
     if (!currentSong) return "Nothing in the playlist !";
-    let nowPlaying = `**Playing** : :musical_note: ${currentSong.title} - ${currentSong.author}`;
+    let nowPlaying = `**Playing** : :musical_note: ${currentSong.title} - ${
+      currentSong.author
+    } [${secondstoIso(currentSong.duration)}]`;
     if (this.jukebox.currentSong.isLooping) nowPlaying += "  :repeat:";
     const queueArray = queueDetails.map((details, index) => {
-      return `${index + 1}) ${details.title} - ${details.author}`;
+      return `${index + 1}) ${details.title} - ${
+        details.author
+      } [${secondstoIso(details.duration)}]`;
     });
     if (queueArray.length) {
       queueArray.unshift(`**Playlist (${queueDetails.length})** :`);

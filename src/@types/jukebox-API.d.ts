@@ -19,4 +19,5 @@ export interface JukeboxAPI {
   /** Subscribe a function to a song transition event **/
   onNewSong(f: (...args: any[]) => void): void;
   onQueueEmpty(f: (...args: any[]) => void): void;
+  onSongStart(f: (...args: any[]) => void): void
 }
