@@ -33,4 +33,3 @@ RUN npm install -g pm2 modclean \
     && rm -rf /root/.npm /usr/local/lib/node_modules/npm
 
 CMD ["pm2-runtime", "/app/main.js"]
-s
