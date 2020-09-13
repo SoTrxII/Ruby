@@ -11,21 +11,20 @@ RUN apk add git alpine-sdk libtool autoconf automake python ffmpeg && npm instal
 COPY . /app
 # generate build
 RUN npm run build
-
+############
+### prod ###
+############
 FROM node:current-alpine
 
 # add the required dependencies
 WORKDIR /app
-COPY package.json /app/package.json
+
+COPY --from=build /app/dist /app
+
 RUN npm install -g pm2 modclean \
     && apk add --no-cache --virtual .build-deps git alpine-sdk libtool autoconf automake python \
     && apk add --no-cache ffmpeg \
-    && npm install
-
-COPY . /app
-
-RUN npm run build \
-    && npm prune --production \
+    && npm install --only=prod \
     && modclean -r \
     && modclean -r /usr/local/lib/node_modules/pm2 \
     && npm uninstall -g modclean \
@@ -34,3 +33,4 @@ RUN npm run build \
     && rm -rf /root/.npm /usr/local/lib/node_modules/npm
 
 CMD ["pm2-runtime", "/app/main.js"]
+s
