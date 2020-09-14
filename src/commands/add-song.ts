@@ -36,7 +36,7 @@ export default class AddSong extends JukeboxCommand {
       await this.getTargetVoiceChannel(message)
     );
     const songPromises = args.query
-      .split(/\s+http/)
+      .split(/\s+/)
       .filter(s => s != "")
       .map(async query => {
         try {
