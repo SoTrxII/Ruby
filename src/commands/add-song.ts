@@ -36,11 +36,11 @@ export default class AddSong extends JukeboxCommand {
       await this.getTargetVoiceChannel(message)
     );
     const songPromises = args.query
-      .split(/\s+/)
+      .split(/(?=http)/g)
       .filter(s => s != "")
       .map(async query => {
         try {
-          await jukebox.addSong(query);
+          await jukebox.addSong(query.trim());
         } catch (e) {
           await message.say(
             `No youtube videos found matching "${query}"`
