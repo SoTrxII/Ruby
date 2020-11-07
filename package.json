@@ -19,7 +19,7 @@
     "@discordjs/opus": "^0.3.3",
     "discord.js": "^12.4.1",
     "discord.js-commando": "discordjs/Commando",
-    "googleapis": "^62.0.0",
+    "googleapis": "^64.0.0",
     "inversify": "^5.0.1",
     "inversify-inject-decorators": "^3.1.0",
     "memoizee": "^0.4.14",
