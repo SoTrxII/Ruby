@@ -28,7 +28,7 @@
     "sodium": "^3.0.2",
     "ts-node": "^9.1.1",
     "tslib": "^2.1.0",
-    "ytdl-core": "^4.4.1"
+    "ytdl-core": "^4.4.2"
   },
   "devDependencies": {
     "@types/jest": "^26.0.20",
