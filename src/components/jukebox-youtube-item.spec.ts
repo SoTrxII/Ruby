@@ -36,7 +36,7 @@ describe("Jukebox Item", () => {
           author: {
             name: "test"
           },
-          shortDescription: "test",
+          description: "test",
           videoId: "test",
           url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
         }

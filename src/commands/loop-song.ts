@@ -17,6 +17,7 @@ export default class LoopSong extends JukeboxCommand {
         const jukebox = await this.getJukebox(
             await this.getTargetVoiceChannel(message)
         );
+        await super.run(message, await jukebox.currentSong);
         if(jukebox.currentSong) jukebox.loop(true);
         if (jukebox.queue) await message.say(await this.formatQueue());
         return message;

@@ -30,7 +30,7 @@ export class JukeboxYoutubeItem implements JukeboxItemAPI {
       duration: parseInt(details?.lengthSeconds),
       title: details?.title,
       author: details?.author.name,
-      description: details?.shortDescription,
+      description: details?.description,
       image: `https://img.youtube.com/vi/${details?.videoId}/0.jpg`,
       url: this.url
     };

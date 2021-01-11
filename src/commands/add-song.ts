@@ -18,33 +18,33 @@ export default class AddSong extends JukeboxCommand {
       examples: [
         "?am https://www.youtube.com/watch?v=FKLtgamrhpk",
         "?am https://www.youtube.com/watch?v=FKLtgamrhpk https://www.youtube.com/watch?v=Fjqs-qmkNug",
-        "?am chicken"
+        "?am chicken",
       ],
       args: [
         {
           key: "query",
           prompt: "Direct YouTube Link or plaintext query",
-          type: "string"
-        }
-      ]
+          type: "string",
+        },
+      ],
     });
   }
 
   @voiceChannelOnly()
   async run(message, args: Args): Promise<Message> {
+    await super.run(message, args);
     const jukebox = await this.getJukebox(
       await this.getTargetVoiceChannel(message)
     );
     const songPromises = args.query
       .split(/(?=http)/g)
-      .filter(s => s != "")
-      .map(async query => {
+      .filter((s) => s != "")
+      .map(async (query) => {
         try {
           await jukebox.addSong(query.trim());
         } catch (e) {
-          await message.say(
-            `No youtube videos found matching "${query}"`
-          );
+          this.logger.error(e);
+          await message.say(`No youtube videos found matching "${query}"`);
           return;
         }
       });

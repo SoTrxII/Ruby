@@ -1,4 +1,4 @@
-import * as memoizee from "memoizee";
+import memoizee from "memoizee";
 /**
  * This decorator allows caching a function result to prevent re-executing with known parameters
  * @param cacheSize Max cache size for this method

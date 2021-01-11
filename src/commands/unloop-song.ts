@@ -17,6 +17,7 @@ export default class UnloopSong extends JukeboxCommand {
         const jukebox = await this.getJukebox(
             await this.getTargetVoiceChannel(message)
         );
+        await super.run(message, await jukebox.currentSong);
         if(jukebox.currentSong) jukebox.loop(false);
         if (jukebox.queue) await message.say(await this.formatQueue());
         return message;

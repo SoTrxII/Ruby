@@ -13,6 +13,7 @@ import { JUKEBOX_STATE } from "./jukebox";
 import { debounce } from "../decorators/debounce";
 import { SongProgressManagerAPI } from "../@types/song-progress-manager";
 import { secondstoIso } from "../utilities/seconds-to-iso";
+import { ILogger } from "../@types/logger";
 
 const { lazyInject } = getDecorators(container);
 
@@ -21,6 +22,8 @@ export abstract class JukeboxCommand extends Command {
   private jukebox: JukeboxAPI;
   @lazyInject(TYPES.SongProgressManager)
   private progressManager: SongProgressManagerAPI;
+  @lazyInject(TYPES.Logger)
+  protected logger: ILogger;
 
   protected static JUKEBOX_EVENTS_SUBSCRIBED = false;
   protected static voiceChannel: VoiceChannel;
@@ -47,7 +50,14 @@ export abstract class JukeboxCommand extends Command {
     this.progressManager.start(this.client, details, 5000);
   }
 
-  protected resetProgressDisplay(){
+  async run(message, args: any): Promise<Message> {
+    let logString = `Executing command "${this.constructor.name}" `;
+    if (args !== undefined) logString += `with parameters : ${JSON.stringify(args)}`;
+    this.logger.info(logString);
+    return message;
+  }
+
+  protected resetProgressDisplay() {
     this.progressManager.stop();
   }
   protected async getTargetVoiceChannel(

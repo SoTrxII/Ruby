@@ -26,6 +26,7 @@ export default class RemoveSong extends JukeboxCommand {
 
   @voiceChannelOnly()
   async run(message, args: Args): Promise<Message> {
+    await super.run(message, args);
     const jukebox = await this.getJukebox(
       await this.getTargetVoiceChannel(message)
     );

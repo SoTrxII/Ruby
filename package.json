@@ -7,7 +7,7 @@
     "test": "./node_modules/.bin/jest",
     "prebuild": "rm -rf build/*",
     "build": "tsc && cp package.json dist/package.json",
-    "start:dev": "npm run build && node -r dotenv-safe/config dist/main.js "
+    "start:dev": "npm run build && node -r dotenv-safe/config dist/main.js | pino-pretty -t"
   },
   "repository": {
     "type": "git",
@@ -23,6 +23,7 @@
     "inversify": "^5.0.5",
     "inversify-inject-decorators": "^3.1.0",
     "memoizee": "^0.4.15",
+    "pino": "^6.10.0",
     "prism-media": "^1.2.3",
     "reflect-metadata": "^0.1.13",
     "sodium": "^3.0.2",
@@ -34,6 +35,7 @@
     "@types/jest": "^26.0.20",
     "@types/memoizee": "^0.4.5",
     "@types/node": "^14.14.20",
+    "@types/pino": "^6.3.5",
     "@typescript-eslint/eslint-plugin": "^4.12.0",
     "@typescript-eslint/parser": "^4.12.0",
     "dotenv-safe": "^8.2.0",

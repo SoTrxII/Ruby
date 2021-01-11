@@ -17,6 +17,7 @@ export default class ResumeSong extends JukeboxCommand {
 
   @voiceChannelOnly()
   async run(message, args: never): Promise<Message> {
+    await super.run(message, undefined);
     const jukebox = await this.getJukebox(
       await this.getTargetVoiceChannel(message)
     );
