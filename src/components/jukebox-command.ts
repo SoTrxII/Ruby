@@ -108,7 +108,7 @@ export abstract class JukeboxCommand extends Command {
 
   @debounce(2000)
   protected async displayQueue(message?: CommandoMessage): Promise<void> {
-    if (message) JukeboxCommand.textChannel = message.channel;
+    if (message) JukeboxCommand.textChannel = message.channel as TextChannel;
     if (this.jukebox.queue)
       await JukeboxCommand.textChannel.send(await this.formatQueue());
   }

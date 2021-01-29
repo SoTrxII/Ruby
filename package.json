@@ -16,7 +16,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@discordjs/opus": "^0.3.3",
+    "@discordjs/opus": "^0.4.0",
     "discord.js": "^12.5.1",
     "discord.js-commando": "discordjs/Commando",
     "googleapis": "^67.0.0",
@@ -29,15 +29,15 @@
     "sodium": "^3.0.2",
     "ts-node": "^9.1.1",
     "tslib": "^2.1.0",
-    "ytdl-core": "^4.4.3"
+    "ytdl-core": "^4.4.5"
   },
   "devDependencies": {
     "@types/jest": "^26.0.20",
     "@types/memoizee": "^0.4.5",
     "@types/node": "^14.14.22",
     "@types/pino": "^6.3.5",
-    "@typescript-eslint/eslint-plugin": "^4.14.0",
-    "@typescript-eslint/parser": "^4.14.0",
+    "@typescript-eslint/eslint-plugin": "^4.14.1",
+    "@typescript-eslint/parser": "^4.14.1",
     "dotenv-safe": "^8.2.0",
     "eslint": "^7.18.0",
     "eslint-config-prettier": "^7.2.0",
