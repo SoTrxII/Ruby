@@ -6,7 +6,7 @@ ENV PATH /app/node_modules/.bin:$PATH
 # install and cache app dependencies
 COPY package.json /app/package.json
 
-RUN apk add git alpine-sdk libtool autoconf automake python ffmpeg bash yarn && yarn install
+RUN apk add git alpine-sdk libtool autoconf automake python3 ffmpeg bash yarn && yarn install
 # add app
 COPY . /app
 # generate build
@@ -22,7 +22,7 @@ WORKDIR /app
 COPY --from=build /app/dist /app
 
 RUN npm install -g pm2 modclean \
-    && apk add --no-cache --virtual .build-deps git alpine-sdk libtool autoconf automake python bash yarn \
+    && apk add --no-cache --virtual .build-deps git alpine-sdk libtool autoconf automake python3 bash yarn \
     && apk add --no-cache ffmpeg \
     && yarn install --only=prod \
     && modclean -r \
