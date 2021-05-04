@@ -19,7 +19,7 @@
     "@discordjs/opus": "^0.5.0",
     "discord.js": "^12.5.3",
     "discord.js-commando": "discordjs/Commando",
-    "googleapis": "^72.0.0",
+    "googleapis": "^73.0.0",
     "inversify": "^5.1.1",
     "inversify-inject-decorators": "^3.1.0",
     "memoizee": "^0.4.15",
@@ -29,15 +29,15 @@
     "sodium": "^3.0.2",
     "ts-node": "^9.1.1",
     "tslib": "^2.2.0",
-    "ytdl-core": "^4.5.0"
+    "ytdl-core": "^4.7.0"
   },
   "devDependencies": {
     "@types/jest": "^26.0.23",
     "@types/memoizee": "^0.4.5",
-    "@types/node": "^15.0.0",
+    "@types/node": "^15.0.1",
     "@types/pino": "^6.3.8",
-    "@typescript-eslint/eslint-plugin": "^4.22.0",
-    "@typescript-eslint/parser": "^4.22.0",
+    "@typescript-eslint/eslint-plugin": "^4.22.1",
+    "@typescript-eslint/parser": "^4.22.1",
     "dotenv-safe": "^8.2.0",
     "eslint": "^7.25.0",
     "eslint-config-prettier": "^8.3.0",
