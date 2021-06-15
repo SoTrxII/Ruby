@@ -11,7 +11,7 @@ export default class AddSong extends JukeboxCommand {
   constructor(client) {
     super(client, {
       name: "am",
-      aliases: ["addmusic"],
+      aliases: ["addmusic", "play"],
       memberName: "addmusic",
       group: "music",
       description: "Add one or multiple items to the playlist",

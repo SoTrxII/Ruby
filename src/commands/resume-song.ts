@@ -7,7 +7,6 @@ export default class ResumeSong extends JukeboxCommand {
   constructor(client) {
     super(client, {
       name: "resume",
-      aliases: ["play"],
       memberName: "resume",
       group: "music",
       description: "Resume playback",
