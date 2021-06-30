@@ -19,7 +19,7 @@
     "@discordjs/opus": "^0.5.3",
     "discord.js": "^12.5.3",
     "discord.js-commando": "discordjs/Commando",
-    "googleapis": "^76.0.0",
+    "googleapis": "^79.0.0",
     "inversify": "^5.1.1",
     "inversify-inject-decorators": "^3.1.0",
     "memoizee": "^0.4.15",
@@ -29,23 +29,23 @@
     "sodium": "^3.0.2",
     "ts-node": "^10.0.0",
     "tslib": "^2.3.0",
-    "ytdl-core": "^4.8.2"
+    "ytdl-core": "^4.8.3"
   },
   "devDependencies": {
     "@types/jest": "^26.0.23",
     "@types/memoizee": "^0.4.5",
-    "@types/node": "^15.12.2",
+    "@types/node": "^15.12.5",
     "@types/pino": "^6.3.8",
-    "@typescript-eslint/eslint-plugin": "^4.27.0",
-    "@typescript-eslint/parser": "^4.27.0",
+    "@typescript-eslint/eslint-plugin": "^4.28.1",
+    "@typescript-eslint/parser": "^4.28.1",
     "dotenv-safe": "^8.2.0",
-    "eslint": "^7.28.0",
+    "eslint": "^7.29.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^3.4.0",
-    "jest": "^27.0.4",
-    "prettier": "^2.3.1",
+    "jest": "^27.0.6",
+    "prettier": "^2.3.2",
     "ts-jest": "^27.0.3",
-    "typescript": "^4.3.2"
+    "typescript": "^4.3.4"
   },
   "eslintConfig": {
     "parser": "@typescript-eslint/parser",
