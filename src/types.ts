@@ -1,8 +1,7 @@
 export const TYPES = {
-    Ruby: Symbol.for("Ruby"),
-    YoutubeService: Symbol.for("YoutubeService"),
-    YoutubeDownload: Symbol.for("YoutubeDownload"),
-    SongProgressManager: Symbol.for("SongProgressManager"),
-    Jukebox: Symbol.for("Jukebox"),
-    Logger: Symbol.for("Logger"),
+    RUBY: Symbol.for("RUBY"),
+    COMMAND: Symbol.for("COMMAND"),
+    COMMAND_LOADER: Symbol.for("COMMAND_LOADER"),
+    CLIENT_FACTORY: Symbol.for("CLIENT"),
+    CONTEXT_FACTORY: Symbol.for("CONTEXT_FACTORY"),
 };
