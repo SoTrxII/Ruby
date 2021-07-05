@@ -8,6 +8,8 @@ import { InteractionAdapter } from "./components/context/interaction-context-ada
 import { IContext } from "./@types/ruby";
 import { CommandsLoader } from "./services/commands-loader";
 import { Play } from "./commands/play";
+import { IEngine } from "./@types/jukebox";
+import { YoutubeEngine } from "./services/engines/youtube-engine";
 
 export const container = new Container();
 
@@ -20,6 +22,11 @@ container
   .toFactory<Client>(
     (context) => () => context.container.get<Ruby>(TYPES.RUBY).client
   );
+
+// Set the search engine for the videos to Youtube
+container
+  .bind<IEngine>(TYPES.ENGINE)
+  .toConstantValue(new YoutubeEngine(env.YOUTUBE_PARSER_KEY));
 
 // This is a fancy way of implementing a Factory pattern.
 container
@@ -48,6 +55,6 @@ container.bind(TYPES.COMMAND_LOADER).to(CommandsLoader);
 container.bind<Ruby>(TYPES.RUBY).toConstantValue(
   new Ruby(container.get(TYPES.COMMAND_LOADER), {
     token: env.RUBY_TOKEN,
-    commandPrefix: env.COMMAND_PREFX,
+    commandPrefix: env.COMMAND_PREFIX,
   })
 );

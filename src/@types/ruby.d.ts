@@ -1,4 +1,5 @@
-import { ApplicationCommandData } from "discord.js";
+import { ApplicationCommandData, Guild } from "discord.js";
+import type { User, Guild, VoiceChannel } from "discord.js";
 
 export interface RubyConfig {
   token: string;
@@ -10,6 +11,19 @@ export interface IContext {
    * **/
   reply(payload: string): Promise<void>;
   reply(payload: Record<string, never>): Promise<void>;
+  /**
+   * The users sending the message
+   */
+  readonly author: User;
+  /**
+   * Guild from which the message was sent
+   */
+  readonly guild: Guild;
+
+  /**
+   * Get the voice channel of the user sending the message
+   */
+  getAuthorVoiceChannel(): Promise<VoiceChannel>;
 }
 
 export interface ICommand {

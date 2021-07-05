@@ -1,7 +1,14 @@
 /**
  * This is the "Interactions" part of an adapter pattern
  */
-import { Client, Interaction, WebhookClient } from "discord.js";
+import {
+  Client,
+  Guild,
+  Interaction,
+  User,
+  VoiceChannel,
+  WebhookClient,
+} from "discord.js";
 import { injectable } from "inversify";
 import { IContext } from "../../@types/ruby";
 
@@ -24,15 +31,24 @@ export class InteractionAdapter implements IContext {
 
   constructor(private client: Client, private interaction: Interaction) {}
 
-  async reply(payload: any): Promise<void> {
+  async reply(payload: Record<string, never> | string): Promise<void> {
     if (!this.hasSentFirstReply) {
       await this.sendFirstReply(payload);
       this.hasSentFirstReply = true;
     } else await this.sendFollowUp(payload);
   }
 
-  get author() {
-    this.interaction.member
+  get author(): User {
+    return this.interaction.user;
+  }
+
+  get guild(): Guild {
+    return this.interaction.guild;
+  }
+
+  async getAuthorVoiceChannel(): Promise<VoiceChannel> {
+    const asker = await this.guild.members.fetch(this.author.id);
+    return asker.voice.channel as VoiceChannel;
   }
 
   /**

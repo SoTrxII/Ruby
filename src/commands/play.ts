@@ -5,6 +5,7 @@ import { injectable } from "inversify";
 @injectable()
 export class Play implements ICommand {
   public readonly TRIGGER = "play";
+
   public readonly SCHEMA: ApplicationCommandData = {
     name: "play",
     description: "Play a music on the voice channel of the calling user",
@@ -19,6 +20,11 @@ export class Play implements ICommand {
   };
 
   async run(context: IContext): Promise<void> {
+    const vc = await context.getAuthorVoiceChannel();
+    if(!vc) {
+      await context.reply(`You must be in a voice channel !`);
+      return;
+    }
     await context.reply("NYAAAAA");
     await context.reply("NYAAAAA2");
   }

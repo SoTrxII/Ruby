@@ -1,4 +1,4 @@
-import { inject, injectable, multiInject, postConstruct } from "inversify";
+import { inject, injectable, multiInject } from "inversify";
 import { TYPES } from "../types";
 import { ICommand, IContext } from "../@types/ruby";
 import { Client, Interaction, Message } from "discord.js";
@@ -12,8 +12,13 @@ export class CommandsLoader {
     @multiInject(TYPES.COMMAND) private commands: ICommand[]
   ) {}
 
-  // Type hinting
-  async run(command: string, context: Message | Interaction) {
+  /**
+   * Execute the given 
+   * @param command 
+   * @param context 
+   * @returns 
+   */
+  async run(command: string, context: Message | Interaction): Promise<void> {
     const match = this.commands.find((c) => c.TRIGGER === command);
     if (!match)
       throw new Error(`No commands to be triggered with trigger : ${command}`);
@@ -23,7 +28,7 @@ export class CommandsLoader {
    * Declare all commands to Discord API.
    * @private
    */
-  async publishCommands() {
+  async publishCommands(): Promise<void> {
     await Promise.all(this.commands.map((c) => this.declare(c)));
   }
 

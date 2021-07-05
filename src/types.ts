@@ -4,4 +4,5 @@ export const TYPES = {
     COMMAND_LOADER: Symbol.for("COMMAND_LOADER"),
     CLIENT_FACTORY: Symbol.for("CLIENT"),
     CONTEXT_FACTORY: Symbol.for("CONTEXT_FACTORY"),
+    ENGINE: Symbol.for("ENGINE"),
 };
