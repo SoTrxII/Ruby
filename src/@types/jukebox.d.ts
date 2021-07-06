@@ -2,6 +2,7 @@ import type { Readable } from "stream";
 import type { StreamType, VoiceConnection } from "@discordjs/voice";
 import type { VoiceChannel } from "discord.js";
 import { AudioPlayer, AudioPlayerStatus } from "@discordjs/voice";
+import { JukeboxState } from "../services/jukebox";
 
 export interface IJukebox {
   /** Add a new song to play to the bottom of the song queue.
@@ -15,6 +16,27 @@ export interface IJukebox {
    * @param channel voice channel to play into
    */
   play(channel: VoiceChannel): Promise<void>;
+
+  /**
+   * Stops the playback
+   */
+  stop(): void;
+
+  /**
+   * Pauses the playback
+   */
+  pause(): void;
+
+  /**
+   * Resumes the playback after a pause
+   */
+  resume(): void;
+
+  /**
+   * Skip to the next song in the playlist
+   * @param channel
+   */
+  skip(channel: VoiceChannel): void;
 
   /** Current playing state */
   readonly state: JukeboxState;

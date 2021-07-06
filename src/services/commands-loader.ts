@@ -13,10 +13,10 @@ export class CommandsLoader {
   ) {}
 
   /**
-   * Execute the given 
-   * @param command 
-   * @param context 
-   * @returns 
+   * Execute the given
+   * @param command
+   * @param context
+   * @returns
    */
   async run(command: string, context: Message | Interaction): Promise<void> {
     const match = this.commands.find((c) => c.TRIGGER === command);
@@ -26,25 +26,16 @@ export class CommandsLoader {
   }
   /**
    * Declare all commands to Discord API.
+   * @see https://discord.com/developers/docs/interactions/slash-commands
    * @private
    */
   async publishCommands(): Promise<void> {
-    await Promise.all(this.commands.map((c) => this.declare(c)));
-  }
-
-  /**
-   * Declare the command on Discordjs interaction API.
-   * This is what allows for slash commands to even be suggested to the user.
-   * @see https://discord.com/developers/docs/interactions/slash-commands
-   * @param command
-   * @private
-   */
-  private async declare(command: ICommand): Promise<void> {
     const client = this.client();
-    const app = await client.application.commands.create(
-      command.SCHEMA,
-      "416228669095411712"
+    const cDefs = this.commands.map((c) => c.SCHEMA);
+    const servCommands = await client.application.commands.fetch();
+    await Promise.all(
+      servCommands.map(async (sCommand) => await sCommand.delete())
     );
-    console.log(app);
+    await client.application.commands.set(cDefs, "416228669095411712");
   }
 }

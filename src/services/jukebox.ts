@@ -38,13 +38,24 @@ export class Jukebox implements IJukebox {
     if (this.songQueue.length === 0) return;
     await this.sink.joinVoiceChannel(channel);
     const stream = await this.engine.getPlayableStream(this.songQueue[0]);
-    stream.on("end", () => {
-      this.songQueue.shift();
-      // Execute all user-provided callback when a new song is about to start
-      Array.from(this.songStartCbs.values()).forEach((cb) => void cb());
-      void this.play(channel);
-    });
+    stream.on("end", () => this.playNextSongOn(channel));
     await this.sink.play(stream);
+  }
+
+  stop(): void {
+    this.sink.stop();
+  }
+
+  pause(): void {
+    this.sink.pause();
+  }
+
+  resume(): void {
+    this.sink.resume();
+  }
+
+  skip(channel: VoiceChannel): void {
+    this.playNextSongOn(channel);
   }
 
   onSongStart(id: string, handler: SongCallback): void {
@@ -75,7 +86,7 @@ export class Jukebox implements IJukebox {
     );
     // @TODO Print the song duration in a human understandable way (currently in seconds)
     const formatSong = (song: SongDetails) =>
-      `${song.title} - ${song.author} [${song.duration}]`;
+      `${song.title} - ${song.author} [${this.secondsToIso(song.duration)}]`;
     // String Builder but it's Javascript :)
     const sb: string[] = [];
 
@@ -92,6 +103,49 @@ export class Jukebox implements IJukebox {
 
     // Finally, "build" the string
     return sb.join("\n");
+  }
+
+  /**
+   * Play the next song in the playlist on the provided voice channel
+   * @param channel
+   * @private
+   */
+  private playNextSongOn(channel: VoiceChannel): void {
+    this.songQueue.shift();
+    // Execute all user-provided callback when a new song is about to start
+    Array.from(this.songStartCbs.values()).forEach((cb) => void cb());
+    this.stop();
+    void this.play(channel);
+  }
+
+  /**
+   * Parse a duration in seconds and outputs a HH:MM:SS string
+   * @param secs
+   * @private
+   */
+  private secondsToIso(secs: number): string {
+    const d = Math.floor(secs / (3600 * 24));
+    const h = Math.floor((secs % (3600 * 24)) / 3600);
+    const m = Math.floor((secs % 3600) / 60);
+    const s = Math.floor((secs % 3600) % 60);
+    const rawArray = [d, h, m, s];
+    let i = -1;
+    let done = false;
+    while (!done) {
+      i++;
+      if (rawArray[i] !== 0) done = true;
+    }
+    const formattedArray = rawArray
+      .slice(i)
+      .map((arg) => (arg > 0 ? String(arg) : "00"));
+    if (formattedArray.length === 0) return "00:00";
+    // If only seconds, push a "00" to format
+    if (formattedArray.length === 1) formattedArray.unshift("00");
+    // Map every single digit number in the array to dual digit to format
+    return formattedArray
+      .map((e) => (e.length === 1 ? `0${e}` : e))
+      .join(":")
+      .trim();
   }
 
   //removeSong(): Promise<void>

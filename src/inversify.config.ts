@@ -12,6 +12,10 @@ import { IEngine, IJukebox, ISink } from "./@types/jukebox";
 import { YoutubeEngine } from "./services/engines/youtube-engine";
 import { DiscordSink } from "./services/discord-sink";
 import { Jukebox } from "./services/jukebox";
+import { Stop } from "./commands/stop";
+import { Pause } from "./commands/pause";
+import { Resume } from "./commands/resume";
+import { Skip } from "./commands/skip";
 
 export const container = new Container();
 
@@ -57,7 +61,13 @@ container
       }
     }
   );
+
+// Declare all the bot commands
 container.bind(TYPES.COMMAND).to(Play);
+container.bind(TYPES.COMMAND).to(Stop);
+container.bind(TYPES.COMMAND).to(Pause);
+container.bind(TYPES.COMMAND).to(Resume);
+container.bind(TYPES.COMMAND).to(Skip);
 
 container.bind(TYPES.COMMAND_LOADER).to(CommandsLoader);
 container.bind<Ruby>(TYPES.RUBY).toConstantValue(
