@@ -1,5 +1,11 @@
 import { inject, injectable } from "inversify";
-import { Client, Intents, Interaction, Message } from "discord.js";
+import {
+  Client,
+  CommandInteraction,
+  Intents,
+  Interaction,
+  Message,
+} from "discord.js";
 import { RubyConfig } from "./@types/ruby";
 import { TYPES } from "./types";
 import { CommandsLoader } from "./services/commands-loader";
@@ -12,7 +18,11 @@ export class Ruby {
   ) {}
 
   public client = new Client({
-    intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
+    intents: [
+      Intents.FLAGS.GUILDS,
+      Intents.FLAGS.GUILD_MESSAGES,
+      Intents.FLAGS.GUILD_VOICE_STATES,
+    ],
   });
 
   public async bootUp(): Promise<void> {
@@ -22,14 +32,15 @@ export class Ruby {
     // Register all slash commands
     await this.loader.publishCommands();
     // React to slash commands
-    this.client.ws.on("INTERACTION_CREATE", (interaction) => {
+    this.client.ws.on("INTERACTION_CREATE", (rawInteraction) => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment
-      const command = interaction.data.name.toLowerCase();
+      const command = rawInteraction.data.name.toLowerCase();
+      const interaction = new CommandInteraction(this.client, rawInteraction);
       void this.executeCommand(command, interaction);
     });
 
     // React to messages
-    this.client.on("message", (message) => {
+    this.client.on("message", (message: Message) => {
       const isCommand = (content: string) =>
         content.startsWith(this.config.commandPrefix);
       // Prevent bot responding to itself
@@ -37,7 +48,10 @@ export class Ruby {
         message.author.id !== this.client.user.id;
 
       if (isCommand(message.content) && isNotSelf(message))
-        void this.executeCommand(message.content.substring(1), message);
+        void this.executeCommand(
+          message.content.split(/\s+/)[0].substring(1),
+          message
+        );
     });
   }
 

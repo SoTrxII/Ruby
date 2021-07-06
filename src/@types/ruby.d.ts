@@ -1,4 +1,10 @@
-import { ApplicationCommandData, Guild } from "discord.js";
+import {
+  ApplicationCommandData,
+  ApplicationCommandOption, ApplicationCommandOptionData,
+  Collection,
+  CommandInteractionOption,
+  Guild,
+} from "discord.js";
 import type { User, Guild, VoiceChannel } from "discord.js";
 
 export interface RubyConfig {
@@ -14,12 +20,18 @@ export interface IContext {
   /**
    * The users sending the message
    */
-  readonly author: User;
+  readonly author: Partial<User>;
   /**
    * Guild from which the message was sent
    */
-  readonly guild: Guild;
+  getGuild(): Promise<Guild>;
 
+  /**
+   * Commands arguments
+   */
+  getArgs(
+    schema: ApplicationCommandOptionData[]
+  ): Collection<string, CommandInteractionOption>;
   /**
    * Get the voice channel of the user sending the message
    */

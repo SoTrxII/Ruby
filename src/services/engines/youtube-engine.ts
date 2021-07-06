@@ -3,7 +3,7 @@ import { google, youtube_v3 } from "googleapis";
 import type { GaxiosResponse } from "gaxios";
 import Youtube = youtube_v3.Youtube;
 import Schema$SearchListResponse = youtube_v3.Schema$SearchListResponse;
-import { IEngine } from "../../@types/jukebox";
+import { IEngine, SongDetails } from "../../@types/jukebox";
 import { getInfo, videoFormat, downloadFromInfo, videoInfo } from "ytdl-core";
 import { opus, FFmpeg } from "prism-media";
 import { memoize } from "../../decorators/memoize";
@@ -49,7 +49,7 @@ export class YoutubeEngine implements IEngine {
     const url = YoutubeEngine.LINK_REGEX.test(query)
       ? query
       : await this.search(query);
-    const infos = await getInfo(url);
+    const infos = await this.fetchInfos(url);
     const hasOpusStream =
       infos.formats.find((f) => YoutubeEngine.opusFilter(f)) &&
       infos.videoDetails.lengthSeconds != "0";
@@ -59,11 +59,29 @@ export class YoutubeEngine implements IEngine {
   }
 
   /**
-   * Search for the first youtube video matching the query criteria
+   * Get details on a specific song, by its url
+   * @param url
+   */
+  async getDetails(url: string): Promise<SongDetails> {
+    const details = (await this.fetchInfos(url))?.videoDetails;
+    return {
+      duration: parseInt(details?.lengthSeconds),
+      title: details?.title,
+      author: details?.author.name,
+      description: details?.description,
+      image: `https://img.youtube.com/vi/${details?.videoId}/0.jpg`,
+      url: url,
+    };
+  }
+
+  /**
+   * Search for the first youtube video matching the query criteria.
+   * If the query if a valid url, return the query itself
    * @param query
    * @returns
    */
   async search(query: string): Promise<string> {
+    if (YoutubeEngine.LINK_REGEX.test(query)) return query;
     const res: GaxiosResponse<Schema$SearchListResponse> =
       await this.yt.search.list({
         part: ["snippet"],
@@ -76,6 +94,15 @@ export class YoutubeEngine implements IEngine {
     return `https://www.youtube.com/watch?v=${res.data.items[0].id.videoId}`;
   }
 
+  /**
+   * Fetch **and cache** song infos
+   * @param url
+   * @private
+   */
+  @memoize()
+  private async fetchInfos(url: string): Promise<videoInfo> {
+    return await getInfo(url);
+  }
   /**
    * Directly stream the video to Discord, without reencoding anything
    * @param infos

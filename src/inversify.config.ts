@@ -2,14 +2,16 @@ import { Container } from "inversify";
 import { TYPES } from "./types";
 import { Ruby } from "./Ruby";
 import { env } from "process";
-import { Client, Interaction, Message } from "discord.js";
+import { Client, Message, CommandInteraction } from "discord.js";
 import { MessageAdapter } from "./components/context/message-context-adapter";
 import { InteractionAdapter } from "./components/context/interaction-context-adapter";
 import { IContext } from "./@types/ruby";
 import { CommandsLoader } from "./services/commands-loader";
 import { Play } from "./commands/play";
-import { IEngine } from "./@types/jukebox";
+import { IEngine, IJukebox, ISink } from "./@types/jukebox";
 import { YoutubeEngine } from "./services/engines/youtube-engine";
+import { DiscordSink } from "./services/discord-sink";
+import { Jukebox } from "./services/jukebox";
 
 export const container = new Container();
 
@@ -28,27 +30,33 @@ container
   .bind<IEngine>(TYPES.ENGINE)
   .toConstantValue(new YoutubeEngine(env.YOUTUBE_PARSER_KEY));
 
+// Set the Audio target of our bot. This is a Discord voice dispatcher.
+container.bind<ISink>(TYPES.AUDIO_SINK).to(DiscordSink).inSingletonScope();
+// And then declare the Jukebox, using both the search engine and the audio sink
+container.bind<IJukebox>(TYPES.JUKEBOX).to(Jukebox).inSingletonScope();
+
 // This is a fancy way of implementing a Factory pattern.
 container
   .bind(TYPES.CONTEXT_FACTORY)
-  .toFactory<IContext>((diContext) => (provider: Message | Interaction) => {
-    const client = diContext.container.get<() => Client>(
-      TYPES.CLIENT_FACTORY
-    )();
-    switch (provider.constructor.name) {
-      case "Message":
-        return new MessageAdapter(client, provider as Message);
-        break;
-      // /!\ Interactions have no dedicated class
-      case "Object":
-        return new InteractionAdapter(client, provider as Interaction);
-        break;
-      default:
-        throw new Error(
-          `Cannot find any implementations for provider ${provider.constructor.name}`
-        );
+  .toFactory<IContext>(
+    (diContext) => (provider: Message | CommandInteraction) => {
+      const client = diContext.container.get<() => Client>(
+        TYPES.CLIENT_FACTORY
+      )();
+      switch (provider.constructor.name) {
+        case "Message":
+          return new MessageAdapter(client, provider as Message);
+          break;
+        case "CommandInteraction":
+          return new InteractionAdapter(client, provider as CommandInteraction);
+          break;
+        default:
+          throw new Error(
+            `Cannot find any implementations for provider ${provider.constructor.name}`
+          );
+      }
     }
-  });
+  );
 container.bind(TYPES.COMMAND).to(Play);
 
 container.bind(TYPES.COMMAND_LOADER).to(CommandsLoader);

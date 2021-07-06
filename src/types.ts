@@ -5,4 +5,6 @@ export const TYPES = {
     CLIENT_FACTORY: Symbol.for("CLIENT"),
     CONTEXT_FACTORY: Symbol.for("CONTEXT_FACTORY"),
     ENGINE: Symbol.for("ENGINE"),
+    AUDIO_SINK: Symbol.for("AUDIO_SINK"),
+    JUKEBOX: Symbol.for("JUKEBOX"),
 };
