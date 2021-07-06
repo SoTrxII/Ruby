@@ -41,6 +41,9 @@ export interface IJukebox {
   /** Current playing state */
   readonly state: JukeboxState;
 
+  /** Time waiting before leaving a voice channel when there's nothing more to play */
+  readonly leavingWait: string;
+
   /**
    * Get a print ready version of the song queue.
    * A warning message is returned if the queue is empty
@@ -52,6 +55,12 @@ export interface IJukebox {
    * @param handler callback
    * */
   onSongStart(id: string, handler: SongCallback): void;
+
+  /** Add a callback executed when the playlist is empty
+   * @param id unique identifier on the callback. This allows to not add the same callback twice
+   * @param handler callback
+   * */
+  onPlaylistEmpty(id: string, handler: SongCallback): void;
 }
 type SongCallback = () => Promise<void>;
 /**
@@ -127,6 +136,12 @@ export interface ISink {
    * @param channel
    */
   joinVoiceChannel(channel: VoiceChannel): Promise<VoiceConnection>;
+
+  /**
+   * Leave the provided voice channel
+   * @param channel
+   */
+  leaveVoiceChannel(channel: VoiceChannel): void;
 
   /**
    * Get the current status (playing/paused/stopped) of the player

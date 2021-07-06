@@ -119,6 +119,20 @@ export class DiscordSink implements ISink {
   }
 
   /**
+   * Leave the provided voice channel
+   * @param channel
+   */
+  leaveVoiceChannel(channel: VoiceChannel): void {
+    // Connection object is a singleton, we can retrieve the current connection that way
+    const connection = joinVoiceChannel({
+      channelId: channel.id,
+      guildId: channel.guild.id,
+      adapterCreator: this.createAdapter(channel),
+    });
+    connection.destroy();
+  }
+
+  /**
    * Tracks a Discord.js client, listening to VOICE_SERVER_UPDATE and VOICE_STATE_UPDATE events.
    * @param client - The Discord.js Client to track
    */
