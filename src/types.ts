@@ -7,4 +7,5 @@ export const TYPES = {
     ENGINE: Symbol.for("ENGINE"),
     AUDIO_SINK: Symbol.for("AUDIO_SINK"),
     JUKEBOX: Symbol.for("JUKEBOX"),
+    SONG_PROGRESS_UI: Symbol.for("SONG_PROGRESS_UI"),
 };

@@ -38,6 +38,11 @@ export interface IJukebox {
    */
   skip(channel: VoiceChannel): void;
 
+  /**
+   * Get currently playing song
+   */
+  getCurrent(): Promise<SongDetails>;
+
   /** Current playing state */
   readonly state: JukeboxState;
 

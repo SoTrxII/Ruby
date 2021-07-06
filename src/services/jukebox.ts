@@ -8,6 +8,7 @@ import {
 } from "../@types/jukebox";
 import { TYPES } from "../types";
 import type { VoiceChannel } from "discord.js";
+import { secondsToIso } from "../components/date-utils";
 import { AudioPlayerStatus, VoiceConnection } from "@discordjs/voice";
 
 /** Jukebox playing state */
@@ -83,7 +84,12 @@ export class Jukebox implements IJukebox {
   }
 
   get leavingWait(): string {
-    return this.secondsToIso(Jukebox.LEAVING_WAIT_MS / 1000);
+    return secondsToIso(Jukebox.LEAVING_WAIT_MS / 1000);
+  }
+
+  async getCurrent(): Promise<SongDetails> {
+    if (this.songQueue.length === 0) return undefined;
+    return await this.engine.getDetails(this.songQueue[0]);
   }
 
   get state(): JukeboxState {
@@ -111,7 +117,7 @@ export class Jukebox implements IJukebox {
     );
 
     const formatSong = (song: SongDetails) =>
-      `${song.title} - ${song.author} [${this.secondsToIso(song.duration)}]`;
+      `${song.title} - ${song.author} [${secondsToIso(song.duration)}]`;
     // String Builder but it's Javascript :)
     const sb: string[] = [];
 
@@ -155,35 +161,5 @@ export class Jukebox implements IJukebox {
       if (time !== -1)
         timeout = setTimeout(() => this.voiceConnection.disconnect(), time);
     };
-  }
-
-  /**
-   * Parse a duration in seconds and outputs a HH:MM:SS string
-   * @param secs
-   * @private
-   */
-  private secondsToIso(secs: number): string {
-    const d = Math.floor(secs / (3600 * 24));
-    const h = Math.floor((secs % (3600 * 24)) / 3600);
-    const m = Math.floor((secs % 3600) / 60);
-    const s = Math.floor((secs % 3600) % 60);
-    const rawArray = [d, h, m, s];
-    let i = -1;
-    let done = false;
-    while (!done) {
-      i++;
-      if (rawArray[i] !== 0) done = true;
-    }
-    const formattedArray = rawArray
-      .slice(i)
-      .map((arg) => (arg > 0 ? String(arg) : "00"));
-    if (formattedArray.length === 0) return "00:00";
-    // If only seconds, push a "00" to format
-    if (formattedArray.length === 1) formattedArray.unshift("00");
-    // Map every single digit number in the array to dual digit to format
-    return formattedArray
-      .map((e) => (e.length === 1 ? `0${e}` : e))
-      .join(":")
-      .trim();
   }
 }

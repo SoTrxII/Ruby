@@ -16,6 +16,7 @@ import { Stop } from "./commands/stop";
 import { Pause } from "./commands/pause";
 import { Resume } from "./commands/resume";
 import { Skip } from "./commands/skip";
+import { SongProgressUi } from "./services/song-progress-ui";
 
 export const container = new Container();
 
@@ -38,6 +39,11 @@ container
 container.bind<ISink>(TYPES.AUDIO_SINK).to(DiscordSink).inSingletonScope();
 // And then declare the Jukebox, using both the search engine and the audio sink
 container.bind<IJukebox>(TYPES.JUKEBOX).to(Jukebox).inSingletonScope();
+
+container
+  .bind<SongProgressUi>(TYPES.SONG_PROGRESS_UI)
+  .to(SongProgressUi)
+  .inSingletonScope();
 
 // This is a fancy way of implementing a Factory pattern.
 container
