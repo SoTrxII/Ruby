@@ -7,7 +7,8 @@ import { IEngine, SongDetails } from "../../@types/jukebox";
 import { getInfo, videoFormat, downloadFromInfo, videoInfo } from "ytdl-core";
 import { opus, FFmpeg } from "prism-media";
 import { memoize } from "../../decorators/memoize";
-import { injectable } from "inversify";
+import { inject, injectable } from "inversify";
+import { TYPES } from "../../types";
 
 @injectable()
 export class YoutubeEngine implements IEngine {
@@ -20,25 +21,8 @@ export class YoutubeEngine implements IEngine {
   /** A regex to recognize Youtube links*/
   private static readonly LINK_REGEX =
     /^(http(s)?:\/\/)?((w){3}.)?(music\.)?(m\.)?youtu(be|.be)?(\.com)?\/(?!channel).+/;
-  /** Google API Yt search instance */
-  private yt: Youtube;
 
-  constructor(token: string) {
-    this.yt = google.youtube({
-      version: "v3",
-      auth: token,
-    });
-  }
-
-  /**
-   * Returns basic infos on the provided video
-   * @param url
-   * @returns
-   */
-  @memoize()
-  async getInfo(url: string): Promise<videoInfo> {
-    return getInfo(url);
-  }
+  constructor(@inject(TYPES.YOUTUBE_API) private yt: Youtube) {}
 
   /**
    * Given a valid youtube url, returns a Discord-playable stream

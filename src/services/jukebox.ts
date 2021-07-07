@@ -125,12 +125,13 @@ export class Jukebox implements IJukebox {
     if (this.state === JukeboxState.PLAYING) {
       const current = queueDetails[0];
       sb.push(`**Playing** : :musical_note: ${formatSong(current)}`);
+      // Remove the playing song from the details queue
+      queueDetails.shift();
     }
     // Then, print each song remaining in the queue
-    queueDetails
-      // Excluding the one that is currently playing
-      .slice(1)
-      .forEach((song, index) => sb.push(`${index + 1}) ${formatSong(song)}`));
+    queueDetails.forEach((song, index) =>
+      sb.push(`${index + 1}) ${formatSong(song)}`)
+    );
 
     // Finally, "build" the string
     return sb.join("\n");

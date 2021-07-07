@@ -4,7 +4,7 @@ module.exports = {
   parserOptions: {
     tsconfigRootDir: __dirname,
     files: ["*.ts", "*.tsx", "*.spec.ts"],
-    project: ["./tsconfig.json"],
+    project: ["./tsconfig.eslint.json"],
   },
   plugins: ["@typescript-eslint", "jest"],
   extends: [

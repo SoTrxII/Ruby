@@ -5,3 +5,4 @@ config.json
 yarn-error.log
 .env
 .idea
+coverage

@@ -48,10 +48,17 @@ export class MessageAdapter implements IContext {
       // Remove trigger and args not in schema
       .splice(1, schema.length)
       .map((rawArg, index) => {
+        const parsed = this.getTypeOfArgument(rawArg);
+        if (parsed.type !== schema[index].type)
+          throw new Error(
+            `Wrong value for arg ${schema[index].name} (${
+              schema[index].type
+            }) : ${String(parsed.value)}`
+          );
         const opt: CommandInteractionOption = {
-          type: this.getTypeOfArgument(rawArg).type,
+          type: parsed.type,
           name: schema[index].name,
-          value: rawArg
+          value: parsed.value,
         };
         return opt;
       })
@@ -65,11 +72,11 @@ export class MessageAdapter implements IContext {
    * @private
    */
   private getTypeOfArgument(rawArg: string): Partial<CommandInteractionOption> {
-    if (!isNaN(+rawArg)) return { type: "INTEGER" };
+    if (!isNaN(+rawArg)) return { type: "INTEGER", value: +rawArg };
     if (rawArg.toLowerCase() == "true" || rawArg.toLowerCase() == "false")
-      return { type: "BOOLEAN" };
+      return { type: "BOOLEAN", value: rawArg.toLowerCase() == "true" };
     // @TODO : Check for any non trivial type (User ? channel ?)
-    return { type: "STRING" };
+    return { type: "STRING", value: rawArg };
   }
 
   async getAuthorVoiceChannel(): Promise<VoiceChannel> {

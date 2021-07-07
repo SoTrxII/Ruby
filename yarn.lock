@@ -544,6 +544,11 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
+"@fluffy-spoon/substitute@^1.208.0":
+  version "1.208.0"
+  resolved "https://registry.yarnpkg.com/@fluffy-spoon/substitute/-/substitute-1.208.0.tgz#38ea4e0b960ec85055f8fc3e429396b081517b57"
+  integrity sha512-BU5vKRoK4OYlKzDtyg4HbtWnUNLOvV0ntqEZIphz+mq2G0HlVFywwJ7M+FbIcnJVDbUReS01FyL5x8R01r7zBg==
+
 "@hapi/bourne@^2.0.0":
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@hapi/bourne/-/bourne-2.0.0.tgz#5bb2193eb685c0007540ca61d166d4e1edaf918d"

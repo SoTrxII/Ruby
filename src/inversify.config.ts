@@ -17,6 +17,8 @@ import { Pause } from "./commands/pause";
 import { Resume } from "./commands/resume";
 import { Skip } from "./commands/skip";
 import { SongProgressUi } from "./services/song-progress-ui";
+import { google, youtube_v3 } from "googleapis";
+import Youtube = youtube_v3.Youtube;
 
 export const container = new Container();
 
@@ -30,10 +32,14 @@ container
     (context) => () => context.container.get<Ruby>(TYPES.RUBY).client
   );
 
+container.bind(TYPES.YOUTUBE_API).toConstantValue(
+  google.youtube({
+    version: "v3",
+    auth: env.YOUTUBE_PARSER_KEY,
+  })
+);
 // Set the search engine for the videos to Youtube
-container
-  .bind<IEngine>(TYPES.ENGINE)
-  .toConstantValue(new YoutubeEngine(env.YOUTUBE_PARSER_KEY));
+container.bind<IEngine>(TYPES.ENGINE).to(YoutubeEngine);
 
 // Set the Audio target of our bot. This is a Discord voice dispatcher.
 container.bind<ISink>(TYPES.AUDIO_SINK).to(DiscordSink).inSingletonScope();

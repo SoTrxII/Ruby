@@ -7,7 +7,8 @@
     "test": "./node_modules/.bin/jest",
     "prebuild": "npx shx rm -rf build/*",
     "build": "tsc && npx shx cp package.json dist/package.json",
-    "start:dev": "npm run build && node -r dotenv-safe/config dist/main.js | pino-pretty -t"
+    "start:dev": "npm run build && node -r dotenv-safe/config dist/main.js | pino-pretty -t",
+    "test:coverage": "jest --coverage"
   },
   "repository": {
     "type": "git",
@@ -30,6 +31,7 @@
     "ytdl-core": "^4.8.3"
   },
   "devDependencies": {
+    "@fluffy-spoon/substitute": "^1.208.0",
     "@types/jest": "^26.0.23",
     "@types/memoizee": "^0.4.5",
     "@types/node": "^15.12.5",
