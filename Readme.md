@@ -8,16 +8,12 @@ The default prefix is **?**. This can be changed via a command line argument.
 
 | Command         | Description                                                                                                                                                                                                 |
 | --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| ?addmusic <url> | Add one or multiple musics to the playlist. These can either be YouTube videos links or plain text. A plain text input will be queried to the Youtube Data API and the first matching video will be played. |
+| ?play <url>     |  These can either be YouTube videos links or plain text. A plain text input will be queried to the Youtube Data API and the first matching video will be played. |
 | ?pause          | Pause playback                                                                                                                                                                                              |
 | ?resume         | Resume playback                                                                                                                                                                                             |
-| ?skip           | Skip the currently playing song                                                                                                                                                                             |
-| ?remove <index> | Remove the song indexed by <index> in the playlist                                                                                                                                                          |
-| ?stop           | Stop playback                                                                                                                                                                                               |
-| ?loop           | Replay the currently playing song over and over again                                                                                                                                                       |
-| ?unloop         | Cancel the looping state of the currently playing song                                                                                                                                                      |
-| ?playlist       | Shows the playlist                                                                                                                                                                                          |
-
+| ?skip           | Skip the currently playing song                                                                                                                                                                             | |
+| ?stop           | Stop playback  
+|
 ## Running it
 
 Ruby requires a Youtube Data API V3 API key and a Discord Bot Token. These can be passed as env variables.
@@ -44,7 +40,6 @@ Whatever you used to get the image, you can run it using :
 ```sh
 docker run \
 -e YOUTUBE_PARSER_KEY="<YOUTUBE DATA API V3 key>" \
--e OWNER="<USERS IDS>" \
 -e COMMAND_PREFX="?" \
 -e RUBY_TOKEN="<DISCORD_BOT_TOKEN>" \
 -it docker.pkg.github.com/soulcramer/ruby/ruby:latest
@@ -64,7 +59,6 @@ services:
     environment:
       - RUBY_TOKEN=<DISCORD_BOT_TOKEN>
       - YOUTUBE_PARSER_KEY=<YOUTUBE DATA API V3 key>
-      - OWNER=<USERS IDS>
       - COMMAND_PREFX=?
 ```
 
@@ -87,3 +81,19 @@ cp .env.example .env
 # Fill the values in .env...
 npm run start:dev
 ```
+
+## Conception
+
+Here's a gist of what Ruby looks like. Be aware **Dependency injection is used**, and for simplicity's
+sake, this is not shown in the below class diagram.
+
+![Class diagram](https://yuml.me/3e701ee9.svg)
+
++ CommandLoader : Recognize and executes all the commands
+  + Commands : Given a context and a Jukebox, executes users commands on the Jukebox
++ Context : The type of interaction the user sent 
+  - MessageContext : A "classic" command, with a prefix like "?play" 
+  - InteractionContext : A slash command, like /play. This is actually a completely different workflow.
++ Jukebox : a state machine keeping track of all user demands
+  - YoutubeEngine : Song input. Parses songs from Youtube. Changing just the engine would allow for a Soundcloud music bot*
+  - DiscordSink : Song output. Outputs songs in discord. Multi shard for future-proofing. 
