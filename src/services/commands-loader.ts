@@ -36,7 +36,6 @@ export class CommandsLoader {
     await Promise.all(
       servCommands?.map(async (sCommand) => await sCommand.delete())
     );
-    //@TODO Remove guild id
-    await client.application.commands.set(cDefs, "416228669095411712");
+    await client.application.commands.set(cDefs);
   }
 }
