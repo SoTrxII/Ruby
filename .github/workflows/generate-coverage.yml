@@ -1,0 +1,29 @@
+
+name: Generate coverage
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  Build-on-Linux:
+    runs-on: ubuntu-latest
+    name: Build on Linux
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Install Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14
+      - name: Install deps
+        run: yarn install
+      - name: Package app
+        run: npm run build
+      - name: Coverage
+        shell : bash
+        env:
+          TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        run : |
+          yarn test --coverage
+          bash <(curl -s https://codecov.io/bash) -t ${TOKEN}

@@ -1,0 +1,30 @@
+[Ruby]-1[CommandLoader]
+[CommandLoader]-1[Play]
+[CommandLoader]-1[Stop]
+[CommandLoader]-1[Skip]
+// Jukebox
+[<<Singleton>>;Jukebox]
+[<<Singleton>>;DiscordSink]
+[Jukebox]-1[YoutubeEngine]
+[Jukebox]-1[DiscordSink]
+
+[YoutubeEngine]-.-[note : song source{bg:wheat}]
+[DiscordSink]-.-[note : song destination. {bg:wheat}]
+
+[Play]-1[Jukebox]
+[Stop]-1[Jukebox]
+[Skip]-1[Jukebox]
+
+// Context
+[<<interface>>;Context]
+[Ruby]creates on new message-.-[Context]
+[Context]^-.-[MessageContext]
+[Context]^-.-[InteractionContext]
+[Play]-1[Context]
+[Stop]-1[Context]
+[Skip]-1[Context]
+
+
+// Song progress UI
+[<<Singleton>>;SongProgressUi]
+[Play]-1[SongProgressUi]
