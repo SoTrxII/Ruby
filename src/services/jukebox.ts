@@ -33,7 +33,7 @@ export class Jukebox implements IJukebox {
   private voiceConnection: VoiceConnection;
 
   /** Time to wait before leaving a voice channel */
-  private static readonly LEAVING_WAIT_MS = 5 * 1000;
+  private static readonly LEAVING_WAIT_MS = 5 * 60 * 1000;
 
   constructor(
     @inject(TYPES.ENGINE) private engine: IEngine,
