@@ -41,6 +41,7 @@ export class Jukebox implements IJukebox {
   ) {}
 
   async addSong(query: string): Promise<void> {
+    console.log(this.songQueue)
     this.songQueue.push(await this.engine.search(query));
   }
 

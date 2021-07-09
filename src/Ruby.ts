@@ -84,9 +84,11 @@ export class Ruby {
     try {
       await this.loader.run(command, context);
     } catch (e: unknown) {
-      await container
-        .get<(context) => IContext>(TYPES.CONTEXT_FACTORY)(context)
-        .reply(`Command failed : ${e.toString()}`);
+      const ctx = container.get<(context) => IContext>(TYPES.CONTEXT_FACTORY)(
+        context
+      );
+      await ctx.reply(`Command failed : ${e.toString()}`);
+      await ctx.reply(`Command failed : ${e.toString()}`);
       this.logger.error(
         `Command execution failed. From ${author} : ${command}. Error ${e.toString()}`
       );

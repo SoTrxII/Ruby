@@ -4,7 +4,13 @@ import type { GaxiosResponse } from "gaxios";
 import Youtube = youtube_v3.Youtube;
 import Schema$SearchListResponse = youtube_v3.Schema$SearchListResponse;
 import { IEngine, SongDetails } from "../../@types/jukebox";
-import { getInfo, videoFormat, downloadFromInfo, videoInfo } from "ytdl-core";
+import {
+  getInfo,
+  videoFormat,
+  downloadFromInfo,
+  videoInfo,
+  validateURL,
+} from "ytdl-core";
 import { opus, FFmpeg } from "prism-media";
 import { memoize } from "../../decorators/memoize";
 import { inject, injectable } from "inversify";
@@ -65,7 +71,10 @@ export class YoutubeEngine implements IEngine {
    * @returns
    */
   async search(query: string): Promise<string> {
-    if (YoutubeEngine.LINK_REGEX.test(query)) return query;
+    if (YoutubeEngine.LINK_REGEX.test(query)) {
+      await this.fetchInfos(query);
+      return query;
+    }
     const res: GaxiosResponse<Schema$SearchListResponse> =
       await this.yt.search.list({
         part: ["snippet"],
