@@ -1,4 +1,7 @@
 # Ruby
+[![codecov](https://codecov.io/gh/SoTrxII/Ruby/branch/master/graph/badge.svg?token=03MG2E264Z)](https://codecov.io/gh/SoTrxII/Ruby)
+
+
 A Discord music bot, compatible with both slash commands and "normal" commands !
 
 ## Commands

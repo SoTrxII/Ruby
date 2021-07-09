@@ -1,4 +1,4 @@
-name: Docker CD
+name: Publish on Github containers
 on:
   push:
     branches:
@@ -16,5 +16,5 @@ jobs:
           username: ${{github.actor}}
           password: ${{secrets.GITHUB_TOKEN}}
           registry: docker.pkg.github.com
-          repository: soulcramer/ruby/ruby
+          repository: sotrxii/ruby/ruby
           tag_with_ref: true
