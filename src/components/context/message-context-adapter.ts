@@ -43,10 +43,18 @@ export class MessageAdapter implements IContext {
     schema: ApplicationCommandOptionData[]
   ): Collection<string, CommandInteractionOption> {
     const args = new Collection<string, CommandInteractionOption>();
-    content
-      .split(/\s+/)
-      // Remove trigger and args not in schema
-      .splice(1, schema.length)
+    let argArray = content.split(/\s+/);
+    // Remove trigger
+    argArray.shift();
+
+    // Special case : If the only argument of a command is a string, it can contain spaces
+    if (schema.filter((opt) => opt.type === "STRING").length === 1) {
+      argArray = [argArray.join(" ")];
+    } else {
+      // Else remove all arguments with an index > to the number of asked arg in the schema
+      argArray.splice(1, schema.length);
+    }
+    argArray
       .map((rawArg, index) => {
         const parsed = this.getTypeOfArgument(rawArg);
         if (parsed.type !== schema[index].type)
