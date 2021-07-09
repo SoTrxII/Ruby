@@ -19,6 +19,7 @@ import { Skip } from "./commands/skip";
 import { SongProgressUi } from "./services/song-progress-ui";
 import { google } from "googleapis";
 import * as djs from "@discordjs/voice";
+import {Help} from "./commands/help";
 
 export const container = new Container();
 
@@ -83,6 +84,7 @@ container.bind(TYPES.COMMAND).to(Stop);
 container.bind(TYPES.COMMAND).to(Pause);
 container.bind(TYPES.COMMAND).to(Resume);
 container.bind(TYPES.COMMAND).to(Skip);
+container.bind(TYPES.COMMAND).to(Help);
 
 container.bind(TYPES.COMMAND_LOADER).to(CommandsLoader);
 container.bind<Ruby>(TYPES.RUBY).toConstantValue(

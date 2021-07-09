@@ -1,19 +1,20 @@
 # Ruby
-
-A discord music bot in Typescript !
+A Discord music bot, compatible with both slash commands and "normal" commands !
 
 ## Commands
 
-The default prefix is **?**. This can be changed via a command line argument.
+**Slash commands being all the rage right now, you can use any of the below commands with a /.**
+
+You can also use normal commands. The default prefix is **?**. This can be changed via a command line argument.
 
 | Command         | Description                                                                                                                                                                                                 |
 | --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| ?play <url>     |  These can either be YouTube videos links or plain text. A plain text input will be queried to the Youtube Data API and the first matching video will be played. |
+| ?play <url>     |  A YouTube videos links or plain text. A plain text input will be queried to the Youtube Data API and the first matching video will be played. |
 | ?pause          | Pause playback                                                                                                                                                                                              |
 | ?resume         | Resume playback                                                                                                                                                                                             |
 | ?skip           | Skip the currently playing song                                                                                                                                                                             | |
-| ?stop           | Stop playback  
-|
+| ?stop           | Stop playback
+| ?help           | Shows help string. Only useful for "normal" commands
 ## Running it
 
 Ruby requires a Youtube Data API V3 API key and a Discord Bot Token. These can be passed as env variables.
@@ -23,8 +24,6 @@ Ruby requires a Youtube Data API V3 API key and a Discord Bot Token. These can b
 Either pull it from GitHub packages
 
 ```sh
-# GitHub "public" repository require login in for some reason
-docker login docker.pkg.github.com --username <YOUR_USERNAME>
 docker pull docker.pkg.github.com/soulcramer/ruby/ruby:latest
 ```
 
@@ -51,8 +50,6 @@ docker run \
 version: "3.7"
 services:
   ruby:
-    # Be aware that you still need to be logged in to github package
-    # with your GitHub account
     image: docker.pkg.github.com/soulcramer/ruby/ruby:latest
     container_name: ruby
     restart: always
