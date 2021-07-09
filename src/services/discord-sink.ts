@@ -84,11 +84,15 @@ export class DiscordSink implements ISink {
    */
   async stop(): Promise<void> {
     this.player.stop();
-    await this.dVoice.entersState(
-      this.player,
-      this.dVoice.AudioPlayerStatus.Idle,
-      DiscordSink.PLAY_TIMEOUT_MS
-    );
+    try {
+      await this.dVoice.entersState(
+        this.player,
+        this.dVoice.AudioPlayerStatus.Idle,
+        DiscordSink.PLAY_TIMEOUT_MS
+      );
+    } catch (e) {
+      // This isn't that bad
+    }
   }
 
   /**
