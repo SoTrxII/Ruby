@@ -1,5 +1,5 @@
-import { ICommand, IContext } from "../@types/ruby";
-import { ApplicationCommandData } from "discord.js";
+import type { ICommand, IContext } from "../@types/ruby";
+import type { ApplicationCommandData } from "discord.js";
 import { injectable } from "inversify";
 import { TYPES } from "../types";
 import { container } from "../inversify.config";
