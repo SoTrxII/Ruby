@@ -6,10 +6,11 @@ import {
   Interaction,
   Message,
 } from "discord.js";
-import { RubyConfig } from "./@types/ruby";
+import { IContext, RubyConfig } from "./@types/ruby";
 import { TYPES } from "./types";
 import { CommandsLoader } from "./services/commands-loader";
 import { ILogger } from "./@types/logger";
+import { container } from "./inversify.config";
 
 @injectable()
 export class Ruby {
@@ -83,6 +84,9 @@ export class Ruby {
     try {
       await this.loader.run(command, context);
     } catch (e: unknown) {
+      await container
+        .get<(context) => IContext>(TYPES.CONTEXT_FACTORY)(context)
+        .reply(`Command failed : ${e.toString()}`);
       this.logger.error(
         `Command execution failed. From ${author} : ${command}. Error ${e.toString()}`
       );
