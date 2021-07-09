@@ -88,7 +88,6 @@ export class Ruby {
         context
       );
       await ctx.reply(`Command failed : ${e.toString()}`);
-      await ctx.reply(`Command failed : ${e.toString()}`);
       this.logger.error(
         `Command execution failed. From ${author} : ${command}. Error ${e.toString()}`
       );
