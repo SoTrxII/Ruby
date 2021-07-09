@@ -28,22 +28,12 @@ export class Ruby {
   });
 
   public async bootUp(): Promise<void> {
-    this.client.once("ready", () => console.log("Up & Ready"));
-    await this.client.login(this.config.token);
-
-    // Register all slash commands
-    await this.loader.publishCommands();
-    // React to slash commands
-    this.client.ws.on("INTERACTION_CREATE", (rawInteraction) => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment
-      const command = rawInteraction.data.name.toLowerCase();
-      const interaction = new CommandInteraction(this.client, rawInteraction);
+    this.client.once("ready", () =>
       this.logger.log(
-        `Received command interaction from ${interaction.user.username} : ${interaction.command.name}`
-      );
-      void this.executeCommand(command, interaction, interaction.user.username);
-    });
-
+        "Bot woken up, waiting for slash commands to be published !"
+      )
+    );
+    await this.client.login(this.config.token);
     // React to messages
     this.client.on("message", (message: Message) => {
       const isCommand = (content: string) =>
@@ -62,6 +52,19 @@ export class Ruby {
           message.author.username
         );
       }
+    });
+    // Register all slash commands
+    await this.loader.publishCommands();
+    this.logger.log("Commands published ! Ready to go !");
+    // React to slash commands
+    this.client.ws.on("INTERACTION_CREATE", (rawInteraction) => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment
+      const command = rawInteraction.data.name.toLowerCase();
+      const interaction = new CommandInteraction(this.client, rawInteraction);
+      this.logger.log(
+        `Received command interaction from ${interaction.user.username} : ${interaction.commandName}`
+      );
+      void this.executeCommand(command, interaction, interaction.user.username);
     });
   }
 

@@ -20,7 +20,7 @@ export interface IJukebox {
   /**
    * Stops the playback
    */
-  stop(): void;
+  stop(): Promise<void>
 
   /**
    * Pauses the playback
@@ -134,7 +134,7 @@ export interface ISink {
   /**
    * Stops the playing stream
    */
-  stop(): void;
+  stop(): Promise<void>
 
   /**
    * Attempt to join the provided voice channel. Throws on errors

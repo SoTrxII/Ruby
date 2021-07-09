@@ -21,8 +21,8 @@ export class Stop implements ICommand {
     if (this.jukebox.state !== JukeboxState.PLAYING)
       reply = "Nothing is currently playing !";
     else {
-      this.jukebox.stop();
-      reply = "Playback stopped !";
+      await this.jukebox.stop();
+      reply = "Playback stopped ! Leaving soon";
     }
     await context.reply(reply);
   }

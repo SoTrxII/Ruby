@@ -24,10 +24,10 @@ describe("Discord Sink", () => {
     container.restore();
   });
 
-  it("Play wrong stream on the sink", async () => {
+  it("Play stream on the sink", async () => {
     // The best way to test this is to actually fake a stream having no beginning
-    // so that the Audio Player detects it and throws
-    await expect(sink.play(Substitute.for<Readable>())).rejects.toThrow();
+    // so that the Audio Player detects it
+    await expect(sink.play(Substitute.for<Readable>())).resolves.not.toThrow();
   });
 
   it("Join a voice channel", async () => {
@@ -37,7 +37,7 @@ describe("Discord Sink", () => {
     ).resolves.not.toThrow();
   });
 
-  it("Leave a voice channel", async () => {
+  it("Leave a voice channel", () => {
     // This must work in "any" situation. we don't really need spies to check that it worked.
     expect(() =>
       sink.leaveVoiceChannel(Substitute.for<VoiceChannel>())
@@ -102,12 +102,10 @@ describe("Discord Sink", () => {
     });
 
     it(`Playing when state is ${targetStatus}`, async () => {
-      if (targetStatus === AudioPlayerStatus.Playing) {
-        await expect(sink.play(Substitute.for<Readable>())).rejects.toThrow();
-      } else
-        await expect(
-          sink.play(Substitute.for<Readable>())
-        ).resolves.not.toThrow();
+      // We can actually play inn any state, this will just reset the player timer
+      await expect(
+        sink.play(Substitute.for<Readable>())
+      ).resolves.not.toThrow();
     });
   });
 });

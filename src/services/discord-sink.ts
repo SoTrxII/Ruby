@@ -50,9 +50,6 @@ export class DiscordSink implements ISink {
     stream: Readable,
     opt = { inputType: this.dVoice.StreamType.Opus }
   ): Promise<AudioPlayer> {
-    if (this.player.state.status === this.dVoice.AudioPlayerStatus.Playing) {
-      throw new Error(`The audio player is already playing`);
-    }
     const resource = this.dVoice.createAudioResource(stream, opt);
     this.player.play(resource);
     return await this.dVoice.entersState(
@@ -85,8 +82,13 @@ export class DiscordSink implements ISink {
   /**
    * Stops the playing stream
    */
-  stop(): void {
+  async stop(): Promise<void> {
     this.player.stop();
+    await this.dVoice.entersState(
+      this.player,
+      this.dVoice.AudioPlayerStatus.Idle,
+      DiscordSink.PLAY_TIMEOUT_MS
+    );
   }
 
   /**

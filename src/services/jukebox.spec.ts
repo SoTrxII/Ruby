@@ -56,19 +56,14 @@ describe("Jukebox", () => {
     expect(await jukebox.getPrettyQueue()).toMatch(/^1\) test.*/i);
   });
 
-  it("Playing with no song in the queue", async () => {
-    await jukebox.play(Substitute.for<VoiceChannel>());
-    expect(nullSink.didNotReceive().play(Arg.all()));
-  });
-
   it("Playing with songs in the queue", async () => {
     await jukebox.addSong("test");
     await jukebox.play(Substitute.for<VoiceChannel>());
     expect(nullSink.received().play(Arg.all()));
   });
 
-  it("Stopping while not playing", () => {
-    jukebox.stop();
+  it("Stopping while not playing", async () => {
+    await jukebox.stop();
     expect(nullSink.didNotReceive().stop());
   });
 
@@ -85,8 +80,8 @@ describe("Jukebox", () => {
       resetNullSink();
     });
 
-    it("Stop", () => {
-      jukebox.stop();
+    it("Stop", async () => {
+      await jukebox.stop();
       expect(nullSink.received().stop());
     });
     it("Skip", () => {

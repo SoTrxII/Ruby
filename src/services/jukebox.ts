@@ -33,7 +33,7 @@ export class Jukebox implements IJukebox {
   private voiceConnection: VoiceConnection;
 
   /** Time to wait before leaving a voice channel */
-  private static readonly LEAVING_WAIT_MS = 5 * 60 * 1000;
+  private static readonly LEAVING_WAIT_MS = 5 * 1000;
 
   constructor(
     @inject(TYPES.ENGINE) private engine: IEngine,
@@ -45,7 +45,9 @@ export class Jukebox implements IJukebox {
   }
 
   async play(channel: VoiceChannel): Promise<void> {
-    if (this.songQueue.length === 0) return;
+    if (this.songQueue.length === 0) {
+      await this.stop();
+    }
     // Prevent the bot from leaving the voice channel
     this.resetLeavingTimer(-1)();
     this.voiceConnection = await this.sink.joinVoiceChannel(channel);
@@ -54,9 +56,9 @@ export class Jukebox implements IJukebox {
     await this.sink.play(stream);
   }
 
-  stop(): void {
+  async stop(): Promise<void> {
     if (this.state === JukeboxState.STOPPED) return;
-    this.sink.stop();
+    await this.sink.stop();
     this.songQueue = [];
     // Execute all user-provided callback when the playlist is empty
     Array.from(this.emptyCbs.values()).forEach((cb) => void cb());
@@ -144,9 +146,9 @@ export class Jukebox implements IJukebox {
    */
   private playNextSongOn(channel: VoiceChannel): void {
     this.songQueue.shift();
+    void this.sink.stop();
     // Execute all user-provided callback when a new song is about to start
     Array.from(this.songStartCbs.values()).forEach((cb) => void cb());
-    this.stop();
     void this.play(channel);
   }
 
