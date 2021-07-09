@@ -34,6 +34,18 @@ export class SongProgressUi {
     this.ticks = 0;
     clearTimeout(this.timeout);
   }
+
+  public pause() {
+    clearTimeout(this.timeout);
+    this.client.user.setActivity({
+      name: `PAUSED`,
+      type: "PLAYING",
+    });
+  }
+
+  public resume() {
+    this.timeout = setTimeout(() => this.step(), this.interval);
+  }
   public stop(): void {
     this.reset();
     this.client.user.setActivity();

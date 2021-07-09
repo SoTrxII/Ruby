@@ -27,7 +27,7 @@ describe("Youtube Engine", () => {
 
   it("Searching an url should returns the url", async () => {
     expect(await engine.search(sampleLive)).toBe(sampleLive);
-  });
+  }, 20000);
 
   it("Searching a string should return the nearest matching url", async () => {
     const sample = "test";
