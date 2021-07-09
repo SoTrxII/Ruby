@@ -1,20 +1,7 @@
 /**
  * Multi-shard UDP Audio Sink to Discord voice channel
  */
-import {
-  AudioPlayer,
-  AudioPlayerStatus,
-  createAudioPlayer,
-  createAudioResource,
-  DiscordGatewayAdapterCreator,
-  DiscordGatewayAdapterLibraryMethods,
-  entersState,
-  joinVoiceChannel,
-  StreamType,
-  VoiceConnection,
-  VoiceConnectionStatus,
-} from "@discordjs/voice";
-import { injectable } from "inversify";
+import { inject, injectable } from "inversify";
 import type { Snowflake, VoiceChannel } from "discord.js";
 import { Client, Constants, Guild, WebSocketShard } from "discord.js";
 import type {
@@ -23,13 +10,24 @@ import type {
 } from "discord-api-types/v8";
 import { Readable } from "stream";
 import { ISink } from "../@types/jukebox";
+import { TYPES } from "../types";
+import type * as dVTypes from "@discordjs/voice";
+import type {
+  AudioPlayer,
+  AudioPlayerStatus,
+  DiscordGatewayAdapterCreator,
+} from "@discordjs/voice";
+import { VoiceConnection, VoiceConnectionStatus } from "@discordjs/voice";
 
 @injectable()
 export class DiscordSink implements ISink {
   /** Main audio player **/
-  private player = createAudioPlayer();
+  private player: AudioPlayer;
   /** Voice adapter for every guild the bot joined */
-  private adapters = new Map<Snowflake, DiscordGatewayAdapterLibraryMethods>();
+  private adapters = new Map<
+    Snowflake,
+    dVTypes.DiscordGatewayAdapterLibraryMethods
+  >();
   /** Each Shard **/
   private trackedClients = new Set<Client>();
   /** Every shard and their associated guilds*/
@@ -39,6 +37,9 @@ export class DiscordSink implements ISink {
   /** Max time to join a voice channel */
   private static readonly JOIN_TIMEOUT_MS = 30e3;
 
+  constructor(@inject(TYPES.DJS_VOICE) private dVoice: typeof dVTypes) {
+    this.player = dVoice.createAudioPlayer();
+  }
   /**
    * Plays a readable stream on the joined voice.
    * This can only be called when the sink is in the correct state
@@ -47,13 +48,16 @@ export class DiscordSink implements ISink {
    */
   async play(
     stream: Readable,
-    opt = { inputType: StreamType.Opus }
+    opt = { inputType: this.dVoice.StreamType.Opus }
   ): Promise<AudioPlayer> {
-    const resource = createAudioResource(stream, opt);
+    if (this.player.state.status === this.dVoice.AudioPlayerStatus.Playing) {
+      throw new Error(`The audio player is already playing`);
+    }
+    const resource = this.dVoice.createAudioResource(stream, opt);
     this.player.play(resource);
-    return await entersState(
+    return await this.dVoice.entersState(
       this.player,
-      AudioPlayerStatus.Playing,
+      this.dVoice.AudioPlayerStatus.Playing,
       DiscordSink.PLAY_TIMEOUT_MS
     );
   }
@@ -62,7 +66,7 @@ export class DiscordSink implements ISink {
    * Pause the playing stream. Throws if the player is not playing.
    */
   pause(): void {
-    if (this.player.state.status !== AudioPlayerStatus.Playing) {
+    if (this.player.state.status !== this.dVoice.AudioPlayerStatus.Playing) {
       throw new Error(`The audio player is not playing`);
     }
     this.player.pause();
@@ -72,7 +76,7 @@ export class DiscordSink implements ISink {
    * Resume the paused stream. Throws if the player is not paused.
    */
   resume(): void {
-    if (this.player.state.status !== AudioPlayerStatus.Paused) {
+    if (this.player.state.status !== this.dVoice.AudioPlayerStatus.Paused) {
       throw new Error(`The audio player is not paused`);
     }
     this.player.unpause();
@@ -97,13 +101,13 @@ export class DiscordSink implements ISink {
    * @param channel
    */
   async joinVoiceChannel(channel: VoiceChannel): Promise<VoiceConnection> {
-    const connection = joinVoiceChannel({
+    const connection = this.dVoice.joinVoiceChannel({
       channelId: channel.id,
       guildId: channel.guild.id,
       adapterCreator: this.createAdapter(channel),
     });
     try {
-      await entersState(
+      await this.dVoice.entersState(
         connection,
         VoiceConnectionStatus.Ready,
         DiscordSink.JOIN_TIMEOUT_MS
@@ -124,7 +128,7 @@ export class DiscordSink implements ISink {
    */
   leaveVoiceChannel(channel: VoiceChannel): void {
     // Connection object is a singleton, we can retrieve the current connection that way
-    const connection = joinVoiceChannel({
+    const connection = this.dVoice.joinVoiceChannel({
       channelId: channel.id,
       guildId: channel.guild.id,
       adapterCreator: this.createAdapter(channel),

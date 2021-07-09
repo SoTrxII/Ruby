@@ -17,8 +17,8 @@ import { Pause } from "./commands/pause";
 import { Resume } from "./commands/resume";
 import { Skip } from "./commands/skip";
 import { SongProgressUi } from "./services/song-progress-ui";
-import { google, youtube_v3 } from "googleapis";
-import Youtube = youtube_v3.Youtube;
+import { google } from "googleapis";
+import * as djs from "@discordjs/voice";
 
 export const container = new Container();
 
@@ -41,8 +41,11 @@ container.bind(TYPES.YOUTUBE_API).toConstantValue(
 // Set the search engine for the videos to Youtube
 container.bind<IEngine>(TYPES.ENGINE).to(YoutubeEngine);
 
+// Separating Djs Voice support from the audio sink, to allow to test the sink
+container.bind(TYPES.DJS_VOICE).toConstantValue(djs);
 // Set the Audio target of our bot. This is a Discord voice dispatcher.
 container.bind<ISink>(TYPES.AUDIO_SINK).to(DiscordSink).inSingletonScope();
+
 // And then declare the Jukebox, using both the search engine and the audio sink
 container.bind<IJukebox>(TYPES.JUKEBOX).to(Jukebox).inSingletonScope();
 
