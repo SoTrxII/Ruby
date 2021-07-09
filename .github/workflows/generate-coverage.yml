@@ -25,5 +25,5 @@ jobs:
         env:
           TOKEN: ${{ secrets.CODECOV_TOKEN }}
         run : |
-          yarn test --coverage --forceExit
+          yarn test --coverage --forceExit || 0
           bash <(curl -s https://codecov.io/bash) -t ${TOKEN}
