@@ -6,6 +6,8 @@ module.exports = {
         "src/**/*.ts",
         // Exclude main, this is just a boot up file
         "!src/main.ts",
+        // Exclude logger, this is an adapter, there isn't really anything to test
+        "!src/services/logger.ts",
         "!**/*.d.ts"
     ]
 };

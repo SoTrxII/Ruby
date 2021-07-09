@@ -44,7 +44,7 @@ describe("Message Context", () => {
   const tests = [
     // OK string
     ["?play test", validate_string, [{ type: "STRING", value: "test" }]],
-    ["?play test multiple words", validate_string, [{ type: "STRING", value: "test multiple words" }]],
+    ["?play test with multiple words", validate_string, [{ type: "STRING", value: "test with multiple words" }]],
     // Ok boolean
     ["?play true", validate_boolean, [{ type: "BOOLEAN", value: true }]],
     ["?play True", validate_boolean, [{ type: "BOOLEAN", value: true }]],

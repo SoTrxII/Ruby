@@ -51,7 +51,6 @@ export class MessageAdapter implements IContext {
     if (schema.filter((opt) => opt.type === "STRING").length === 1) {
       argArray = [argArray.join(" ")];
     } else {
-      // Else remove all arguments with an index > to the number of asked arg in the schema
       argArray.splice(1, schema.length);
     }
     argArray

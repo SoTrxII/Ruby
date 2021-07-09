@@ -9,11 +9,13 @@ import {
 import { RubyConfig } from "./@types/ruby";
 import { TYPES } from "./types";
 import { CommandsLoader } from "./services/commands-loader";
+import { ILogger } from "./@types/logger";
 
 @injectable()
 export class Ruby {
   constructor(
     @inject(TYPES.COMMAND_LOADER) private loader: CommandsLoader,
+    @inject(TYPES.LOGGER) private logger: ILogger,
     private config: RubyConfig
   ) {}
 
@@ -36,7 +38,10 @@ export class Ruby {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment
       const command = rawInteraction.data.name.toLowerCase();
       const interaction = new CommandInteraction(this.client, rawInteraction);
-      void this.executeCommand(command, interaction);
+      this.logger.log(
+        `Received command interaction from ${interaction.user.username} : ${interaction.command.name}`
+      );
+      void this.executeCommand(command, interaction, interaction.user.username);
     });
 
     // React to messages
@@ -47,18 +52,37 @@ export class Ruby {
       const isNotSelf = (message: Message) =>
         message.author.id !== this.client.user.id;
 
-      if (isCommand(message.content) && isNotSelf(message))
+      if (isCommand(message.content) && isNotSelf(message)) {
+        this.logger.log(
+          `Received command message from ${message.author.username} : ${message.content}`
+        );
         void this.executeCommand(
           message.content.split(/\s+/)[0].substring(1),
-          message
+          message,
+          message.author.username
         );
+      }
     });
   }
 
+  /**
+   * Execute a command
+   * @param command which command
+   * @param context context to execute the command with. Interaction or message.
+   * @param author who started the command
+   * @private
+   */
   private async executeCommand(
     command: string,
-    context: Interaction | Message
+    context: Interaction | Message,
+    author: string
   ): Promise<void> {
-    await this.loader.run(command, context);
+    try {
+      await this.loader.run(command, context);
+    } catch (e: unknown) {
+      this.logger.error(
+        `Command execution failed. From ${author} : ${command}. Error ${e.toString()}`
+      );
+    }
   }
 }

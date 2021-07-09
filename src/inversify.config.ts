@@ -19,7 +19,9 @@ import { Skip } from "./commands/skip";
 import { SongProgressUi } from "./services/song-progress-ui";
 import { google } from "googleapis";
 import * as djs from "@discordjs/voice";
-import {Help} from "./commands/help";
+import { Help } from "./commands/help";
+import { LoggerAdapter } from "./services/logger";
+import { ILogger } from "./@types/logger";
 
 export const container = new Container();
 
@@ -33,6 +35,9 @@ container
     (context) => () => context.container.get<Ruby>(TYPES.RUBY).client
   );
 
+container.bind<ILogger>(TYPES.LOGGER).to(LoggerAdapter);
+
+// Decouple YT API form the actual engine to swap it out during testing
 container.bind(TYPES.YOUTUBE_API).toConstantValue(
   google.youtube({
     version: "v3",
@@ -88,7 +93,7 @@ container.bind(TYPES.COMMAND).to(Help);
 
 container.bind(TYPES.COMMAND_LOADER).to(CommandsLoader);
 container.bind<Ruby>(TYPES.RUBY).toConstantValue(
-  new Ruby(container.get(TYPES.COMMAND_LOADER), {
+  new Ruby(container.get(TYPES.COMMAND_LOADER), container.get(TYPES.LOGGER), {
     token: env.RUBY_TOKEN,
     commandPrefix: env.COMMAND_PREFIX,
   })

@@ -24,7 +24,6 @@ describe("Command loader", () => {
     container.restore();
   });
 
-  //@TODO : Fix dis
   it.skip("Publish Commands", async () => {
     await expect(commandLoader.publishCommands()).resolves.not.toThrow();
   });

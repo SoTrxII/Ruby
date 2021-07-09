@@ -10,4 +10,5 @@ export const TYPES = {
     AUDIO_SINK: Symbol.for("AUDIO_SINK"),
     JUKEBOX: Symbol.for("JUKEBOX"),
     SONG_PROGRESS_UI: Symbol.for("SONG_PROGRESS_UI"),
+    LOGGER: Symbol.for("LOGGER"),
 };
