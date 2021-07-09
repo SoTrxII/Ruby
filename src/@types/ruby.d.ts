@@ -1,6 +1,7 @@
 import {
   ApplicationCommandData,
-  ApplicationCommandOption, ApplicationCommandOptionData,
+  ApplicationCommandOption,
+  ApplicationCommandOptionData,
   Collection,
   CommandInteractionOption,
   Guild,
@@ -10,6 +11,7 @@ import type { User, Guild, VoiceChannel } from "discord.js";
 export interface RubyConfig {
   token: string;
   commandPrefix: string;
+  serverId: `${bigint}`;
 }
 export interface IContext {
   /** Send a message in the text channel the context was created

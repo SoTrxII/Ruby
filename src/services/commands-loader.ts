@@ -29,13 +29,13 @@ export class CommandsLoader {
    * @see https://discord.com/developers/docs/interactions/slash-commands
    * @private
    */
-  async publishCommands(): Promise<void> {
+  async publishCommands(serverId?: `${bigint}`): Promise<void> {
     const client = this.client();
     const cDefs = this.commands.map((c) => c.SCHEMA);
     const servCommands = await client.application.commands.fetch();
     await Promise.all(
       servCommands?.map(async (sCommand) => await sCommand.delete())
     );
-    await client.application.commands.set(cDefs);
+    await client.application.commands.set(cDefs, serverId);
   }
 }

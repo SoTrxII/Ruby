@@ -96,5 +96,6 @@ container.bind<Ruby>(TYPES.RUBY).toConstantValue(
   new Ruby(container.get(TYPES.COMMAND_LOADER), container.get(TYPES.LOGGER), {
     token: env.RUBY_TOKEN,
     commandPrefix: env.COMMAND_PREFIX,
+    serverId: env.SLASH_COMMAND_SERVER as `${bigint}`,
   })
 );
