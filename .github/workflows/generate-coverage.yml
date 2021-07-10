@@ -16,6 +16,10 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 14
+      - name: Install ffmpeg
+        run: |
+          sudo apt update
+          sudo apt install ffmpeg
       - name: Install deps
         run: yarn install
       - name: Package app
