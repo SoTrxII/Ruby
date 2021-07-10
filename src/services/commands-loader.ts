@@ -34,7 +34,10 @@ export class CommandsLoader {
     const cDefs = this.commands.map((c) => c.SCHEMA);
     const servCommands = await client.application.commands.fetch();
     await Promise.all(
-      servCommands?.map(async (sCommand) => await sCommand.delete())
+      servCommands?.map(async (sCommand) => {
+        await client.application.commands.delete(sCommand);
+        await client.application.commands.delete(sCommand, serverId);
+      })
     );
     await client.application.commands.set(cDefs, serverId);
   }

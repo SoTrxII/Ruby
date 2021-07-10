@@ -20,6 +20,7 @@ export class Remove implements ICommand {
         name: "index",
         type: "INTEGER",
         description: "index of the song to remove",
+        required: true,
       },
     ],
   };

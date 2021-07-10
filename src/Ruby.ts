@@ -55,7 +55,7 @@ export class Ruby {
       }
     });
     // Register all slash commands
-    await this.loader.publishCommands();
+    await this.loader.publishCommands(this.config.serverId);
     this.logger.log("Commands published ! Ready to go !");
     // React to slash commands
     this.client.ws.on("INTERACTION_CREATE", (rawInteraction) => {
