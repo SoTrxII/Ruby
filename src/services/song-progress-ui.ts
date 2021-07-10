@@ -44,6 +44,7 @@ export class SongProgressUi {
   }
 
   public resume() {
+    this.updateDisplay();
     this.timeout = setTimeout(() => this.step(), this.interval);
   }
   public stop(): void {

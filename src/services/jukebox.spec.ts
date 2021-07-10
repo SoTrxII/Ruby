@@ -70,6 +70,15 @@ describe("Jukebox", () => {
     expect(nullSink.received().play(Arg.all()));
   });
 
+  it("Removing song by their indexes", async () => {
+    await jukebox.addSong("test1");
+    await jukebox.addSong("test2");
+    await jukebox.addSong("test3");
+    jukebox.remove(1);
+    const queue = await jukebox.getPrettyQueue();
+    expect(queue.split("\n").length).toBe(2);
+  });
+
   it("Stopping while not playing", async () => {
     await jukebox.stop();
     expect(nullSink.didNotReceive().stop());

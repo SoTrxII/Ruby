@@ -29,6 +29,14 @@ export interface IJukebox {
   pause(): void;
 
   /**
+   * Remove a currently not playing song by its index (0-indexed).
+   * The first song in the queue, the one currently playing, cannot be
+   * removed that way
+   * @param index 1 or more
+   */
+  remove(index: number): void;
+
+  /**
    * Resumes the playback after a pause
    */
   resume(): void;

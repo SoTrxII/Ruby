@@ -22,6 +22,7 @@ import * as djs from "@discordjs/voice";
 import { Help } from "./commands/help";
 import { LoggerAdapter } from "./services/logger";
 import { ILogger } from "./@types/logger";
+import { Remove } from "./commands/remove";
 
 export const container = new Container();
 
@@ -90,6 +91,7 @@ container.bind(TYPES.COMMAND).to(Pause);
 container.bind(TYPES.COMMAND).to(Resume);
 container.bind(TYPES.COMMAND).to(Skip);
 container.bind(TYPES.COMMAND).to(Help);
+container.bind(TYPES.COMMAND).to(Remove);
 
 container.bind(TYPES.COMMAND_LOADER).to(CommandsLoader);
 container.bind<Ruby>(TYPES.RUBY).toConstantValue(

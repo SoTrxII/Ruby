@@ -78,6 +78,13 @@ export class Jukebox implements IJukebox {
     this.sink.pause();
   }
 
+  remove(index: number): void {
+    if (index < 1 || index > this.songQueue.length) {
+      throw new Error("Index out of range");
+    }
+    this.songQueue.splice(index, 1);
+  }
+
   resume(): void {
     this.sink.resume();
   }
