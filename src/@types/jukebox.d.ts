@@ -8,8 +8,9 @@ export interface IJukebox {
   /** Add a new song to play to the bottom of the song queue.
    * If the query is a valid url for the engine, it is added directly.
    * Otherwise the search function of the engine is used to get a matching url
-   * */
-  addSong(query: string): Promise<void>;
+   * Additional info can be provided, those would be displayed in the queue.
+   * * */
+  addSong(query: string, info?: Partial<Omit<Song, "url">>): Promise<void>;
 
   /**
    * Begin playing into the provided audio sink
@@ -20,7 +21,7 @@ export interface IJukebox {
   /**
    * Stops the playback
    */
-  stop(): Promise<void>
+  stop(): Promise<void>;
 
   /**
    * Pauses the playback
@@ -68,6 +69,14 @@ export interface IJukebox {
   onPlaylistEmpty(id: string, handler: SongCallback): void;
 }
 type SongCallback = () => Promise<void>;
+
+/** A jukebox-playable song */
+export interface Song {
+  /** Playable (important) url of the song */
+  url: string;
+  /** Requester name */
+  requester: string;
+}
 /**
  * Details on a requested song
  */
@@ -134,7 +143,7 @@ export interface ISink {
   /**
    * Stops the playing stream
    */
-  stop(): Promise<void>
+  stop(): Promise<void>;
 
   /**
    * Attempt to join the provided voice channel. Throws on errors

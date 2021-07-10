@@ -49,6 +49,14 @@ describe("Jukebox", () => {
     expect(url).toBe(bSong);
   });
 
+  it("Adding a song with custom info", async () => {
+    // This shouldn't throw
+    expect(await jukebox.getCurrent()).toBeUndefined();
+    await jukebox.addSong("test", { requester: "test user" });
+    const url = await jukebox.getCurrent();
+    expect(url).toBe(Object.assign(bSong, { requester: "test user" }));
+  });
+
   it("Printing a pretty queue", async () => {
     expect(await jukebox.getPrettyQueue()).toMatch(/Nothing.*/i);
     // The jukebox isn't playing, so there should be no playing song
@@ -66,8 +74,6 @@ describe("Jukebox", () => {
     await jukebox.stop();
     expect(nullSink.didNotReceive().stop());
   });
-
-
 
   describe("While playing...", () => {
     beforeAll(() => {

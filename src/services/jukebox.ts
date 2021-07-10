@@ -3,6 +3,7 @@ import {
   IEngine,
   IJukebox,
   ISink,
+  Song,
   SongCallback,
   SongDetails,
 } from "../@types/jukebox";
@@ -20,9 +21,11 @@ export enum JukeboxState {
   /** Playback stopped*/
   STOPPED,
 }
+
 @injectable()
 export class Jukebox implements IJukebox {
-  private songQueue: string[] = [];
+  //private songQueue: string[] = [];
+  private songQueue: Song[] = [];
 
   /** All the callbacks to be executed when a new song starts */
   private songStartCbs: Map<string, SongCallback> = new Map();
@@ -40,19 +43,24 @@ export class Jukebox implements IJukebox {
     @inject(TYPES.AUDIO_SINK) private sink: ISink
   ) {}
 
-  async addSong(query: string): Promise<void> {
-    console.log(this.songQueue)
-    this.songQueue.push(await this.engine.search(query));
+  async addSong(
+    query: string,
+    info?: Partial<Omit<Song, "url">>
+  ): Promise<void> {
+    console.log(this.songQueue);
+    const newSong: Partial<Song> = info ?? {};
+    newSong.url = await this.engine.search(query);
+    this.songQueue.push(newSong as Song);
   }
 
   async play(channel: VoiceChannel): Promise<void> {
     if (this.songQueue.length === 0) {
-      await this.stop();
+      return await this.stop();
     }
     // Prevent the bot from leaving the voice channel
     this.resetLeavingTimer(-1)();
     this.voiceConnection = await this.sink.joinVoiceChannel(channel);
-    const stream = await this.engine.getPlayableStream(this.songQueue[0]);
+    const stream = await this.engine.getPlayableStream(this.songQueue[0].url);
     stream.on("end", () => this.playNextSongOn(channel));
     await this.sink.play(stream);
   }
@@ -92,7 +100,7 @@ export class Jukebox implements IJukebox {
 
   async getCurrent(): Promise<SongDetails> {
     if (this.songQueue.length === 0) return undefined;
-    return await this.engine.getDetails(this.songQueue[0]);
+    return await this.engine.getDetails(this.songQueue[0]?.url);
   }
 
   get state(): JukeboxState {
@@ -116,11 +124,24 @@ export class Jukebox implements IJukebox {
     if (this.songQueue.length === 0)
       return "Nothing in the playlist ! Leaving soon !";
     const queueDetails = await Promise.all(
-      this.songQueue.map(async (song) => await this.engine.getDetails(song))
+      this.songQueue.map(async (song) =>
+        // Search details on the song while keeping requester
+        Object.assign(await this.engine.getDetails(song.url), {
+          requester: song.requester,
+        })
+      )
     );
 
-    const formatSong = (song: SongDetails) =>
-      `${song.title} - ${song.author} [${secondsToIso(song.duration)}]`;
+    const formatSong = (song: SongDetails & { requester: string }) => {
+      // Same string builder as always
+      const sb = [];
+      sb.push(
+        `${song.title} - ${song.author} [${secondsToIso(song.duration)}]`
+      );
+      if (song.requester !== undefined) sb.push(`(${song.requester})`);
+      return sb.join(" ");
+    };
+
     // String Builder but it's Javascript :)
     const sb: string[] = [];
 

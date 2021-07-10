@@ -50,7 +50,7 @@ export class Play implements ICommand {
 
     const args = context.getArgs(this.SCHEMA.options);
     const q = String(args.get("query").value);
-    await this.jukebox.addSong(q);
+    await this.jukebox.addSong(q, { requester: context.author.username });
     if (this.jukebox.state !== JukeboxState.PLAYING)
       await this.jukebox.play(vc);
     // Reset the ui for current song
