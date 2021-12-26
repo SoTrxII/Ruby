@@ -1,15 +1,16 @@
 import {
-  ApplicationCommandOption,
   ApplicationCommandOptionData,
   Client,
   Collection,
   CommandInteractionOption,
   Guild,
   Message,
+  TextChannel,
   User,
   VoiceChannel,
 } from "discord.js";
-import { IContext } from "../../@types/ruby";
+import {IContext} from "../../@types/ruby";
+import {ApplicationCommandOptionTypes} from "discord.js/typings/enums";
 
 export class MessageAdapter implements IContext {
   constructor(private client: Client, private message: Message) {}
@@ -22,12 +23,16 @@ export class MessageAdapter implements IContext {
     return this.message.author;
   }
 
+  get textChannel(): TextChannel {
+    return this.message.channel as TextChannel;
+  }
+
   getGuild(): Promise<Guild> {
     return Promise.resolve(this.message.guild);
   }
 
   getArgs(
-    schema: any[]
+      schema: any[]
   ): Collection<string, CommandInteractionOption> {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     return this.parseArgs(this.message.content, schema);
@@ -40,8 +45,8 @@ export class MessageAdapter implements IContext {
    * @private
    */
   private parseArgs(
-    content: string,
-    schema: ApplicationCommandOptionData[]
+      content: string,
+      schema: ApplicationCommandOptionData[]
   ): Collection<string, CommandInteractionOption> {
     const args = new Collection<string, CommandInteractionOption>();
     let argArray = content.split(/\s+/);
@@ -49,28 +54,28 @@ export class MessageAdapter implements IContext {
     argArray.shift();
 
     // Special case : If the only argument of a command is a string, it can contain spaces
-    if (schema.filter((opt) => opt.type === "STRING").length === 1) {
+    if (schema.filter((opt) => opt.type === ApplicationCommandOptionTypes.STRING).length === 1) {
       argArray = [argArray.join(" ")];
     } else {
       argArray.splice(1, schema.length);
     }
     argArray
-      .map((rawArg, index) => {
-        const parsed = this.getTypeOfArgument(rawArg);
-        if (parsed.type !== schema[index].type)
-          throw new Error(
-            `Wrong value for arg ${schema[index].name} (${
-              schema[index].type
-            }) : ${String(parsed.value)}`
-          );
-        const opt: CommandInteractionOption = {
-          type: parsed.type,
-          name: schema[index].name,
-          value: parsed.value,
-        };
-        return opt;
-      })
-      .forEach((opt) => args.set(opt.name, opt));
+        .map((rawArg, index) => {
+          const parsed = this.getTypeOfArgument(rawArg);
+          if (parsed.type !== schema[index].type)
+            throw new Error(
+                `Wrong value for arg ${schema[index].name} (${
+                    schema[index].type
+                }) : ${String(parsed.value)}`
+            );
+          const opt: CommandInteractionOption = {
+            type: parsed.type as unknown as "STRING",
+            name: schema[index].name,
+            value: parsed.value,
+          };
+          return opt;
+        })
+        .forEach((opt) => args.set(opt.name, opt));
     return args;
   }
 
@@ -79,12 +84,12 @@ export class MessageAdapter implements IContext {
    * @param rawArg
    * @private
    */
-  private getTypeOfArgument(rawArg: string): Partial<CommandInteractionOption> {
-    if (!isNaN(+rawArg)) return { type: "INTEGER", value: +rawArg };
+  private getTypeOfArgument(rawArg: string): { type: ApplicationCommandOptionTypes, value: string| number | boolean } {
+    if (!isNaN(+rawArg)) return { type: ApplicationCommandOptionTypes.INTEGER, value: +rawArg };
     if (rawArg.toLowerCase() == "true" || rawArg.toLowerCase() == "false")
-      return { type: "BOOLEAN", value: rawArg.toLowerCase() == "true" };
+      return { type: ApplicationCommandOptionTypes.BOOLEAN, value: rawArg.toLowerCase() == "true" };
     // @TODO : Check for any non trivial type (User ? channel ?)
-    return { type: "STRING", value: rawArg };
+    return { type: ApplicationCommandOptionTypes.STRING, value: rawArg };
   }
 
   async getAuthorVoiceChannel(): Promise<VoiceChannel> {

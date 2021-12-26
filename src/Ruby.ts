@@ -36,7 +36,7 @@ export class Ruby {
     );
     await this.client.login(this.config.token);
     // React to messages
-    this.client.on("message", (message: Message) => {
+    this.client.on("messageCreate", (message: Message) => {
       const isCommand = (content: string) =>
         content.startsWith(this.config.commandPrefix);
       // Prevent bot responding to itself
