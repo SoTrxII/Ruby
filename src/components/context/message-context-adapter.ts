@@ -27,8 +27,9 @@ export class MessageAdapter implements IContext {
   }
 
   getArgs(
-    schema: ApplicationCommandOption[]
+    schema: any[]
   ): Collection<string, CommandInteractionOption> {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     return this.parseArgs(this.message.content, schema);
   }
 

@@ -1,4 +1,4 @@
-import { ICommand, IContext } from "../@types/ruby";
+import {ICommand, ICommandData, IContext} from "../@types/ruby";
 import { ApplicationCommandData } from "discord.js";
 import { inject, injectable } from "inversify";
 import { TYPES } from "../types";
@@ -11,7 +11,7 @@ export class Skip implements ICommand {
 
   constructor(@inject(TYPES.JUKEBOX) private jukebox: IJukebox) {}
 
-  public readonly SCHEMA: ApplicationCommandData = {
+  public readonly SCHEMA: ICommandData = {
     name: "skip",
     description: "Skip to the next song in the queue",
   };

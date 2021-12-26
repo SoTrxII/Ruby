@@ -3,12 +3,13 @@ import type { ApplicationCommandData } from "discord.js";
 import { injectable } from "inversify";
 import { TYPES } from "../types";
 import { container } from "../inversify.config";
+import {ICommandData} from "../@types/ruby";
 
 @injectable()
 export class Help implements ICommand {
   public readonly TRIGGER = "help";
 
-  public readonly SCHEMA: ApplicationCommandData = {
+  public readonly SCHEMA: ICommandData = {
     name: "help",
     description: "Send a pretty printing of available commands",
   };

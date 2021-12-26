@@ -1,4 +1,4 @@
-import { ICommand, IContext } from "../@types/ruby";
+import {ICommand, ICommandData, IContext} from "../@types/ruby";
 import { ApplicationCommandData } from "discord.js";
 import { inject, injectable } from "inversify";
 import { TYPES } from "../types";
@@ -15,7 +15,7 @@ export class Pause implements ICommand {
     @inject(TYPES.SONG_PROGRESS_UI) private ui: SongProgressUi
   ) {}
 
-  public readonly SCHEMA: ApplicationCommandData = {
+  public readonly SCHEMA: ICommandData = {
     name: "pause",
     description: "Pause playback",
   };

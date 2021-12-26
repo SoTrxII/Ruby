@@ -1,10 +1,11 @@
-import { ICommand, IContext } from "../@types/ruby";
+import {ICommand, ICommandData, IContext} from "../@types/ruby";
 import { ApplicationCommandData } from "discord.js";
 import { inject, injectable } from "inversify";
 import { TYPES } from "../types";
 import { IJukebox } from "../@types/jukebox";
 import { JukeboxState } from "../services/jukebox";
 import { SongProgressUi } from "../services/song-progress-ui";
+import {ApplicationCommandOptionTypes} from "discord.js/typings/enums";
 
 @injectable()
 export class Play implements ICommand {
@@ -15,7 +16,7 @@ export class Play implements ICommand {
     @inject(TYPES.SONG_PROGRESS_UI) private ui: SongProgressUi
   ) {}
 
-  public readonly SCHEMA: ApplicationCommandData = {
+  public readonly SCHEMA: ICommandData = {
     name: "play",
     description: "Play a music on the voice channel of the calling user",
     options: [
@@ -23,7 +24,7 @@ export class Play implements ICommand {
         name: "query",
         description: "What to search for",
         required: true,
-        type: "STRING",
+        type: ApplicationCommandOptionTypes.STRING,
       },
     ],
   };

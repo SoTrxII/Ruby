@@ -1,6 +1,8 @@
 import { inject, injectable, multiInject } from "inversify";
 import { TYPES } from "../types";
 import { ICommand, IContext } from "../@types/ruby";
+import { REST } from "@discordjs/rest";
+import { Routes } from "discord-api-types/v9";
 import { Client, Interaction, Message } from "discord.js";
 
 @injectable()
@@ -31,14 +33,20 @@ export class CommandsLoader {
    */
   async publishCommands(serverId?: `${bigint}`): Promise<void> {
     const client = this.client();
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
+    const rest = new REST({ version: "9" }).setToken(client.token);
     const cDefs = this.commands.map((c) => c.SCHEMA);
-    const servCommands = await client.application.commands.fetch();
-    await Promise.all(
-      servCommands?.map(async (sCommand) => {
-        await client.application.commands.delete(sCommand);
-        await client.application.commands.delete(sCommand, serverId);
-      })
+    if(serverId){
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
+      await rest.put(
+          Routes.applicationGuildCommands(client.application.id, serverId),
+          { body: cDefs },
+      );
+    }
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
+    await rest.put(
+        Routes.applicationCommands(client.application.id),
+        { body: cDefs },
     );
-    await client.application.commands.set(cDefs, serverId);
   }
 }

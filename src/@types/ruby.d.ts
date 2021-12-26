@@ -41,7 +41,20 @@ export interface IContext {
 }
 
 export interface ICommand {
-  readonly SCHEMA: ApplicationCommandData;
+  readonly SCHEMA: ICommandData;
   readonly TRIGGER: string;
   run(context: IContext): Promise<void>;
 }
+export interface ICommandData {
+  name: string;
+  description: string;
+  options?: [
+    {
+      type: ApplicationCommandOptionTypes,
+      name: string,
+      required: boolean;
+      description: string;
+    },
+  ],
+};
+

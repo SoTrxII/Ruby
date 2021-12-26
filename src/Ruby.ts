@@ -58,10 +58,9 @@ export class Ruby {
     await this.loader.publishCommands(this.config.serverId);
     this.logger.log("Commands published ! Ready to go !");
     // React to slash commands
-    this.client.ws.on("INTERACTION_CREATE", (rawInteraction) => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment
-      const command = rawInteraction.data.name.toLowerCase();
-      const interaction = new CommandInteraction(this.client, rawInteraction);
+    this.client.on("interactionCreate", (interaction) => {
+      if (!interaction.isCommand()) return;
+      const command: string = interaction.commandName;
       this.logger.log(
         `Received command interaction from ${interaction.user.username} : ${interaction.commandName}`
       );
