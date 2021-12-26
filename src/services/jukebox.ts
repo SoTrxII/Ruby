@@ -62,6 +62,10 @@ export class Jukebox implements IJukebox {
     this.voiceConnection = await this.sink.joinVoiceChannel(channel);
     const stream = await this.engine.getPlayableStream(this.songQueue[0].url);
     stream.on("end", () => this.playNextSongOn(channel));
+    stream.on("error", (err) => {
+      console.error(err);
+      this.playNextSongOn(channel)
+    });
     await this.sink.play(stream);
   }
 

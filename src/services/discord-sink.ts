@@ -18,6 +18,7 @@ import type {
   DiscordGatewayAdapterCreator,
 } from "@discordjs/voice";
 import { VoiceConnection, VoiceConnectionStatus } from "@discordjs/voice";
+import { GatewayVoiceState } from "discord-api-types";
 
 @injectable()
 export class DiscordSink implements ISink {
@@ -50,7 +51,8 @@ export class DiscordSink implements ISink {
     stream: Readable,
     opt = { inputType: this.dVoice.StreamType.Opus }
   ): Promise<AudioPlayer> {
-    const resource = this.dVoice.createAudioResource(stream, opt);
+    // Plainly ignoring opt, always PCM
+    const resource = this.dVoice.createAudioResource(stream);
     this.player.play(resource);
     return await this.dVoice.entersState(
       this.player,
@@ -58,7 +60,6 @@ export class DiscordSink implements ISink {
       DiscordSink.PLAY_TIMEOUT_MS
     );
   }
-
   /**
    * Pause the playing stream. Throws if the player is not playing.
    */
@@ -163,7 +164,11 @@ export class DiscordSink implements ISink {
           payload.session_id &&
           payload.user_id === client.user?.id
         ) {
-          this.adapters.get(payload.guild_id)?.onVoiceStateUpdate(payload);
+          this.adapters
+            .get(payload.guild_id)
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            ?.onVoiceStateUpdate(payload as unknown as GatewayVoiceState);
         }
       }
     );
@@ -193,7 +198,6 @@ export class DiscordSink implements ISink {
     if (!guilds) {
       const cleanup = () => this.cleanupGuilds(guild.shard);
       guild.shard.on("close", cleanup);
-      guild.shard.on("destroyed", cleanup);
       guilds = new Set();
       this.trackedGuilds.set(guild.shard, guilds);
     }

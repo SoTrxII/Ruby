@@ -43,9 +43,13 @@ export class YoutubeEngine implements IEngine {
     const hasOpusStream =
       infos.formats.find((f) => YoutubeEngine.opusFilter(f)) &&
       infos.videoDetails.lengthSeconds != "0";
-    return hasOpusStream
+
+    // Waiting for Prism to fix the audio encoder, fallback to direct streaming in
+    // any case
+    return this.reencodeStreaming(infos);
+    /*return hasOpusStream
       ? this.directStreaming(infos)
-      : this.reencodeStreaming(infos);
+      : this.reencodeStreaming(infos);*/
   }
 
   /**
@@ -102,14 +106,15 @@ export class YoutubeEngine implements IEngine {
    * @returns
    */
   private directStreaming(infos: videoInfo): Readable {
-    const demuxer = new opus.WebmDemuxer();
+    //const demuxer = new opus.WebmDemuxer();
     return downloadFromInfo(infos, {
       filter: (f) => YoutubeEngine.opusFilter(f),
+
       // Increasing buffer size to prevent stuttering
-      highWaterMark: 1 << 25,
+      //highWaterMark: 1 << 25,
     })
-      .pipe(demuxer)
-      .on("end", () => demuxer.destroy());
+      //.pipe(demuxer)
+      //.on("end", () => demuxer.destroy());
   }
 
   /**
@@ -154,6 +159,10 @@ export class YoutubeEngine implements IEngine {
       "1",
       "-reconnect_delay_max",
       "5",
+      "-reconnect_on_network_error",
+      "1",
+      "-reconnect_on_http_error",
+      "4xx,5xx",
       "-i",
       input,
       "-analyzeduration",
