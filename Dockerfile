@@ -4,7 +4,8 @@ WORKDIR /app
 # add `/app/node_modules/.bin` to $PATH
 ENV PATH /app/node_modules/.bin:$PATH
 #RUN apk add git alpine-sdk libtool libsodium libsodium-dev autoconf make automake python3 ffmpeg bash yarn
-RUN apk add git python3 make libtool alpine-sdk
+RUN apk add --update alpine-sdk\
+    && apk add git python3 make libtool alpine-sdk libffi-dev openssl-dev python-dev python3-dev
 # install and cache app dependencies
 COPY package.json yarn.lock /app/
 RUN yarn install --frozen-lockfile
