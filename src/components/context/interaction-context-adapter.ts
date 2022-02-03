@@ -42,7 +42,7 @@ export class InteractionAdapter implements IContext {
 
   async reply(payload: Record<string, never> | string): Promise<void> {
     await this.deferHandle;
-    if (this.interaction.deferred) {
+    if (this.interaction.deferred || this.interaction.replied) {
       await this.interaction.editReply(payload);
     } else {
       await this.interaction.reply(payload);

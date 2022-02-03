@@ -47,7 +47,6 @@ export class Jukebox implements IJukebox {
     query: string,
     info?: Partial<Omit<Song, "url">>
   ): Promise<void> {
-    console.log(this.songQueue);
     const newSong: Partial<Song> = info ?? {};
     newSong.url = await this.engine.search(query);
     this.songQueue.push(newSong as Song);
@@ -60,13 +59,20 @@ export class Jukebox implements IJukebox {
     // Prevent the bot from leaving the voice channel
     this.resetLeavingTimer(-1)();
     this.voiceConnection = await this.sink.joinVoiceChannel(channel);
-    const stream = await this.engine.getPlayableStream(this.songQueue[0].url);
-    stream.on("end", () => this.playNextSongOn(channel));
-    stream.on("error", (err) => {
-      console.error(err);
-      this.playNextSongOn(channel)
-    });
-    await this.sink.play(stream);
+    try{
+      const stream = await this.engine.getPlayableStream(this.songQueue[0].url);
+      stream.on("end", () => this.playNextSongOn(channel));
+      stream.on("error", (err) => {
+        console.log("ERROR STREAM");
+        console.error(err);
+        this.playNextSongOn(channel)
+      });
+      await this.sink.play(stream);
+    }catch (e){
+      console.log("ERROR PLAY");
+      console.log(e);
+    }
+
   }
 
   async stop(): Promise<void> {

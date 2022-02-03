@@ -124,6 +124,7 @@ export class DiscordSink implements ISink {
       connection.subscribe(this.player);
       return connection;
     } catch (error) {
+      console.error(error);
       connection.destroy();
       throw error;
     }

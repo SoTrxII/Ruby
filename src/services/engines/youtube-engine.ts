@@ -133,11 +133,21 @@ export class YoutubeEngine implements IEngine {
       args: YoutubeEngine.getEncodingArgs(bestAudio.url),
     });
 
+    transcoder.on("error", (e) => {
+      console.error("TRANSCODE ERROR");
+      console.error(e);
+    })
+
     const opusEncoder = new opus.Encoder({
       rate: YoutubeEngine.DISCORD_SAMPLE_RATE,
       channels: YoutubeEngine.DISCORD_CHANNEL_COUNT,
       frameSize: YoutubeEngine.DISCORD_FRAME_SIZE,
     });
+
+    opusEncoder.on("error", e => {
+      console.error("OPUS ENC ERROR");
+      console.error(e);
+    })
     const stream = transcoder.pipe(opusEncoder);
     stream.on("close", () => {
       transcoder.destroy();
